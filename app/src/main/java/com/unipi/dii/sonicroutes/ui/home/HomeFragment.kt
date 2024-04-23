@@ -1,7 +1,6 @@
 package com.unipi.dii.sonicroutes.ui.home
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -9,15 +8,23 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.unipi.dii.sonicroutes.R
+
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -30,16 +37,30 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         setupMap()
     }
 
-    private fun setupMap() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-            return
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            // Se il permesso è stato concesso, avvia la configurazione della mappa
+            setupMap()
+        } else {
+            // Se il permesso è stato negato, gestisci di conseguenza (ad esempio, mostra un messaggio all'utente)
+            // Qui puoi gestire il caso in cui l'utente non ha concesso il permesso, ad esempio mostrando un messaggio di avviso
         }
-        map.isMyLocationEnabled = true
-        map.uiSettings.isMyLocationButtonEnabled = true
-        startLocationUpdates()
+    }
+
+    private fun setupMap() {
+        // Controlla se hai il permesso di ACCESS_FINE_LOCATION
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
+                // Se hai il permesso, configura la mappa
+                map.isMyLocationEnabled = true
+                map.uiSettings.isMyLocationButtonEnabled = true
+                startLocationUpdates()
+            }
+            else -> {
+                // Se non hai il permesso, richiedilo all'utente
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
     }
 
     private fun startLocationUpdates() {
@@ -85,9 +106,5 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         if (::fusedLocationProviderClient.isInitialized) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
-    }
-
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 }
