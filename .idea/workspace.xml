@@ -18,16 +18,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="added map to home tab">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/migrations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-    </list>
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="map added" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -156,11 +147,29 @@
       <option name="project" value="LOCAL" />
       <updated>1713884749329</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added map class HomeFragment : Fragment(), OnMapReadyCallback {&#10;          &#10;              private lateinit var map: GoogleMap&#10;          &#10;              override fun onMapReady(googleMap: GoogleMap) {&#10;                  map = googleMap&#10;                  setupMap()&#10;              }&#10;          &#10;              private fun setupMap() {&#10;                  if (ActivityCompat.checkSelfPermission(requireContext(),&#10;                          android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(&#10;                          requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {&#10;                      requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)&#10;                      return&#10;                  }&#10;          &#10;                  map.isMyLocationEnabled = true&#10;                  map.uiSettings.isMyLocationButtonEnabled = true&#10;          &#10;                  val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager&#10;                  val provider = locationManager.getBestProvider(Criteria(), true)&#10;                  val location = locationManager.getLastKnownLocation(provider)&#10;          &#10;                  if (location != null) {&#10;                      val userLocation = LatLng(location.latitude, location.longitude)&#10;                      map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))&#10;                  }&#10;              }&#10;          &#10;              override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,&#10;                                        savedInstanceState: Bundle?): View? {&#10;                  return inflater.inflate(R.layout.fragment_home, container, false)&#10;              }&#10;          &#10;              override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;                  super.onViewCreated(view, savedInstanceState)&#10;                  val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?&#10;                  mapFragment?.getMapAsync(this)&#10;              }&#10;          &#10;              companion object {&#10;                  private const val LOCATION_PERMISSION_REQUEST_CODE = 1&#10;              }&#10;          }&#10;to home tab">
+      <option name="closed" value="true" />
+      <created>1713885128618</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713885128618</updated>
+    </task>
+    <task id="LOCAL-00003" summary="map added">
+      <option name="closed" value="true" />
+      <created>1713885187206</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1713885187206</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added map to home tab" />
-    <option name="LAST_COMMIT_MESSAGE" value="added map to home tab" />
+    <MESSAGE value="added map class HomeFragment : Fragment(), OnMapReadyCallback {&#10;          &#10;              private lateinit var map: GoogleMap&#10;          &#10;              override fun onMapReady(googleMap: GoogleMap) {&#10;                  map = googleMap&#10;                  setupMap()&#10;              }&#10;          &#10;              private fun setupMap() {&#10;                  if (ActivityCompat.checkSelfPermission(requireContext(),&#10;                          android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(&#10;                          requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {&#10;                      requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)&#10;                      return&#10;                  }&#10;          &#10;                  map.isMyLocationEnabled = true&#10;                  map.uiSettings.isMyLocationButtonEnabled = true&#10;          &#10;                  val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager&#10;                  val provider = locationManager.getBestProvider(Criteria(), true)&#10;                  val location = locationManager.getLastKnownLocation(provider)&#10;          &#10;                  if (location != null) {&#10;                      val userLocation = LatLng(location.latitude, location.longitude)&#10;                      map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))&#10;                  }&#10;              }&#10;          &#10;              override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,&#10;                                        savedInstanceState: Bundle?): View? {&#10;                  return inflater.inflate(R.layout.fragment_home, container, false)&#10;              }&#10;          &#10;              override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;                  super.onViewCreated(view, savedInstanceState)&#10;                  val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?&#10;                  mapFragment?.getMapAsync(this)&#10;              }&#10;          &#10;              companion object {&#10;                  private const val LOCATION_PERMISSION_REQUEST_CODE = 1&#10;              }&#10;          }&#10;to home tab" />
+    <MESSAGE value="map added" />
+    <option name="LAST_COMMIT_MESSAGE" value="map added" />
   </component>
 </project>
