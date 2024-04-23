@@ -87,7 +87,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun updateMap(location: Location) {
         val userLocation = LatLng(location.latitude, location.longitude)
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f)) // zoom
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
