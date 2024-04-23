@@ -64,7 +64,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun startLocationUpdates() {
-        val locationRequest = LocationRequest.Builder(10000)
+        val locationRequest = LocationRequest.Builder(1000)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build()
         locationCallback = object : LocationCallback() {
@@ -87,7 +87,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun updateMap(location: Location) {
         val userLocation = LatLng(location.latitude, location.longitude)
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
