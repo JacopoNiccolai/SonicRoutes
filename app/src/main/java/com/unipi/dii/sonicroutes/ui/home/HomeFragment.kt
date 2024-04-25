@@ -9,8 +9,8 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,9 +28,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.gson.Gson
 import com.unipi.dii.sonicroutes.R
-import java.io.IOException
-
+import java.io.File
+import java.io.FileWriter
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -39,6 +40,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var locationCallback: LocationCallback
     private var mediaRecorder: MediaRecorder? = null
     private var isRecording = false
+    private lateinit var userLocation: LatLng
 
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -124,14 +126,25 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         if (readResult >= 0) {
                             val amplitude = audioData.maxOrNull()?.toInt() ?: 0
                             println("Current Noise Level: $amplitude")
-                            /*val jsonEntry = createJsonEntry(
-                                latitude = userLocation.latitude,
-                                longitude = userLocation.longitude,
-                                amplitude = amplitude,
-                                deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
+                            val jsonEntry = Gson().toJson(
+                                NoiseData(
+                                    latitude = userLocation.latitude,
+                                    longitude = userLocation.longitude,
+                                    amplitude = amplitude,
+                                    timestamp = System.currentTimeMillis(),
+                                    deviceId = "1"
+                                )
                             )
-                            println(jsonEntry)*/
+
+                            println("JSON Entry: $jsonEntry")
+
+                            val filename = "data.json"
+                            val file = File(context?.filesDir, filename)
+                            FileWriter(file, true).use { writer ->
+                                writer.write(jsonEntry + "\n")
+                                Log.d("HomeFragment", "Dati scritti nel file: $filename")
+                            }
                         }
                         handler.postDelayed(this, 5000) // aggiorna ogni 5 secondi
                     }
@@ -142,6 +155,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             showMessageToUser("Per favore, concedere il permesso per registrare l'audio.")
         }
     }
+
+    data class NoiseData(
+        val latitude: Double,
+        val longitude: Double,
+        val amplitude: Int,
+        val timestamp: Long,
+        val deviceId: String
+    )
 
     private fun startLocationUpdates() {
         val locationRequest = LocationRequest.Builder(1000)
@@ -166,7 +187,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateMap(location: Location) {
-        val userLocation = LatLng(location.latitude, location.longitude)
+        userLocation = LatLng(location.latitude, location.longitude)
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f)) // zoom
     }
 
@@ -203,7 +224,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private fun showMessageToUser(message: String) {
         // Puoi scegliere come mostrare il messaggio all'utente, ad esempio utilizzando un dialog
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
-        alertDialogBuilder.setTitle("Permesso necessario")
+        alertDialogBuilder.setTitle("ATTENZIONE!")
         alertDialogBuilder.setMessage(message)
         alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
             // Puoi implementare qui azioni aggiuntive se necessario
