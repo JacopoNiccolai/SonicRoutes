@@ -18,7 +18,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="xml files added" />
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="xml files added">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,7 +31,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\fedef\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[RFCW501QBBF]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -51,6 +55,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "BaffoBello14"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="d395a667-9127-4437-a849-6fed7c1329e7" />
+        <option name="url" value="https://github.com/JacopoNiccolai/MSSSProject.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -59,28 +77,29 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2fVI6Z5JIhNhhxgcJGiDY44kN6A" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Properties" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
@@ -230,22 +249,22 @@
     <option name="localTasksCounter" value="9" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added map to home tab" />
     <MESSAGE value="added map class HomeFragment : Fragment(), OnMapReadyCallback {&#10;          &#10;              private lateinit var map: GoogleMap&#10;          &#10;              override fun onMapReady(googleMap: GoogleMap) {&#10;                  map = googleMap&#10;                  setupMap()&#10;              }&#10;          &#10;              private fun setupMap() {&#10;                  if (ActivityCompat.checkSelfPermission(requireContext(),&#10;                          android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(&#10;                          requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {&#10;                      requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)&#10;                      return&#10;                  }&#10;          &#10;                  map.isMyLocationEnabled = true&#10;                  map.uiSettings.isMyLocationButtonEnabled = true&#10;          &#10;                  val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager&#10;                  val provider = locationManager.getBestProvider(Criteria(), true)&#10;                  val location = locationManager.getLastKnownLocation(provider)&#10;          &#10;                  if (location != null) {&#10;                      val userLocation = LatLng(location.latitude, location.longitude)&#10;                      map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))&#10;                  }&#10;              }&#10;          &#10;              override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,&#10;                                        savedInstanceState: Bundle?): View? {&#10;                  return inflater.inflate(R.layout.fragment_home, container, false)&#10;              }&#10;          &#10;              override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;                  super.onViewCreated(view, savedInstanceState)&#10;                  val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?&#10;                  mapFragment?.getMapAsync(this)&#10;              }&#10;          &#10;              companion object {&#10;                  private const val LOCATION_PERMISSION_REQUEST_CODE = 1&#10;              }&#10;          }&#10;to home tab" />
     <MESSAGE value="map added" />
     <MESSAGE value="xml files added" />
     <option name="LAST_COMMIT_MESSAGE" value="xml files added" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt</url>
-          <line>58</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

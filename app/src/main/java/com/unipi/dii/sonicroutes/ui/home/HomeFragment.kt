@@ -1,6 +1,7 @@
 package com.unipi.dii.sonicroutes.ui.home
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.location.Location
 import android.media.AudioFormat
@@ -9,6 +10,7 @@ import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -44,25 +46,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         setupMap()
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+    private val requestPermissionLauncherMap = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
             // Se il permesso è stato concesso, avvia la configurazione della mappa
             setupMap()
         } else {
-            // Se il permesso è stato negato, gestisci di conseguenza (ad esempio, mostra un messaggio all'utente)
-            // Qui puoi gestire il caso in cui l'utente non ha concesso il permesso, ad esempio mostrando un messaggio di avviso
+            // Se il permesso è stato negato mostra un messaggio all'utente
+            showMessageToUser("Per favore, concedere il permesso per la localizzazione.")
         }
     }
 
     private fun setupMap() {
-        // Controlla se hai i permessi necessari
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
-            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-        else{   // Se hai i permessi, inizia a registrare il rumore
-            startNoiseRecording()
-        }
         if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            requestPermissionLauncherMap.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             // Se hai i permessi, configura la mappa
             map.isMyLocationEnabled = true
@@ -71,53 +67,81 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-
-    private fun startNoiseRecording() {
-        val sampleRate = 44100  // Frequenza di campionamento comune per l'audio
-        val channelConfig = AudioFormat.CHANNEL_IN_MONO
-        val audioFormat = AudioFormat.ENCODING_PCM_16BIT
-        val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
-            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-        val audioRecord = AudioRecord.Builder()
-            .setAudioSource(MediaRecorder.AudioSource.MIC)
-            .setAudioFormat(AudioFormat.Builder()
-                .setSampleRate(sampleRate)
-                .setChannelMask(channelConfig)
-                .setEncoding(audioFormat)
-                .build())
-            .setBufferSizeInBytes(minBufferSize)
-            .build()
-
-        audioRecord.startRecording()
-        isRecording = true
-
-        val audioData = ShortArray(minBufferSize)
-
-        val handler = android.os.Handler(Looper.getMainLooper())
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                if (isRecording) {
-                    val readResult = audioRecord.read(audioData, 0, minBufferSize, AudioRecord.READ_BLOCKING)
-                    if (readResult >= 0) {
-                        val amplitude = audioData.maxOrNull()?.toInt() ?: 0
-                        println("Current Noise Level: $amplitude")
-                        /*val jsonEntry = createJsonEntry(
-                            latitude = userLocation.latitude,
-                            longitude = userLocation.longitude,
-                            amplitude = amplitude,
-                            deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
-
-                        )
-                        println(jsonEntry)*/
-                    }
-                    handler.postDelayed(this, 5000) // aggiorna ogni 5 secondi
-                }
-            }
-        }, 5000)
+    override fun onResume() {
+        super.onResume()
+        setupRecording()
     }
 
+    private fun setupRecording() {
+        // Controlla se hai i permessi necessari
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            // Se non hai il permesso, richiedilo all'utente
+            requestPermissionLauncherRecording.launch(Manifest.permission.RECORD_AUDIO)
+        } else {
+            // Se hai i permessi, inizia a registrare il rumore
+            startNoiseRecording()
+        }
+    }
 
+    private val requestPermissionLauncherRecording = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            // Se il permesso è stato concesso, avvia la registrazione
+            startNoiseRecording()
+        } else {
+            // Se il permesso è stato negato mostra un messaggio all'utente
+            showMessageToUser("Per favore, concedere il permesso per registrare l'audio.")
+        }
+    }
+
+    private fun startNoiseRecording() {
+        // Controlla se hai il permesso RECORD_AUDIO
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            // Hai il permesso, quindi puoi avviare la registrazione
+            val sampleRate = 44100  // Frequenza di campionamento comune per l'audio
+            val channelConfig = AudioFormat.CHANNEL_IN_MONO
+            val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+            val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
+            val audioRecord = AudioRecord.Builder()
+                .setAudioSource(MediaRecorder.AudioSource.MIC)
+                .setAudioFormat(AudioFormat.Builder()
+                    .setSampleRate(sampleRate)
+                    .setChannelMask(channelConfig)
+                    .setEncoding(audioFormat)
+                    .build())
+                .setBufferSizeInBytes(minBufferSize)
+                .build()
+
+            audioRecord.startRecording()
+            isRecording = true
+
+            val audioData = ShortArray(minBufferSize)
+
+            val handler = android.os.Handler(Looper.getMainLooper())
+            handler.postDelayed(object : Runnable {
+                override fun run() {
+                    if (isRecording) {
+                        val readResult = audioRecord.read(audioData, 0, minBufferSize, AudioRecord.READ_BLOCKING)
+                        if (readResult >= 0) {
+                            val amplitude = audioData.maxOrNull()?.toInt() ?: 0
+                            println("Current Noise Level: $amplitude")
+                            /*val jsonEntry = createJsonEntry(
+                                latitude = userLocation.latitude,
+                                longitude = userLocation.longitude,
+                                amplitude = amplitude,
+                                deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
+                            )
+                            println(jsonEntry)*/
+                        }
+                        handler.postDelayed(this, 5000) // aggiorna ogni 5 secondi
+                    }
+                }
+            }, 5000)
+        } else {
+            // Il permesso RECORD_AUDIO non è stato concesso dall'utente
+            showMessageToUser("Per favore, concedere il permesso per registrare l'audio.")
+        }
+    }
 
     private fun startLocationUpdates() {
         val locationRequest = LocationRequest.Builder(1000)
@@ -164,6 +188,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
     }
+
     private fun stopRecording() {
         if (isRecording) {
             mediaRecorder?.apply {
@@ -174,5 +199,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             isRecording = false
         }
     }
-}
 
+    private fun showMessageToUser(message: String) {
+        // Puoi scegliere come mostrare il messaggio all'utente, ad esempio utilizzando un dialog
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setTitle("Permesso necessario")
+        alertDialogBuilder.setMessage(message)
+        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+            // Puoi implementare qui azioni aggiuntive se necessario
+            dialog.dismiss()
+        }
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+}
