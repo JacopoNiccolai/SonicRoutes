@@ -3,6 +3,9 @@ package com.unipi.dii.sonicroutes.ui.home
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
+import android.media.AudioFormat
+import android.media.AudioRecord
+import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.unipi.dii.sonicroutes.R
+import java.io.IOException
 
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
@@ -31,6 +35,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
+    private var mediaRecorder: MediaRecorder? = null
+    private var isRecording = false
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
@@ -48,20 +55,69 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupMap() {
-        // Controlla se hai il permesso di ACCESS_FINE_LOCATION
-        when {
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
-                // Se hai il permesso, configura la mappa
-                map.isMyLocationEnabled = true
-                map.uiSettings.isMyLocationButtonEnabled = true
-                startLocationUpdates()
-            }
-            else -> {
-                // Se non hai il permesso, richiedilo all'utente
-                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            }
+        // Controlla se hai i permessi necessari
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        else{   // Se hai i permessi, inizia a registrare il rumore
+            startNoiseRecording()
+        }
+        if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            // Se hai i permessi, configura la mappa
+            map.isMyLocationEnabled = true
+            map.uiSettings.isMyLocationButtonEnabled = true
+            startLocationUpdates()
         }
     }
+
+
+    private fun startNoiseRecording() {
+        val sampleRate = 44100  // Frequenza di campionamento comune per l'audio
+        val channelConfig = AudioFormat.CHANNEL_IN_MONO
+        val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+        val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        val audioRecord = AudioRecord.Builder()
+            .setAudioSource(MediaRecorder.AudioSource.MIC)
+            .setAudioFormat(AudioFormat.Builder()
+                .setSampleRate(sampleRate)
+                .setChannelMask(channelConfig)
+                .setEncoding(audioFormat)
+                .build())
+            .setBufferSizeInBytes(minBufferSize)
+            .build()
+
+        audioRecord.startRecording()
+        isRecording = true
+
+        val audioData = ShortArray(minBufferSize)
+
+        val handler = android.os.Handler(Looper.getMainLooper())
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                if (isRecording) {
+                    val readResult = audioRecord.read(audioData, 0, minBufferSize, AudioRecord.READ_BLOCKING)
+                    if (readResult >= 0) {
+                        val amplitude = audioData.maxOrNull()?.toInt() ?: 0
+                        println("Current Noise Level: $amplitude")
+                        /*val jsonEntry = createJsonEntry(
+                            latitude = userLocation.latitude,
+                            longitude = userLocation.longitude,
+                            amplitude = amplitude,
+                            deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
+                        )
+                        println(jsonEntry)*/
+                    }
+                    handler.postDelayed(this, 5000) // aggiorna ogni 5 secondi
+                }
+            }
+        }, 5000)
+    }
+
+
 
     private fun startLocationUpdates() {
         val locationRequest = LocationRequest.Builder(1000)
@@ -103,8 +159,20 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     override fun onPause() {
         super.onPause()
+        stopRecording()
         if (::fusedLocationProviderClient.isInitialized) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
     }
+    private fun stopRecording() {
+        if (isRecording) {
+            mediaRecorder?.apply {
+                stop()
+                release()
+            }
+            mediaRecorder = null
+            isRecording = false
+        }
+    }
 }
+
