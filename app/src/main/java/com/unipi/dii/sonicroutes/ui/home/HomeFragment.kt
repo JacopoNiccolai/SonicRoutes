@@ -140,7 +140,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                             println("JSON Entry: $jsonEntry")
 
                             val filename = "data.json"
-                            val file = File(context?.filesDir, filename)
+                            val file = File(context?.getExternalFilesDir(null), filename)
                             FileWriter(file, true).use { writer ->
                                 writer.write(jsonEntry + "\n")
                                 Log.d("HomeFragment", "Dati scritti nel file: $filename")
