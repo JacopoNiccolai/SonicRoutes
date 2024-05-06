@@ -165,28 +165,30 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun processRecordingData(audioData: ShortArray) {
-        val amplitude = audioData.maxOrNull()?.toInt() ?: 0
-        Log.d("HomeFragment", "Current Noise Level: $amplitude")
-        val jsonEntry = Gson().toJson(
-            NoiseData(
-                latitude = userLocation.latitude,
-                longitude = userLocation.longitude,
-                amplitude = amplitude,
-                timestamp = System.currentTimeMillis(),
-                deviceId = deviceId
+        if (::userLocation.isInitialized) {
+            val amplitude = audioData.maxOrNull()?.toInt() ?: 0
+            Log.d("HomeFragment", "Current Noise Level: $amplitude")
+            val jsonEntry = Gson().toJson(
+                NoiseData(
+                    latitude = userLocation.latitude,
+                    longitude = userLocation.longitude,
+                    amplitude = amplitude,
+                    timestamp = System.currentTimeMillis(),
+                    deviceId = deviceId
+                )
             )
-        )
 
-        Log.d("HomeFragment", "JSON Entry: $jsonEntry")
+            Log.d("HomeFragment", "JSON Entry: $jsonEntry")
 
-        val filename = "data.json"
-        val file = File(context?.getExternalFilesDir(null), filename)
-        try {
-            FileWriter(file, true).use { writer ->
-                writer.write(jsonEntry + "\n")
+            val filename = "data.json"
+            val file = File(context?.getExternalFilesDir(null), filename)
+            try {
+                FileWriter(file, true).use { writer ->
+                    writer.write(jsonEntry + "\n")
+                }
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "Failed to write data to file", e)
             }
-        } catch (e: Exception) {
-            Log.e("HomeFragment", "Failed to write data to file", e)
         }
     }
 
