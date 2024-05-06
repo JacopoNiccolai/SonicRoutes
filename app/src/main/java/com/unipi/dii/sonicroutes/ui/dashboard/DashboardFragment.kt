@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.unipi.dii.sonicroutes.databinding.FragmentDashboardBinding
+import java.io.File
 
 class DashboardFragment : Fragment() {
 
@@ -21,14 +22,24 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Riferimento alla TextView all'interno della ScrollView
         val textView: TextView = binding.textDashboard
-
         dashboardViewModel.loadData(requireContext())
         dashboardViewModel.text.observe(viewLifecycleOwner) { text ->
             textView.text = text
         }
+
+        binding.deleteButton.setOnClickListener {
+            deleteDataFile()
+        }
+
         return root
+    }
+
+    private fun deleteDataFile() {
+        val file = File(requireContext().filesDir, "data.json")
+        if (file.exists()) {
+            file.delete()
+        }
     }
 
     override fun onDestroyView() {

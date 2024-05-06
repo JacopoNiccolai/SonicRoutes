@@ -181,7 +181,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             Log.d("HomeFragment", "JSON Entry: $jsonEntry")
 
             val filename = "data.json"
-            val file = File(context?.getExternalFilesDir(null), filename)
+            val file = File(context?.filesDir, filename)
             try {
                 FileWriter(file, true).use { writer ->
                     writer.write(jsonEntry + "\n")
@@ -189,6 +189,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             } catch (e: Exception) {
                 Log.e("HomeFragment", "Failed to write data to file", e)
             }
+
         }
     }
 
