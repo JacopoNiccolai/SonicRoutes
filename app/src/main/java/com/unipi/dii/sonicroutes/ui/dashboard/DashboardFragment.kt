@@ -21,10 +21,12 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // Riferimento alla TextView all'interno della ScrollView
         val textView: TextView = binding.textDashboard
+
         dashboardViewModel.loadData(requireContext())
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        dashboardViewModel.text.observe(viewLifecycleOwner) { text ->
+            textView.text = text
         }
         return root
     }
