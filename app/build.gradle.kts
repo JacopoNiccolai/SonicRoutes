@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.unipi.dii.sonicroutes"
-        minSdk = 29
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

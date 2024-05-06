@@ -1,5 +1,6 @@
 package com.unipi.dii.sonicroutes.ui.home
 
+import GeocodingUtil
 import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
@@ -42,6 +43,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private var isRecording = false
     private lateinit var userLocation: LatLng
     private val deviceId = UUID.randomUUID().toString()
+    private lateinit var geocodingUtil: GeocodingUtil
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -51,6 +53,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
+        geocodingUtil = GeocodingUtil(requireContext())
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -75,6 +78,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupMap() {
+
         try {
             map.isMyLocationEnabled = true
             map.uiSettings.isMyLocationButtonEnabled = true
@@ -107,9 +111,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateMap(location: Location) {
-        userLocation = LatLng(location.latitude, location.longitude)
+        if(location.latitude !=0.0){
+            userLocation = LatLng(location.latitude, location.longitude)
+        }
+
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+        geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
+            println(address)
+        }
     }
+    /*
+    finche via uguale
+        somma_rum += rumore_rilevato
+        num_oss++
+    quando via diversa
+        rumore_medio = somma_rum/num_oss
+    */
 
     override fun onResume() {
         super.onResume()
