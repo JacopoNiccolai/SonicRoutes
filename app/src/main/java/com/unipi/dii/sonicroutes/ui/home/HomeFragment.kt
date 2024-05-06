@@ -118,6 +118,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
         geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
             println(address)
+            // todo : manipolare address
         }
     }
     /*

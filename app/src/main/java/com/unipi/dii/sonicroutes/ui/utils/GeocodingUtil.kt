@@ -15,7 +15,6 @@ class GeocodingUtil(private val context: Context) {
             if (!addresses.isNullOrEmpty()) {
                 val addressText = addresses[0].getAddressLine(0)
                 callback(addressText)
-                println(addressText)
             } else {
                 callback(null)
             }
