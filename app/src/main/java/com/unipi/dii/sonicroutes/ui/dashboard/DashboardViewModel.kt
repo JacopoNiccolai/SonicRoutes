@@ -13,7 +13,7 @@ class DashboardViewModel : ViewModel() {
 
     fun loadData(context: Context) {
         val fileName = "data.json"
-        val file = File(context.getExternalFilesDir(null), fileName)
+        val file = File(context.filesDir, fileName)  // Usa filesDir per il percorso interno
         if (file.exists()) {
             val rawJsonData = file.readText()
             // Convert the sequence of JSON objects into a valid JSON array
@@ -28,6 +28,7 @@ class DashboardViewModel : ViewModel() {
             _text.value = "No data available"
         }
     }
+
 
     data class NoiseData(
         val latitude: Double,
