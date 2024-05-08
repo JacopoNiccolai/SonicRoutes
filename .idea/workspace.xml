@@ -18,10 +18,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="duca commit">
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="now position is sent correctly each time to the flask server">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -343,7 +344,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715164420088</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="now position is sent correctly each time to the flask server">
+      <option name="closed" value="true" />
+      <created>1715178360367</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1715178360367</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -369,6 +378,7 @@
     <MESSAGE value="added 'share data' and 'delete data' buttons in DashboardFragment" />
     <MESSAGE value="changes" />
     <MESSAGE value="duca commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="duca commit" />
+    <MESSAGE value="now position is sent correctly each time to the flask server" />
+    <option name="LAST_COMMIT_MESSAGE" value="now position is sent correctly each time to the flask server" />
   </component>
 </project>

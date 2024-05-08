@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -61,7 +62,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        geocodingUtil = GeocodingUtil(requireContext())
+        val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton)
+        startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark))
+        startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
+            geocodingUtil = GeocodingUtil(requireContext())
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -139,7 +143,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        checkPermissionsAndSetupRecording()
+        if(isRecording)
+            checkPermissionsAndSetupRecording()
     }
 
     private fun checkPermissionsAndSetupRecording() {
@@ -168,7 +173,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 .build()
 
             audioRecord?.startRecording()
-            isRecording = true
 
             val audioData = ShortArray(minBufferSize)
             val handler = Handler(Looper.getMainLooper())
@@ -191,7 +195,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun processRecordingData(audioData: ShortArray) {
-        if (::userLocation.isInitialized) {
+        if (isRecording &&::userLocation.isInitialized && audioData.isNotEmpty()) {
             val amplitude = audioData.maxOrNull()?.toInt() ?: 0
             Log.d("HomeFragment", "Current Noise Level: $amplitude")
             val jsonEntry = Gson().toJson(
@@ -258,15 +262,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+
+
     private fun stopRecording() {
-        if (isRecording) {
+        if (!isRecording) {
             try {
-                audioRecord?.apply {
-                    stop()
-                    release()
-                }
-                audioRecord = null
-                isRecording = false
+                audioRecord?.stop() // Ferma la registrazione
+                audioRecord?.release() // Rilascia le risorse dell'oggetto AudioRecord
+                isRecording = false // Imposta lo stato di registrazione su falso
             } catch (e: SecurityException) {
                 Log.e("HomeFragment", "Security Exception during audio recording stop: ${e.message}")
             }
@@ -283,4 +286,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     data class NoiseData(val latitude: Double, val longitude: Double, val amplitude: Int, val timestamp: Long, val deviceId: String)
+
+    private fun toggleRecording(startRecordingButton: View) {
+        isRecording = !isRecording
+        if (isRecording) {
+            (startRecordingButton as Button).text = getString(R.string.stop_recording)
+            startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_light))
+            checkPermissionsAndSetupRecording()
+        } else {
+            stopRecording()
+            (startRecordingButton as Button).text = getString(R.string.start_recording)
+            startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark))
+        }
+    }
 }
