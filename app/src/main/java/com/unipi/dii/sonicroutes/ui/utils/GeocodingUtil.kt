@@ -11,6 +11,7 @@ class GeocodingUtil(private val context: Context) {
         val geocoder = Geocoder(context, Locale.getDefault())
 
         try {
+            // todo :  deprecated???
             val addresses = geocoder.getFromLocation(latitude, longitude, 1)
             if (!addresses.isNullOrEmpty()) {
                 val addressText = addresses[0].getAddressLine(0)
