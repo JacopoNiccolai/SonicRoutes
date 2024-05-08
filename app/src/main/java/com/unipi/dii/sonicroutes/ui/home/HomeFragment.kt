@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -30,7 +31,14 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
+import com.google.gson.JsonParser
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.ui.network.ServerApi
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.FileWriter
 import java.util.UUID
@@ -197,6 +205,33 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             )
 
             Log.d("HomeFragment", "JSON Entry: $jsonEntry")
+
+            // send the json entry to the server
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://10.1.1.22:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val serverApi = retrofit.create(ServerApi::class.java)
+
+            val jsonElement = JsonParser.parseString(jsonEntry)
+            val jsonObject = jsonElement.asJsonObject
+            val call = serverApi.uploadDataJson(jsonObject)
+
+            // Commend API call
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        // todo : rimuovi, altrimenti ogni volta l'utente vede un toast
+                        Toast.makeText(requireContext(), "JSON entry sent correctly", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to send JSON entry", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    t.printStackTrace()
+                }
+            })
 
             val filename = "data.json"
             val file = File(context?.filesDir, filename)

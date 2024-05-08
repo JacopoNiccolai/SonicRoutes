@@ -1,25 +1,18 @@
 package com.unipi.dii.sonicroutes.ui.dashboard
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.JsonSyntaxException
 import com.unipi.dii.sonicroutes.databinding.FragmentDashboardBinding
-import com.unipi.dii.sonicroutes.ui.network.ServerApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.io.IOException
 
 class DashboardFragment : Fragment() {
 
@@ -68,61 +61,16 @@ class DashboardFragment : Fragment() {
     }
 
     // funzione che consente all'utente di condividere il file data.json
-//    private fun shareDataFile() {
-//        val file = File(requireContext().filesDir, "data.json")
-//        if (file.exists()) {
-//            val uri: Uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
-//            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-//                type = "application/json"
-//                putExtra(Intent.EXTRA_STREAM, uri)
-//                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//            }
-//            startActivity(Intent.createChooser(shareIntent, "Share data.json via:"))
-//        } else {
-//            Toast.makeText(requireContext(), "File not found", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
-
     private fun shareDataFile() {
         val file = File(requireContext().filesDir, "data.json")
         if (file.exists()) {
-            try {
-                // Leggi il file come una stringa
-                val content = file.readText()
-                // Usa Gson per convertire la stringa in un JsonObject se necessario
-                val jsonObject = Gson().fromJson(content, JsonObject::class.java)
-
-                // Prepara la chiamata API con Retrofit
-                val retrofit = Retrofit.Builder()
-                    .baseUrl("http://10.1.1.22:5000/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                val serverApi = retrofit.create(ServerApi::class.java)
-
-                val call = serverApi.uploadDataJson(jsonObject)
-
-
-                // Esegui la chiamata API
-                call.enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(requireContext(), "File uploaded successfully", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(requireContext(), "Failed to upload file", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                        t.printStackTrace()
-                    }
-                })
-            } catch (e: JsonSyntaxException) {
-                Toast.makeText(requireContext(), "Error parsing JSON", Toast.LENGTH_SHORT).show()
-            } catch (e: IOException) {
-                Toast.makeText(requireContext(), "Error reading file", Toast.LENGTH_SHORT).show()
+            val uri: Uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/json"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
+            startActivity(Intent.createChooser(shareIntent, "Share data.json via:"))
         } else {
             Toast.makeText(requireContext(), "File not found", Toast.LENGTH_SHORT).show()
         }
