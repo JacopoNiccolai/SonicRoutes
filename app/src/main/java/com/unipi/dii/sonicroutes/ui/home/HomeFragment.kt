@@ -63,7 +63,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
         val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton)
-        startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark))
+        if(!isRecording) {
+            startRecordingButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_green_dark
+                )
+            )
+        }else {
+            startRecordingButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_red_light
+                )
+            )
+            (startRecordingButton as Button).text = getString(R.string.stop_recording)
+        }
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
             geocodingUtil = GeocodingUtil(requireContext())
     }
@@ -249,20 +264,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        stopRecording()
-        if (::fusedLocationProviderClient.isInitialized) {
-            try {
-                fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-            } catch (e: SecurityException) {
-                Log.e("HomeFragment", "Security Exception while removing location updates: ${e.message}")
-            }
-        }
-    }
-
-
 
     private fun stopRecording() {
         if (!isRecording) {
