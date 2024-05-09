@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6de87ea5ab38fb9a1ca7633635cb19f7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_6de87ea5ab38fb9a1ca7633635cb19f7" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6de87ea5ab38fb9a1ca7633635cb19f7 = L.map(
+                "map_6de87ea5ab38fb9a1ca7633635cb19f7",
+                {
+                    center: [43.7211779, 10.3914214],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 17,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_153ff4c4ff6f09526d0599fc76fc261d = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var marker_16d206f6d607b2b914cd649b27f6a001 = L.marker(
+                [43.7229513, 10.3982212],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_648802eb985628ef4783facae32e71eb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "purple", "prefix": "glyphicon"}
+            );
+            marker_16d206f6d607b2b914cd649b27f6a001.setIcon(icon_648802eb985628ef4783facae32e71eb);
+        
+    
+        var popup_a0cbdf9c0774cbdc191cf11660e16757 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_12c74356e9399a155c4de0b6759a2b14 = $(`<div id="html_12c74356e9399a155c4de0b6759a2b14" style="width: 100.0%; height: 100.0%;">Latitude: 43.7229513, Longitude: 10.3982212, Via San Ranierino, Via Cardinale Pietro Maffi</div>`)[0];
+                popup_a0cbdf9c0774cbdc191cf11660e16757.setContent(html_12c74356e9399a155c4de0b6759a2b14);
+            
+        
+
+        marker_16d206f6d607b2b914cd649b27f6a001.bindPopup(popup_a0cbdf9c0774cbdc191cf11660e16757)
+        ;
+
+        
+    
+    
+            var marker_7d6e2ac5518f1093d309b4dfd43f53d5 = L.marker(
+                [43.7228801, 10.3985253],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_e6da1f784d466804c348c7b03cde2b56 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "purple", "prefix": "glyphicon"}
+            );
+            marker_7d6e2ac5518f1093d309b4dfd43f53d5.setIcon(icon_e6da1f784d466804c348c7b03cde2b56);
+        
+    
+        var popup_6314a4778c3696e5a336040852330a8c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e4dbfa253bc340f9478bcbf7473adb95 = $(`<div id="html_e4dbfa253bc340f9478bcbf7473adb95" style="width: 100.0%; height: 100.0%;">Latitude: 43.7228801, Longitude: 10.3985253, Via Ugo Camozzo, Via Cardinale Pietro Maffi</div>`)[0];
+                popup_6314a4778c3696e5a336040852330a8c.setContent(html_e4dbfa253bc340f9478bcbf7473adb95);
+            
+        
+
+        marker_7d6e2ac5518f1093d309b4dfd43f53d5.bindPopup(popup_6314a4778c3696e5a336040852330a8c)
+        ;
+
+        
+    
+    
+            var marker_a59bbe66307d8f93a97f28faf2cf1ebc = L.marker(
+                [43.7160043, 10.3879857],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_649b71b8481b9c85ad2bfd65ae2763e2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_a59bbe66307d8f93a97f28faf2cf1ebc.setIcon(icon_649b71b8481b9c85ad2bfd65ae2763e2);
+        
+    
+        var popup_65e861b566ee85ca79dfa6d2d67ea6b1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f87cb09856d5282e346158d1d8026334 = $(`<div id="html_f87cb09856d5282e346158d1d8026334" style="width: 100.0%; height: 100.0%;">Latitude: 43.7160043, Longitude: 10.3879857, Via dei Macelli, Via Bonanno Pisano</div>`)[0];
+                popup_65e861b566ee85ca79dfa6d2d67ea6b1.setContent(html_f87cb09856d5282e346158d1d8026334);
+            
+        
+
+        marker_a59bbe66307d8f93a97f28faf2cf1ebc.bindPopup(popup_65e861b566ee85ca79dfa6d2d67ea6b1)
+        ;
+
+        
+    
+    
+            var marker_028b2d67d681a3835d1f5367e433354c = L.marker(
+                [43.7164088, 10.3882581],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_129fde0d0f47f94784163d4d9e1bc9eb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_028b2d67d681a3835d1f5367e433354c.setIcon(icon_129fde0d0f47f94784163d4d9e1bc9eb);
+        
+    
+        var popup_2f241af95381f7a5d695d44dae531c95 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_71975b30db9cce3514b553cc96b72d18 = $(`<div id="html_71975b30db9cce3514b553cc96b72d18" style="width: 100.0%; height: 100.0%;">Latitude: 43.7164088, Longitude: 10.3882581, Via dei Macelli, Via Bonanno Pisano</div>`)[0];
+                popup_2f241af95381f7a5d695d44dae531c95.setContent(html_71975b30db9cce3514b553cc96b72d18);
+            
+        
+
+        marker_028b2d67d681a3835d1f5367e433354c.bindPopup(popup_2f241af95381f7a5d695d44dae531c95)
+        ;
+
+        
+    
+    
+            var marker_6428ca0060cd32eb7008729a8a0134c5 = L.marker(
+                [43.7181759, 10.3894504],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_6c97bbcdd35fde34746d170927fadf0c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_6428ca0060cd32eb7008729a8a0134c5.setIcon(icon_6c97bbcdd35fde34746d170927fadf0c);
+        
+    
+        var popup_1c2ef2f65c37e469eafe834f7caad8a3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c76bff4653cb1a45a4702ba8d5f9b656 = $(`<div id="html_c76bff4653cb1a45a4702ba8d5f9b656" style="width: 100.0%; height: 100.0%;">Latitude: 43.7181759, Longitude: 10.3894504, Via Rustichello da Pisa, Via Turino Vanni, Via Bonanno Pisano</div>`)[0];
+                popup_1c2ef2f65c37e469eafe834f7caad8a3.setContent(html_c76bff4653cb1a45a4702ba8d5f9b656);
+            
+        
+
+        marker_6428ca0060cd32eb7008729a8a0134c5.bindPopup(popup_1c2ef2f65c37e469eafe834f7caad8a3)
+        ;
+
+        
+    
+    
+            var marker_9eecf3ab15470a243790ad233b1c2935 = L.marker(
+                [43.7181507, 10.3895351],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_d8d785f8c1fd9474fafb89b5764e57dd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_9eecf3ab15470a243790ad233b1c2935.setIcon(icon_d8d785f8c1fd9474fafb89b5764e57dd);
+        
+    
+        var popup_295ea89a9be4b33486b550867c3b7a04 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d2b74d969bcf4222efcb477d1836deea = $(`<div id="html_d2b74d969bcf4222efcb477d1836deea" style="width: 100.0%; height: 100.0%;">Latitude: 43.7181507, Longitude: 10.3895351, Via Rustichello da Pisa, Via Pietro da Pisa</div>`)[0];
+                popup_295ea89a9be4b33486b550867c3b7a04.setContent(html_d2b74d969bcf4222efcb477d1836deea);
+            
+        
+
+        marker_9eecf3ab15470a243790ad233b1c2935.bindPopup(popup_295ea89a9be4b33486b550867c3b7a04)
+        ;
+
+        
+    
+    
+            var marker_63948c0cb9e9678afb4fd410f6a80b5c = L.marker(
+                [43.7228531, 10.3898198],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_5055603f14163f300677560dd2641e49 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "beige", "prefix": "glyphicon"}
+            );
+            marker_63948c0cb9e9678afb4fd410f6a80b5c.setIcon(icon_5055603f14163f300677560dd2641e49);
+        
+    
+        var popup_90edeb8c32bffb904e0544cf7cd88b69 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_9a822e3d8ea4aeba84460cffbc7b4ca6 = $(`<div id="html_9a822e3d8ea4aeba84460cffbc7b4ca6" style="width: 100.0%; height: 100.0%;">Latitude: 43.7228531, Longitude: 10.3898198, Via Andrea Pisano, N/A</div>`)[0];
+                popup_90edeb8c32bffb904e0544cf7cd88b69.setContent(html_9a822e3d8ea4aeba84460cffbc7b4ca6);
+            
+        
+
+        marker_63948c0cb9e9678afb4fd410f6a80b5c.bindPopup(popup_90edeb8c32bffb904e0544cf7cd88b69)
+        ;
+
+        
+    
+    
+            var marker_a6c945b7ffa3f02241da46a5039dc69d = L.marker(
+                [43.7228368, 10.3895119],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_bcef42385aec3e3adbc4edc6c35a636c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "beige", "prefix": "glyphicon"}
+            );
+            marker_a6c945b7ffa3f02241da46a5039dc69d.setIcon(icon_bcef42385aec3e3adbc4edc6c35a636c);
+        
+    
+        var popup_7df5a63de38f9453d14d3919e60e0810 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7beed49210ab57b67964bf1e60e03c10 = $(`<div id="html_7beed49210ab57b67964bf1e60e03c10" style="width: 100.0%; height: 100.0%;">Latitude: 43.7228368, Longitude: 10.3895119, Via Vecchia Barbaricina, Via Andrea Pisano</div>`)[0];
+                popup_7df5a63de38f9453d14d3919e60e0810.setContent(html_7beed49210ab57b67964bf1e60e03c10);
+            
+        
+
+        marker_a6c945b7ffa3f02241da46a5039dc69d.bindPopup(popup_7df5a63de38f9453d14d3919e60e0810)
+        ;
+
+        
+    
+    
+            var marker_d383f86604af6d64a99ed92a00af766b = L.marker(
+                [43.722951, 10.3897496],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_805594ee59abb39bcbbda45808048915 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "beige", "prefix": "glyphicon"}
+            );
+            marker_d383f86604af6d64a99ed92a00af766b.setIcon(icon_805594ee59abb39bcbbda45808048915);
+        
+    
+        var popup_c89cd229ab8f1692b07d48f88ebfba9e = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_6e14a74c2ea2afc4dc39f7982190c18c = $(`<div id="html_6e14a74c2ea2afc4dc39f7982190c18c" style="width: 100.0%; height: 100.0%;">Latitude: 43.722951, Longitude: 10.3897496, Via Vecchia Barbaricina, N/A</div>`)[0];
+                popup_c89cd229ab8f1692b07d48f88ebfba9e.setContent(html_6e14a74c2ea2afc4dc39f7982190c18c);
+            
+        
+
+        marker_d383f86604af6d64a99ed92a00af766b.bindPopup(popup_c89cd229ab8f1692b07d48f88ebfba9e)
+        ;
+
+        
+    
+    
+            var marker_4e1b54c13ef4575892a4090226216e33 = L.marker(
+                [43.7217743, 10.3997097],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_16cc36d110efe688b2750812c31128b8 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkgreen", "prefix": "glyphicon"}
+            );
+            marker_4e1b54c13ef4575892a4090226216e33.setIcon(icon_16cc36d110efe688b2750812c31128b8);
+        
+    
+        var popup_ea42797b6b2cc49e986a1ff3d4c52c8f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1b6aa46b56290082e64cd1b4bd7ebf69 = $(`<div id="html_1b6aa46b56290082e64cd1b4bd7ebf69" style="width: 100.0%; height: 100.0%;">Latitude: 43.7217743, Longitude: 10.3997097, Via San Tommaso, Via Ferdinando Capponi</div>`)[0];
+                popup_ea42797b6b2cc49e986a1ff3d4c52c8f.setContent(html_1b6aa46b56290082e64cd1b4bd7ebf69);
+            
+        
+
+        marker_4e1b54c13ef4575892a4090226216e33.bindPopup(popup_ea42797b6b2cc49e986a1ff3d4c52c8f)
+        ;
+
+        
+    
+    
+            var marker_0671f6537aba49f736fc4e5a0db3082b = L.marker(
+                [43.721923, 10.399224],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_8fc98deea1caf1be01d404c16ff859e8 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkgreen", "prefix": "glyphicon"}
+            );
+            marker_0671f6537aba49f736fc4e5a0db3082b.setIcon(icon_8fc98deea1caf1be01d404c16ff859e8);
+        
+    
+        var popup_2a7046a0aa34e834652fd19f1f910a25 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_220477374267c7d18486802d4b7956ae = $(`<div id="html_220477374267c7d18486802d4b7956ae" style="width: 100.0%; height: 100.0%;">Latitude: 43.721923, Longitude: 10.399224, Via Ferdinando Capponi, Via Uguccione della Faggiola</div>`)[0];
+                popup_2a7046a0aa34e834652fd19f1f910a25.setContent(html_220477374267c7d18486802d4b7956ae);
+            
+        
+
+        marker_0671f6537aba49f736fc4e5a0db3082b.bindPopup(popup_2a7046a0aa34e834652fd19f1f910a25)
+        ;
+
+        
+    
+    
+            var marker_3d05e7c0d2e4f39f2ce48165c6374148 = L.marker(
+                [43.7198717, 10.3996002],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_aeec4d11f8bc5fdfbee6b630559e40f8 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkpurple", "prefix": "glyphicon"}
+            );
+            marker_3d05e7c0d2e4f39f2ce48165c6374148.setIcon(icon_aeec4d11f8bc5fdfbee6b630559e40f8);
+        
+    
+        var popup_b02f589e77cf838dfaf2e95b3e3ed02a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_84b1461caa00356207dbad22af49c093 = $(`<div id="html_84b1461caa00356207dbad22af49c093" style="width: 100.0%; height: 100.0%;">Latitude: 43.7198717, Longitude: 10.3996002, Via dei Martiri, Via Dalmazia</div>`)[0];
+                popup_b02f589e77cf838dfaf2e95b3e3ed02a.setContent(html_84b1461caa00356207dbad22af49c093);
+            
+        
+
+        marker_3d05e7c0d2e4f39f2ce48165c6374148.bindPopup(popup_b02f589e77cf838dfaf2e95b3e3ed02a)
+        ;
+
+        
+    
+    
+            var marker_f3150168933e743a1cd947bc068c4c2c = L.marker(
+                [43.7196, 10.3997925],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_a6b8177cc85a0af21c87fd378f60d07e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkpurple", "prefix": "glyphicon"}
+            );
+            marker_f3150168933e743a1cd947bc068c4c2c.setIcon(icon_a6b8177cc85a0af21c87fd378f60d07e);
+        
+    
+        var popup_02c3c654b1d382101c8026a37faea307 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bae91e03b8d38095fa8d01d27a7c0ef6 = $(`<div id="html_bae91e03b8d38095fa8d01d27a7c0ef6" style="width: 100.0%; height: 100.0%;">Latitude: 43.7196, Longitude: 10.3997925, Via Corsica, Piazza dei Cavalieri</div>`)[0];
+                popup_02c3c654b1d382101c8026a37faea307.setContent(html_bae91e03b8d38095fa8d01d27a7c0ef6);
+            
+        
+
+        marker_f3150168933e743a1cd947bc068c4c2c.bindPopup(popup_02c3c654b1d382101c8026a37faea307)
+        ;
+
+        
+    
+    
+            var marker_b81a4a93d04877763fb0563c97f43edc = L.marker(
+                [43.7181135, 10.3998918],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_b9b28b41cc0dcf66fd044c2aef4070fc = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "white", "prefix": "glyphicon"}
+            );
+            marker_b81a4a93d04877763fb0563c97f43edc.setIcon(icon_b9b28b41cc0dcf66fd044c2aef4070fc);
+        
+    
+        var popup_392a8a92438b16e2f6767f952b612b28 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_9a027d52af5ab980a26626f7e13fe184 = $(`<div id="html_9a027d52af5ab980a26626f7e13fe184" style="width: 100.0%; height: 100.0%;">Latitude: 43.7181135, Longitude: 10.3998918, Piazza San Frediano, Via Tavoleria</div>`)[0];
+                popup_392a8a92438b16e2f6767f952b612b28.setContent(html_9a027d52af5ab980a26626f7e13fe184);
+            
+        
+
+        marker_b81a4a93d04877763fb0563c97f43edc.bindPopup(popup_392a8a92438b16e2f6767f952b612b28)
+        ;
+
+        
+    
+    
+            var marker_06481d4170bdeb0ca1569f83a027c80e = L.marker(
+                [43.7181338, 10.3998928],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_e2517a1474d5ddc049d52e0dbbce8449 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "white", "prefix": "glyphicon"}
+            );
+            marker_06481d4170bdeb0ca1569f83a027c80e.setIcon(icon_e2517a1474d5ddc049d52e0dbbce8449);
+        
+    
+        var popup_f49943c42bd633a12bb2e573b8925ea1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f179bf623936e93ae7198774e3aa03da = $(`<div id="html_f179bf623936e93ae7198774e3aa03da" style="width: 100.0%; height: 100.0%;">Latitude: 43.7181338, Longitude: 10.3998928, Piazza San Frediano, Via San Frediano</div>`)[0];
+                popup_f49943c42bd633a12bb2e573b8925ea1.setContent(html_f179bf623936e93ae7198774e3aa03da);
+            
+        
+
+        marker_06481d4170bdeb0ca1569f83a027c80e.bindPopup(popup_f49943c42bd633a12bb2e573b8925ea1)
+        ;
+
+        
+    
+    
+            var marker_2a0bf610a71bca1865335982b4693125 = L.marker(
+                [43.7177108, 10.3998677],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_1d48935c25c7c38b666be93b8313b7fe = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "white", "prefix": "glyphicon"}
+            );
+            marker_2a0bf610a71bca1865335982b4693125.setIcon(icon_1d48935c25c7c38b666be93b8313b7fe);
+        
+    
+        var popup_b379e43ceadd8159ec08775fb17cc250 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_51ffbb4d497f899a994b012407c7ee09 = $(`<div id="html_51ffbb4d497f899a994b012407c7ee09" style="width: 100.0%; height: 100.0%;">Latitude: 43.7177108, Longitude: 10.3998677, Piazza San Frediano, Via Curtatone e Montanara, Via Domenico Cavalca</div>`)[0];
+                popup_b379e43ceadd8159ec08775fb17cc250.setContent(html_51ffbb4d497f899a994b012407c7ee09);
+            
+        
+
+        marker_2a0bf610a71bca1865335982b4693125.bindPopup(popup_b379e43ceadd8159ec08775fb17cc250)
+        ;
+
+        
+    
+    
+            var marker_771e0b94f7e0f989d06a5c5ad6cd8c7d = L.marker(
+                [43.7198206, 10.3989136],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_8d0ed3ba71830ae89d4adde3db151bc5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_771e0b94f7e0f989d06a5c5ad6cd8c7d.setIcon(icon_8d0ed3ba71830ae89d4adde3db151bc5);
+        
+    
+        var popup_b6d8c94276d1a6ec700e6bd2380b4ed0 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_dbc7c32314beb6913bccae5507585ffa = $(`<div id="html_dbc7c32314beb6913bccae5507585ffa" style="width: 100.0%; height: 100.0%;">Latitude: 43.7198206, Longitude: 10.3989136, Via Corsica, Piazza Francesco Buonamici, Via Uguccione della Faggiola, Via dei Mille</div>`)[0];
+                popup_b6d8c94276d1a6ec700e6bd2380b4ed0.setContent(html_dbc7c32314beb6913bccae5507585ffa);
+            
+        
+
+        marker_771e0b94f7e0f989d06a5c5ad6cd8c7d.bindPopup(popup_b6d8c94276d1a6ec700e6bd2380b4ed0)
+        ;
+
+        
+    
+    
+            var marker_c1e6dd638c0a63005c29f50385117e30 = L.marker(
+                [43.7201818, 10.3990435],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_75ca42917bd38bc5732db7c18200a76a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_c1e6dd638c0a63005c29f50385117e30.setIcon(icon_75ca42917bd38bc5732db7c18200a76a);
+        
+    
+        var popup_78c7b2e86adfb9ea049a70abc2579245 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_efb8be58efe818edbd49cefeec88ced4 = $(`<div id="html_efb8be58efe818edbd49cefeec88ced4" style="width: 100.0%; height: 100.0%;">Latitude: 43.7201818, Longitude: 10.3990435, Via Uguccione della Faggiola, Via Dalmazia</div>`)[0];
+                popup_78c7b2e86adfb9ea049a70abc2579245.setContent(html_efb8be58efe818edbd49cefeec88ced4);
+            
+        
+
+        marker_c1e6dd638c0a63005c29f50385117e30.bindPopup(popup_78c7b2e86adfb9ea049a70abc2579245)
+        ;
+
+        
+    
+    
+            var marker_e573a22e28fe9a238d58a4fc76a7840e = L.marker(
+                [43.7194963, 10.3987961],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_e3fbb3d85d49bb1297e0e4be0cb87c9a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_e573a22e28fe9a238d58a4fc76a7840e.setIcon(icon_e3fbb3d85d49bb1297e0e4be0cb87c9a);
+        
+    
+        var popup_cd2b26e6e138dddbb3b82e694b86faa5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_976b4ffee41453b8aab040c9893bf6c7 = $(`<div id="html_976b4ffee41453b8aab040c9893bf6c7" style="width: 100.0%; height: 100.0%;">Latitude: 43.7194963, Longitude: 10.3987961, Piazza Francesco Buonamici, Via Pasquale Paoli</div>`)[0];
+                popup_cd2b26e6e138dddbb3b82e694b86faa5.setContent(html_976b4ffee41453b8aab040c9893bf6c7);
+            
+        
+
+        marker_e573a22e28fe9a238d58a4fc76a7840e.bindPopup(popup_cd2b26e6e138dddbb3b82e694b86faa5)
+        ;
+
+        
+    
+    
+            var marker_4b8e5714fc7d4ee3b44464aa7397e98b = L.marker(
+                [43.7199116, 10.3977601],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_cbbb9f6080ee4d87678ae4fe3c88e845 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_4b8e5714fc7d4ee3b44464aa7397e98b.setIcon(icon_cbbb9f6080ee4d87678ae4fe3c88e845);
+        
+    
+        var popup_f92ef5afd6ce66efa0a9de3bc5d5fc17 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_aabe4d48df404accf3f4ec5467df95b7 = $(`<div id="html_aabe4d48df404accf3f4ec5467df95b7" style="width: 100.0%; height: 100.0%;">Latitude: 43.7199116, Longitude: 10.3977601, Piazza Felice Cavallotti, Via dei Mille</div>`)[0];
+                popup_f92ef5afd6ce66efa0a9de3bc5d5fc17.setContent(html_aabe4d48df404accf3f4ec5467df95b7);
+            
+        
+
+        marker_4b8e5714fc7d4ee3b44464aa7397e98b.bindPopup(popup_f92ef5afd6ce66efa0a9de3bc5d5fc17)
+        ;
+
+        
+    
+    
+            var marker_0e8e54d64058000776102132aff4a9d7 = L.marker(
+                [43.7198819, 10.3973556],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_20e9514c8afe055693423f08b96711c2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_0e8e54d64058000776102132aff4a9d7.setIcon(icon_20e9514c8afe055693423f08b96711c2);
+        
+    
+        var popup_62a57dec6cf582dc0f3ceb5630449ce1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5a6a2fa4048f459c11c495e865ea25ad = $(`<div id="html_5a6a2fa4048f459c11c495e865ea25ad" style="width: 100.0%; height: 100.0%;">Latitude: 43.7198819, Longitude: 10.3973556, Piazza Felice Cavallotti, Via Luca Ghini, Via Santa Maria</div>`)[0];
+                popup_62a57dec6cf582dc0f3ceb5630449ce1.setContent(html_5a6a2fa4048f459c11c495e865ea25ad);
+            
+        
+
+        marker_0e8e54d64058000776102132aff4a9d7.bindPopup(popup_62a57dec6cf582dc0f3ceb5630449ce1)
+        ;
+
+        
+    
+    
+            var marker_c9c0f51742ae913d2407837fddcc5044 = L.marker(
+                [43.7201731, 10.3977775],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_6f423272694f54a27b767c82b721db88 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_c9c0f51742ae913d2407837fddcc5044.setIcon(icon_6f423272694f54a27b767c82b721db88);
+        
+    
+        var popup_429bde593e3353776c048540762693ba = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8dd628421ed0253596218797a844a8cc = $(`<div id="html_8dd628421ed0253596218797a844a8cc" style="width: 100.0%; height: 100.0%;">Latitude: 43.7201731, Longitude: 10.3977775, Piazza Felice Cavallotti, Via Don Gaetano Boschi</div>`)[0];
+                popup_429bde593e3353776c048540762693ba.setContent(html_8dd628421ed0253596218797a844a8cc);
+            
+        
+
+        marker_c9c0f51742ae913d2407837fddcc5044.bindPopup(popup_429bde593e3353776c048540762693ba)
+        ;
+
+        
+    
+    
+            var marker_8aef27cc37318df1c7b6dde058555301 = L.marker(
+                [43.7207913, 10.389332],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_85815c88b18c404ee31bccbc64fde8d3 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_8aef27cc37318df1c7b6dde058555301.setIcon(icon_85815c88b18c404ee31bccbc64fde8d3);
+        
+    
+        var popup_1451b7bdd652281acf7aeae132c2cc79 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_95cd2ab764dcb5f54d9344fd9f42ffaa = $(`<div id="html_95cd2ab764dcb5f54d9344fd9f42ffaa" style="width: 100.0%; height: 100.0%;">Latitude: 43.7207913, Longitude: 10.389332, Largo Lucio Lazzarino, Via Diotisalvi</div>`)[0];
+                popup_1451b7bdd652281acf7aeae132c2cc79.setContent(html_95cd2ab764dcb5f54d9344fd9f42ffaa);
+            
+        
+
+        marker_8aef27cc37318df1c7b6dde058555301.bindPopup(popup_1451b7bdd652281acf7aeae132c2cc79)
+        ;
+
+        
+    
+    
+            var marker_c42858fb59535b83bae544814d368972 = L.marker(
+                [43.7205101, 10.3895106],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_180a314b5f69793509c2c7360862bcaf = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_c42858fb59535b83bae544814d368972.setIcon(icon_180a314b5f69793509c2c7360862bcaf);
+        
+    
+        var popup_f2ccccef6790a1a4db421dffbf1e53cb = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5bf4338869e25db20b42bd29401de33b = $(`<div id="html_5bf4338869e25db20b42bd29401de33b" style="width: 100.0%; height: 100.0%;">Latitude: 43.7205101, Longitude: 10.3895106, Largo Lucio Lazzarino, Via Francesco Traini</div>`)[0];
+                popup_f2ccccef6790a1a4db421dffbf1e53cb.setContent(html_5bf4338869e25db20b42bd29401de33b);
+            
+        
+
+        marker_c42858fb59535b83bae544814d368972.bindPopup(popup_f2ccccef6790a1a4db421dffbf1e53cb)
+        ;
+
+        
+    
+    
+            var marker_046eb7481d9a575385b5a16d55555728 = L.marker(
+                [43.7206142, 10.3899247],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_3756f598cf5d42cb152e681907b73209 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_046eb7481d9a575385b5a16d55555728.setIcon(icon_3756f598cf5d42cb152e681907b73209);
+        
+    
+        var popup_f18f1b12d7eb6ac4dd3265b0786c342e = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_2a9055cfe319df31931ad502c93c1375 = $(`<div id="html_2a9055cfe319df31931ad502c93c1375" style="width: 100.0%; height: 100.0%;">Latitude: 43.7206142, Longitude: 10.3899247, Largo Lucio Lazzarino, Via Diotisalvi</div>`)[0];
+                popup_f18f1b12d7eb6ac4dd3265b0786c342e.setContent(html_2a9055cfe319df31931ad502c93c1375);
+            
+        
+
+        marker_046eb7481d9a575385b5a16d55555728.bindPopup(popup_f18f1b12d7eb6ac4dd3265b0786c342e)
+        ;
+
+        
+    
+    
+            var marker_0689b5c37cc350c695ea76b6c4afc131 = L.marker(
+                [43.7166748, 10.3970962],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_cb1a9b20b7cf5415fa01a64decc1ed99 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkgreen", "prefix": "glyphicon"}
+            );
+            marker_0689b5c37cc350c695ea76b6c4afc131.setIcon(icon_cb1a9b20b7cf5415fa01a64decc1ed99);
+        
+    
+        var popup_ca205fac96e68414b55cb70139f6c071 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ef1873651d122a36a8332db0184df6dc = $(`<div id="html_ef1873651d122a36a8332db0184df6dc" style="width: 100.0%; height: 100.0%;">Latitude: 43.7166748, Longitude: 10.3970962, Via San Niccola, N/A</div>`)[0];
+                popup_ca205fac96e68414b55cb70139f6c071.setContent(html_ef1873651d122a36a8332db0184df6dc);
+            
+        
+
+        marker_0689b5c37cc350c695ea76b6c4afc131.bindPopup(popup_ca205fac96e68414b55cb70139f6c071)
+        ;
+
+        
+    
+    
+            var marker_a2bb4d17885b7d71dfe30fcc780b0deb = L.marker(
+                [43.7163187, 10.3974748],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_d63ce3267cdd9bbdc00fbf02e37753af = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkgreen", "prefix": "glyphicon"}
+            );
+            marker_a2bb4d17885b7d71dfe30fcc780b0deb.setIcon(icon_d63ce3267cdd9bbdc00fbf02e37753af);
+        
+    
+        var popup_5f8e070fcf77c04b0e07a445371e0b05 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ac1c4fa623dd71e5dd63b9601197d81c = $(`<div id="html_ac1c4fa623dd71e5dd63b9601197d81c" style="width: 100.0%; height: 100.0%;">Latitude: 43.7163187, Longitude: 10.3974748, Piazza Francesco Carrara, Lungarno Antonio Pacinotti</div>`)[0];
+                popup_5f8e070fcf77c04b0e07a445371e0b05.setContent(html_ac1c4fa623dd71e5dd63b9601197d81c);
+            
+        
+
+        marker_a2bb4d17885b7d71dfe30fcc780b0deb.bindPopup(popup_5f8e070fcf77c04b0e07a445371e0b05)
+        ;
+
+        
+    
+    
+            var marker_61f1683806ffa4e94b2f133dc45a5742 = L.marker(
+                [43.7167129, 10.3973467],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_85c8ba7e756b0dfd83f67e8dcebe4577 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkgreen", "prefix": "glyphicon"}
+            );
+            marker_61f1683806ffa4e94b2f133dc45a5742.setIcon(icon_85c8ba7e756b0dfd83f67e8dcebe4577);
+        
+    
+        var popup_fc5683f92e07e599e805b73a3f7c46fd = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_32830b6b826300bf0893368389b1f538 = $(`<div id="html_32830b6b826300bf0893368389b1f538" style="width: 100.0%; height: 100.0%;">Latitude: 43.7167129, Longitude: 10.3973467, Piazza Francesco Carrara, N/A</div>`)[0];
+                popup_fc5683f92e07e599e805b73a3f7c46fd.setContent(html_32830b6b826300bf0893368389b1f538);
+            
+        
+
+        marker_61f1683806ffa4e94b2f133dc45a5742.bindPopup(popup_fc5683f92e07e599e805b73a3f7c46fd)
+        ;
+
+        
+    
+    
+            var marker_e82a76c41a771e3bd88ef1841af1f64f = L.marker(
+                [43.7166013, 10.3965246],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_0046c5b45b0a5a324b314d232dc5b79c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkgreen", "prefix": "glyphicon"}
+            );
+            marker_e82a76c41a771e3bd88ef1841af1f64f.setIcon(icon_0046c5b45b0a5a324b314d232dc5b79c);
+        
+    
+        var popup_5fc46970b5524fc869b0d7b3104e18d4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a2b3bf32acbc6c862ff8672871385740 = $(`<div id="html_a2b3bf32acbc6c862ff8672871385740" style="width: 100.0%; height: 100.0%;">Latitude: 43.7166013, Longitude: 10.3965246, Via San Nicola, Via San Niccola</div>`)[0];
+                popup_5fc46970b5524fc869b0d7b3104e18d4.setContent(html_a2b3bf32acbc6c862ff8672871385740);
+            
+        
+
+        marker_e82a76c41a771e3bd88ef1841af1f64f.bindPopup(popup_5fc46970b5524fc869b0d7b3104e18d4)
+        ;
+
+        
+    
+    
+            var marker_999a367327fe19a4af0800152a8346da = L.marker(
+                [43.7166528, 10.3969584],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_c7f54c762558b3348ea8d44cb120bf22 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkgreen", "prefix": "glyphicon"}
+            );
+            marker_999a367327fe19a4af0800152a8346da.setIcon(icon_c7f54c762558b3348ea8d44cb120bf22);
+        
+    
+        var popup_99dba926f738687f220932b5d8f34add = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_040ef78f51326381ad1575c1f8dd2e7e = $(`<div id="html_040ef78f51326381ad1575c1f8dd2e7e" style="width: 100.0%; height: 100.0%;">Latitude: 43.7166528, Longitude: 10.3969584, Via San Nicola, Via San Niccola</div>`)[0];
+                popup_99dba926f738687f220932b5d8f34add.setContent(html_040ef78f51326381ad1575c1f8dd2e7e);
+            
+        
+
+        marker_999a367327fe19a4af0800152a8346da.bindPopup(popup_99dba926f738687f220932b5d8f34add)
+        ;
+
+        
+    
+    
+            var marker_55db57aa283009de9d33be54841c85c9 = L.marker(
+                [43.7166791, 10.3963901],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_cebc57407c82feb1852799c1643c5af9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "gray", "prefix": "glyphicon"}
+            );
+            marker_55db57aa283009de9d33be54841c85c9.setIcon(icon_cebc57407c82feb1852799c1643c5af9);
+        
+    
+        var popup_90a07d57f2978d7f7518697f2cf1d274 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1f752fe87a9cfac84f592eb36d5fd178 = $(`<div id="html_1f752fe87a9cfac84f592eb36d5fd178" style="width: 100.0%; height: 100.0%;">Latitude: 43.7166791, Longitude: 10.3963901, Via Santa Maria, Via Trento</div>`)[0];
+                popup_90a07d57f2978d7f7518697f2cf1d274.setContent(html_1f752fe87a9cfac84f592eb36d5fd178);
+            
+        
+
+        marker_55db57aa283009de9d33be54841c85c9.bindPopup(popup_90a07d57f2978d7f7518697f2cf1d274)
+        ;
+
+        
+    
+    
+            var marker_ba8677de0fd503cc1760891fe0cab85c = L.marker(
+                [43.7165899, 10.396422],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_fc2e86cef0b3c8aaeaff445b857c6b23 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "gray", "prefix": "glyphicon"}
+            );
+            marker_ba8677de0fd503cc1760891fe0cab85c.setIcon(icon_fc2e86cef0b3c8aaeaff445b857c6b23);
+        
+    
+        var popup_2b27d7a1191e51668ee1676ebabbcb72 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_27509c63d3e34d5ec3dd69e88ec89442 = $(`<div id="html_27509c63d3e34d5ec3dd69e88ec89442" style="width: 100.0%; height: 100.0%;">Latitude: 43.7165899, Longitude: 10.396422, Via San Niccola, Via Santa Maria</div>`)[0];
+                popup_2b27d7a1191e51668ee1676ebabbcb72.setContent(html_27509c63d3e34d5ec3dd69e88ec89442);
+            
+        
+
+        marker_ba8677de0fd503cc1760891fe0cab85c.bindPopup(popup_2b27d7a1191e51668ee1676ebabbcb72)
+        ;
+
+        
+    
+    
+            var marker_993ac90d68478c31c8056394e3303221 = L.marker(
+                [43.7167786, 10.3956664],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_84319b287554592e0c0649ca30cc5690 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "black", "prefix": "glyphicon"}
+            );
+            marker_993ac90d68478c31c8056394e3303221.setIcon(icon_84319b287554592e0c0649ca30cc5690);
+        
+    
+        var popup_3a4595419ee8b23e9a06b151c1b93fad = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_96bda387b0145cb382eb163edf6d93ce = $(`<div id="html_96bda387b0145cb382eb163edf6d93ce" style="width: 100.0%; height: 100.0%;">Latitude: 43.7167786, Longitude: 10.3956664, Via Ricucchi, Via Trento</div>`)[0];
+                popup_3a4595419ee8b23e9a06b151c1b93fad.setContent(html_96bda387b0145cb382eb163edf6d93ce);
+            
+        
+
+        marker_993ac90d68478c31c8056394e3303221.bindPopup(popup_3a4595419ee8b23e9a06b151c1b93fad)
+        ;
+
+        
+    
+    
+            var marker_e806359c7fc9e706971246808c18aa20 = L.marker(
+                [43.7168523, 10.39526],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_9a853687e4382ccf1c9d010af8980447 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "black", "prefix": "glyphicon"}
+            );
+            marker_e806359c7fc9e706971246808c18aa20.setIcon(icon_9a853687e4382ccf1c9d010af8980447);
+        
+    
+        var popup_07a26f2f9a99f129c56dd571bdc79910 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_80bccf4dbe7cec32f9477ef51132e52e = $(`<div id="html_80bccf4dbe7cec32f9477ef51132e52e" style="width: 100.0%; height: 100.0%;">Latitude: 43.7168523, Longitude: 10.39526, Via Santa Lucia, Via Trento</div>`)[0];
+                popup_07a26f2f9a99f129c56dd571bdc79910.setContent(html_80bccf4dbe7cec32f9477ef51132e52e);
+            
+        
+
+        marker_e806359c7fc9e706971246808c18aa20.bindPopup(popup_07a26f2f9a99f129c56dd571bdc79910)
+        ;
+
+        
+    
+    
+            var marker_651041d80a04a10626383d4bb8ddea19 = L.marker(
+                [43.7163698, 10.3945476],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_816d4bb943e412991270ee80146a1863 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_651041d80a04a10626383d4bb8ddea19.setIcon(icon_816d4bb943e412991270ee80146a1863);
+        
+    
+        var popup_9261e578b14231ab8a4121195616ed23 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1976120b2540a5db46cbcbd12e490c80 = $(`<div id="html_1976120b2540a5db46cbcbd12e490c80" style="width: 100.0%; height: 100.0%;">Latitude: 43.7163698, Longitude: 10.3945476, Via Roma, Via Enrico Fermi</div>`)[0];
+                popup_9261e578b14231ab8a4121195616ed23.setContent(html_1976120b2540a5db46cbcbd12e490c80);
+            
+        
+
+        marker_651041d80a04a10626383d4bb8ddea19.bindPopup(popup_9261e578b14231ab8a4121195616ed23)
+        ;
+
+        
+    
+    
+            var marker_f1c882f788c1511d2c92f625f74faa2b = L.marker(
+                [43.7161567, 10.394714],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_8b8b524ff62ea2b585b51394fd0c69f1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_f1c882f788c1511d2c92f625f74faa2b.setIcon(icon_8b8b524ff62ea2b585b51394fd0c69f1);
+        
+    
+        var popup_e6b095ccf827e69cc9df6f79c646d15e = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b8b35141ccb429386700d72a7e0e6e0a = $(`<div id="html_b8b35141ccb429386700d72a7e0e6e0a" style="width: 100.0%; height: 100.0%;">Latitude: 43.7161567, Longitude: 10.394714, Via Roma, Via Enrico Fermi</div>`)[0];
+                popup_e6b095ccf827e69cc9df6f79c646d15e.setContent(html_b8b35141ccb429386700d72a7e0e6e0a);
+            
+        
+
+        marker_f1c882f788c1511d2c92f625f74faa2b.bindPopup(popup_e6b095ccf827e69cc9df6f79c646d15e)
+        ;
+
+        
+    
+    
+            var marker_528c113ed925e853f175d3a666f16b94 = L.marker(
+                [43.7172448, 10.3979027],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_60f37ed2e450408b053743e9771e374b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_528c113ed925e853f175d3a666f16b94.setIcon(icon_60f37ed2e450408b053743e9771e374b);
+        
+    
+        var popup_540b3d77fd206fddadd6276a4640bc63 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_6e1f43d3678f4b24e4758eb707106c6c = $(`<div id="html_6e1f43d3678f4b24e4758eb707106c6c" style="width: 100.0%; height: 100.0%;">Latitude: 43.7172448, Longitude: 10.3979027, Via La Pergola, Piazza San Giorgio</div>`)[0];
+                popup_540b3d77fd206fddadd6276a4640bc63.setContent(html_6e1f43d3678f4b24e4758eb707106c6c);
+            
+        
+
+        marker_528c113ed925e853f175d3a666f16b94.bindPopup(popup_540b3d77fd206fddadd6276a4640bc63)
+        ;
+
+        
+    
+    
+            var marker_54e1929fc9d80e6989d00af90f1a4265 = L.marker(
+                [43.7176731, 10.3978318],
+                {}
+            ).addTo(map_6de87ea5ab38fb9a1ca7633635cb19f7);
+        
+    
+            var icon_eefc4e462a0dc80b936b07c47bb2b71c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_54e1929fc9d80e6989d00af90f1a4265.setIcon(icon_eefc4e462a0dc80b936b07c47bb2b71c);
+        
+    
+        var popup_ba3f3b119ee60931e0c907b05bd62310 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bcca55d77533d6b768bca5a2fcec004b = $(`<div id="html_bcca55d77533d6b768bca5a2fcec004b" style="width: 100.0%; height: 100.0%;">Latitude: 43.7176731, Longitude: 10.3978318, Via La Pergola, Via del Collegio Ricci</div>`)[0];
+                popup_ba3f3b119ee60931e0c907b05bd62310.setContent(html_bcca55d77533d6b768bca5a2fcec004b);
+            
+        
+
+        marker_54e1929fc9d80e6989d00af90f1a4265.bindPopup(popup_ba3f3b119ee60931e0c907b05bd62310)
+        ;
+
+        
+    
+</script>
+</html>
