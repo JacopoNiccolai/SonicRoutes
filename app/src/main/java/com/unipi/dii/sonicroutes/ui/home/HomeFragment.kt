@@ -185,7 +185,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
         geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
             println(address)
-            // todo : manipolare address
+            // todo : forse sto address è inutile, ora i controlli sono sulle 'streets' dei crossing
         }
     }
 
