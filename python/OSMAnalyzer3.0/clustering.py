@@ -98,6 +98,13 @@ def cluster_and_clean(input_file, output_file, distance_threshold_km):
                         min_distance = distance
                         median_point = point
 
+            # add to the median all the street names of the cluster avoiding duplicates and update the street_counter
+            street_names = set()
+            for point in cluster_points:
+                street_names.update(point[3].split(', '))
+            median_point = (median_point[0], median_point[1], median_point[2], ', '.join(street_names), len(street_names))
+
+
             # if no point has street_counter, then select the first point
             #if median_point is None:
             #    median_point = cluster_points[0]
@@ -139,7 +146,7 @@ def create_map(input_file):
         next(reader)
         for row in reader:
             folium.Marker(location=[float(row[0]), float(row[1])], icon=folium.Icon(color='orange'),
-                            popup=f"Latitude: {row[0]}, Longitude: {row[1]}").add_to(m)
+                            popup=f"Latitude: {row[0]}, Longitude: {row[1]}, Street Name: {row[3]}").add_to(m)
 
     # print the number of points in the map
     with open(input_file, 'r') as f:
@@ -194,7 +201,7 @@ def complete_data(input_file_path):
 if __name__ == '__main__':
     # Specify input and output file paths
     input_file_path = 'intersections.csv'
-    output_file_path = 'intersections_clustered.csv'
+    output_file_path = 'intersections_clustered_with_tags.csv'
 
     # Specify the distance threshold for clustering in kilometers
     distance_threshold_km = 0.052  # Adjust this value based on your clustering requirements
@@ -204,7 +211,7 @@ if __name__ == '__main__':
     # Call the function to cluster and clean the locations
     cluster_and_clean(input_file_path, output_file_path, distance_threshold_km)
 
-    print("Cleaning complete. Results saved to intersections_clustered.csv.")
+    print("Cleaning complete. Results saved to intersections_clustered_with_tags.csv.")
 
     create_map(output_file_path)
 

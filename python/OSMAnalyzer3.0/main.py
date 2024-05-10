@@ -52,3 +52,5 @@ if __name__ == '__main__':
     subprocess.run(["python", "mapper.py"])
 
     subprocess.run(["python", "clustering.py"])
+
+    subprocess.run(["python", "csv_cleaner.py"])
