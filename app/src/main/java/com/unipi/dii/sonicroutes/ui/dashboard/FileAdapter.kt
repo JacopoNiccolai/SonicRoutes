@@ -40,7 +40,7 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
             }
 
             holder.itemView.setOnClickListener {
-                // Quando l'elemento viene cliccato, avvia una nuova Activity
+                // Quando l'elemento viene cliccato, avvia una nuova Activity (in cui mostro per esempio l'heatmap del rumore del percorso seguito)
                 // todo: implementare la nuova schermata, per ora mostro solo un toast
                 Toast.makeText(holder.itemView.context, "Route clicked : $timestamp", Toast.LENGTH_SHORT).show()
                 /*val context = holder.itemView.context
