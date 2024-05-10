@@ -42,6 +42,9 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileWriter
 import java.io.InputStreamReader
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.UUID
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -374,36 +377,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 map.addMarker(MarkerOptions().position(marker.getLatLng()))
             }
 
-            val filenamePrefix = "data"
+            val filenamePrefix = "data_"
             val filesDir = context?.filesDir
-            var index = 0
+            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            // Costruisci il nome del nuovo file utilizzando il timestamp attuale
+            filename = "$filenamePrefix$timestamp.json"
 
-            // Ottieni la lista dei file nella directory
-            val files = filesDir?.listFiles()
-
-            // stampo tutti i file nella directory
-            files?.forEach {
+            // Ottieni la lista dei file nella directory (debug)
+            filesDir?.listFiles()?.forEach {
                 Log.d("HomeFragment", "File nella directory: ${it.name}")
             }
 
-            // Se non ci sono file, l'indice rimane 0, altrimenti ottieni l'indice massimo + 1
-            if (!files.isNullOrEmpty()) {
-                // Cerca l'indice massimo utilizzato
-                // Ottieni l'indice numerico dal nome del file utilizzando un'espressione regolare
-                val maxIndex = files
-                    .filter { it.name.startsWith(filenamePrefix) } // Filtra solo i file con il prefisso corretto
-                    .mapNotNull { Regex("""$filenamePrefix(\d+)\.json""").find(it.name)?.groupValues?.get(1)?.toIntOrNull() } // Estrai l'indice numerico utilizzando un'espressione regolare
-                    .maxOrNull()
-
-                if (maxIndex != null) {
-                    index = maxIndex + 1
-                }
-            }
-
-            // Costruisci il nome del nuovo file
-            filename = "$filenamePrefix$index.json"
-
-            // Ora filename contiene il nome del nuovo file da creare
+            // Creo un file con timestamp corrente
             File(filesDir, filename)
 
         } else {
