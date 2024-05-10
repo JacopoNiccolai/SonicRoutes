@@ -6,4 +6,6 @@
     <string name="start_recording">Start Recording</string>
     <string name="stop_recording">Stop Recording</string>
     <string name="no_routes_to_show">No routes to show</string>
+    <string name="share_text">Condividi</string>
+    <string name="remove_text">Elimina</string>
 </resources>
