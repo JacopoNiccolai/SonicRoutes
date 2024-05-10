@@ -40,12 +40,12 @@ import com.unipi.dii.sonicroutes.model.Edge
 import com.unipi.dii.sonicroutes.model.NoiseData
 import java.io.BufferedReader
 import java.io.File
-import java.io.FileWriter
+import java.io.FileOutputStream
 import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.UUID
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -59,7 +59,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private var audioRecord: AudioRecord? = null
     private var isRecording = false
     private lateinit var userLocation: LatLng
-    private val deviceId = UUID.randomUUID().toString()
     private lateinit var geocodingUtil: GeocodingUtil
     private val markers = ArrayList<Crossing>()
     private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
@@ -321,8 +320,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
                 val file = File(context?.filesDir, filename)
                 try {
-                    FileWriter(file).use { writer ->
-                        writer.write(jsonEntry + "\n")
+                    FileOutputStream(file, true).use { fos ->
+                        OutputStreamWriter(fos).use { writer ->
+                            writer.write(jsonEntry + "\n")
+                        }
                     }
                 } catch (e: Exception) {
                     Log.e("HomeFragment", "Failed to write data to file", e)
