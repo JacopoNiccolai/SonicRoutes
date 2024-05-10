@@ -12,6 +12,8 @@ import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.unipi.dii.sonicroutes.R
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
@@ -30,7 +32,13 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
             holder.buttonDelete.visibility = View.GONE
         } else {
             val file = files[position]
-            holder.fileName.text = file.name
+            val timestamp = file.extractTimestampFromDataFileName()
+            if (timestamp != null) {
+                holder.fileName.text = timestamp.toString()
+            } else {
+                holder.fileName.text = holder.itemView.context.getString(R.string.invalid_timestamp)
+            }
+
             holder.buttonShare.setOnClickListener {
                 shareFile(file,holder.itemView.context)
             }
@@ -40,9 +48,24 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
         }
     }
 
+    private fun File.extractTimestampFromDataFileName(): String? {
+        val timestampString = name.substringAfter("data_").substringBeforeLast(".json")
+        val inputFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        return try {
+            val date = inputFormat.parse(timestampString)
+            date?.let { outputFormat.format(it) } // Utilizza "let" per gestire il caso in cui date non sia null
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+
+
+
     override fun getItemCount(): Int {
         return if (files.size == 1 && files[0].name.isBlank()) {
-            1 // Visualizza solo il messaggio "No routes to show"
+            1 // Visualizza solo il messaggio "No routes to show", dummy item
         } else {
             files.size
         }
@@ -63,7 +86,6 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
     }
 
     private fun deleteFile(file: File, context: Context) {
-        // Implementa la logica per eliminare il file
         val position = files.indexOf(file)
         val timestamp = file.name.substringAfter("data_").substringBefore(".json")
         if (file.delete() && position != -1) {

@@ -9,7 +9,8 @@
         android:id="@+id/image_file_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_file_icon"
+        android:contentDescription="@string/route_icon"
+        android:src="@drawable/route_icon"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="16dp" />
 
@@ -27,7 +28,7 @@
         android:id="@+id/button_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Condividi"
+        android:text="@string/share"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp" />
 
@@ -35,7 +36,7 @@
         android:id="@+id/button_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Elimina"
+        android:text="@string/delete"
         android:layout_gravity="center_vertical" />
 
 </LinearLayout>
