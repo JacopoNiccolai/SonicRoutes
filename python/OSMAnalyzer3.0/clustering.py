@@ -146,7 +146,7 @@ def create_map(input_file):
         next(reader)
         for row in reader:
             folium.Marker(location=[float(row[0]), float(row[1])], icon=folium.Icon(color='orange'),
-                            popup=f"Latitude: {row[0]}, Longitude: {row[1]}").add_to(m)
+                            popup=f"Latitude: {row[0]}, Longitude: {row[1]}, Street Name: {row[3]}").add_to(m)
 
     # print the number of points in the map
     with open(input_file, 'r') as f:
