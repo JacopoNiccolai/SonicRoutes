@@ -24,18 +24,28 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
-        val file = files[position]
-        holder.fileName.text = file.name
-        holder.buttonShare.setOnClickListener {
-            shareFile(file, holder.itemView.context)
-        }
-        holder.buttonDelete.setOnClickListener {
-            deleteFile(file, holder.itemView.context)
+        if (files.size == 1 && files[0].name.isBlank()) {
+            holder.fileName.text = "No routes to show"
+            holder.buttonShare.visibility = View.GONE
+            holder.buttonDelete.visibility = View.GONE
+        } else {
+            val file = files[position]
+            holder.fileName.text = file.name
+            holder.buttonShare.setOnClickListener {
+                shareFile(file,holder.itemView.context)
+            }
+            holder.buttonDelete.setOnClickListener {
+                deleteFile(file,holder.itemView.context)
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return files.size
+        return if (files.size == 1 && files[0].name.isBlank()) {
+            1 // Visualizza solo il messaggio "No routes to show"
+        } else {
+            files.size
+        }
     }
 
     private fun shareFile(file: File, context: Context) {

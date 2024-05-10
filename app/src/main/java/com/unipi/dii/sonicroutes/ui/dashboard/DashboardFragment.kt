@@ -30,8 +30,15 @@ class DashboardFragment : Fragment() {
 
     private fun getDataFiles(): List<File> {
         val context = requireContext().applicationContext
-        return context.filesDir.listFiles { file ->
+        val files = context.filesDir.listFiles { file ->
             file.name.startsWith("data_")
-        }?.toList() ?: emptyList()
+        }?.toList()
+
+        return if (files.isNullOrEmpty()) {
+            listOf(File("")) // Aggiungi un oggetto "dummy" quando non ci sono file
+        } else {
+            files
+        }
     }
+
 }
