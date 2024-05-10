@@ -30,19 +30,29 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.ui.network.ServerApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileWriter
+import java.io.InputStreamReader
 import java.util.UUID
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
@@ -53,6 +63,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var userLocation: LatLng
     private val deviceId = UUID.randomUUID().toString()
     private lateinit var geocodingUtil: GeocodingUtil
+    private val markers = ArrayList<Crossing>()
+    private val route = ArrayList<Crossing>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -86,7 +98,35 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         checkPermissionsAndSetupMap()
+        addMarkersFromCSV() // Add markers from CSV when the map is ready
     }
+
+
+    private fun addMarkersFromCSV() {
+        try {
+            val inputStream = resources.openRawResource(R.raw.intersections_clustered)
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            var line: String?
+            reader.readLine() // Skip the header
+            while (reader.readLine().also { line = it } != null) {
+                val columns = line!!.split(",")
+                val latitude = columns[0].toDouble()
+                val longitude = columns[1].toDouble()
+                val streetName = columns[2].split(";").map { it.trim() } // Trim each street name
+                val streetCounter = columns[3].toInt() // street counter is at index 4
+
+                // Create a POI object with latitude, longitude, and street name
+                val poi = Crossing(latitude, longitude, streetName)
+
+                // Add the POI object to the markers list
+                markers.add(poi)
+            }
+            reader.close()
+        } catch (e: Exception) {
+            Log.e("HomeFragment", "Error adding markers from CSV: ${e.message}")
+        }
+    }
+
 
     private fun checkPermissionsAndSetupMap() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -148,13 +188,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             // todo : manipolare address
         }
     }
-    /*
-    finche via uguale
-        somma_rum += rumore_rilevato
-        num_oss++
-    quando via diversa
-        rumore_medio = somma_rum/num_oss
-    */
 
     override fun onResume() {
         super.onResume()
@@ -209,6 +242,49 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun findNearestMarker(userLocation: LatLng, markerList: ArrayList<Crossing>): LatLng? {
+        var nearestMarker: Crossing? = null
+        var minDistance = Double.MAX_VALUE
+
+        for (marker in markerList) {
+            val distance = calculateDistance(userLocation, marker.getLatLng())
+            if (distance < minDistance) {
+                minDistance = distance
+                nearestMarker = marker
+            }
+        }
+        Log.d("HomeFragment", "Distance: $minDistance")
+        var contains = false
+        // controllo se route.last.getStreetname() contiene almeno una street in comune con nearestmarker
+        if (route.isNotEmpty() && nearestMarker != null) {
+            for (name in route.last().getStreetName()) {
+                if (nearestMarker.getStreetName().contains(name)) {
+                    contains = true
+                    break
+                }
+            }
+        }
+        if (minDistance < 40 && (route.isEmpty() || contains)) {
+            if (nearestMarker != null) {
+                route.add(nearestMarker)
+                return nearestMarker.getLatLng()
+            }
+        }
+        return null
+    }
+
+    private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
+        val radius = 6371.0 // Raggio della Terra in chilometri
+        val latDistance = Math.toRadians(location2.latitude - location1.latitude)
+        val lonDistance = Math.toRadians(location2.longitude - location1.longitude)
+        val a = sin(latDistance / 2) * sin(latDistance / 2) +
+                cos(Math.toRadians(location1.latitude)) * cos(Math.toRadians(location2.latitude)) *
+                sin(lonDistance / 2) * sin(lonDistance / 2)
+        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        // stampa nel log la distanza
+        return radius * c * 1000 // Converti in metri
+    }
+
     private fun processRecordingData(audioData: ShortArray) {
         if (isRecording &&::userLocation.isInitialized && audioData.isNotEmpty()) {
             val amplitude = audioData.maxOrNull()?.toInt() ?: 0
@@ -224,6 +300,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             )
 
             Log.d("HomeFragment", "JSON Entry: $jsonEntry")
+
+            findNearestMarker(userLocation, markers)?.let { nearestMarker ->
+                Log.d("HomeFragment", "Nearest Marker: $nearestMarker")
+
+                // Aggiungi il marker più vicino alla mappa con un colore diverso
+                map.addMarker(
+                    MarkerOptions()
+                        .position(nearestMarker)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                )
+            }
+
+
 
             // send the json entry to the server
             val retrofit = Retrofit.Builder()
@@ -294,10 +383,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             (startRecordingButton as Button).text = getString(R.string.stop_recording)
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_light))
             checkPermissionsAndSetupRecording()
+            // Add markers to the map
+            for (marker in markers) {
+                map.addMarker(MarkerOptions().position(marker.getLatLng()))
+            }
         } else {
             stopRecording()
             (startRecordingButton as Button).text = getString(R.string.start_recording)
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark))
+            map.clear()
+            route.clear()
         }
     }
 }
