@@ -18,9 +18,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="added dashboard logic to show routes files to the user">
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="text_file_name modified in item_file.xml and added string resources">
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_file.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
@@ -476,7 +474,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715353934741</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="text_file_name modified in item_file.xml and added string resources">
+      <option name="closed" value="true" />
+      <created>1715356730615</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1715356730615</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -513,6 +519,7 @@
     <MESSAGE value="added dataX.json files for user's routes" />
     <MESSAGE value="added data_timestamp.json files for user's routes" />
     <MESSAGE value="added dashboard logic to show routes files to the user" />
-    <option name="LAST_COMMIT_MESSAGE" value="added dashboard logic to show routes files to the user" />
+    <MESSAGE value="text_file_name modified in item_file.xml and added string resources" />
+    <option name="LAST_COMMIT_MESSAGE" value="text_file_name modified in item_file.xml and added string resources" />
   </component>
 </project>

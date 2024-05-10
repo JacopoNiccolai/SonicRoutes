@@ -8,4 +8,5 @@
     <string name="no_routes_to_show">No routes to show</string>
     <string name="share_text">Condividi</string>
     <string name="remove_text">Elimina</string>
+    <string name="file_icon">Icona file</string>
 </resources>
