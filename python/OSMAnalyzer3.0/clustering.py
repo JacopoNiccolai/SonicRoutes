@@ -201,7 +201,7 @@ def complete_data(input_file_path):
 if __name__ == '__main__':
     # Specify input and output file paths
     input_file_path = 'intersections.csv'
-    output_file_path = 'intersections_clustered.csv'
+    output_file_path = 'intersections_clustered_with_tags.csv'
 
     # Specify the distance threshold for clustering in kilometers
     distance_threshold_km = 0.052  # Adjust this value based on your clustering requirements
@@ -211,7 +211,7 @@ if __name__ == '__main__':
     # Call the function to cluster and clean the locations
     cluster_and_clean(input_file_path, output_file_path, distance_threshold_km)
 
-    print("Cleaning complete. Results saved to intersections_clustered.csv.")
+    print("Cleaning complete. Results saved to intersections_clustered_with_tags.csv.")
 
     create_map(output_file_path)
 
