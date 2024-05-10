@@ -25,7 +25,7 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
         if (files.size == 1 && files[0].name.isBlank()) {
-            holder.fileName.text = "No routes to show"
+            holder.fileName.text = holder.itemView.context.getString(R.string.no_routes_to_show)
             holder.buttonShare.visibility = View.GONE
             holder.buttonDelete.visibility = View.GONE
         } else {
