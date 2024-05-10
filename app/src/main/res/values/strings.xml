@@ -6,8 +6,8 @@
     <string name="start_recording">Start Recording</string>
     <string name="stop_recording">Stop Recording</string>
     <string name="no_routes_to_show">No routes to show</string>
-    <string name="route_icon">route icon</string>
-    <string name="share">Share</string>
-    <string name="delete">Delete</string>
+    <string name="share_text">Condividi</string>
+    <string name="remove_text">Elimina</string>
+    <string name="route_icon">Icona file</string>
     <string name="invalid_timestamp">Invalid timestamp</string>
 </resources>

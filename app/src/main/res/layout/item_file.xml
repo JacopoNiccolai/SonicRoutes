@@ -19,8 +19,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textColor="?android:textColorPrimary"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="16dp" />
 
@@ -28,7 +28,7 @@
         android:id="@+id/button_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/share"
+        android:text="@string/share_text"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp" />
 
@@ -36,7 +36,7 @@
         android:id="@+id/button_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete"
+        android:text="@string/remove_text"
         android:layout_gravity="center_vertical" />
 
 </LinearLayout>
