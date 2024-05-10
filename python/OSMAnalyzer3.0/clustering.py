@@ -98,6 +98,13 @@ def cluster_and_clean(input_file, output_file, distance_threshold_km):
                         min_distance = distance
                         median_point = point
 
+            # add to the median all the street names of the cluster avoiding duplicates and update the street_counter
+            street_names = set()
+            for point in cluster_points:
+                street_names.update(point[3].split(', '))
+            median_point = (median_point[0], median_point[1], median_point[2], ', '.join(street_names), len(street_names))
+
+
             # if no point has street_counter, then select the first point
             #if median_point is None:
             #    median_point = cluster_points[0]
