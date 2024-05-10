@@ -2,7 +2,7 @@ package com.unipi.dii.sonicroutes.model
 
 import com.google.android.gms.maps.model.LatLng
 
-data class Crossing(val latitude: Double, val longitude: Double, val streetName: List<String>) {
+data class Crossing(val id: Int, val latitude: Double, val longitude: Double, val streetName: List<String>) {
     override fun toString(): String {
         return "Crossing(latitude=$latitude, longitude=$longitude, streetName='$streetName')"
     }
@@ -13,5 +13,9 @@ data class Crossing(val latitude: Double, val longitude: Double, val streetName:
 
     fun getStreetName(): ArrayList<String> {
         return ArrayList(streetName)
+    }
+
+    fun getCrossingId(): Int {
+        return id
     }
 }

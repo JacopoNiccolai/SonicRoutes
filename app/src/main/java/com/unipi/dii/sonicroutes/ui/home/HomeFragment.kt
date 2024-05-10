@@ -16,7 +16,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -34,15 +33,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
-import com.google.gson.JsonParser
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
-import com.unipi.dii.sonicroutes.ui.network.ServerApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.unipi.dii.sonicroutes.model.Edge
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileWriter
@@ -64,7 +58,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private val deviceId = UUID.randomUUID().toString()
     private lateinit var geocodingUtil: GeocodingUtil
     private val markers = ArrayList<Crossing>()
-    private val route = ArrayList<Crossing>()
+    private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
+    private val route = ArrayList<Edge>() // contiene gli edge tra i checkpoint, serve per ricostruire il percorso ed avere misura del rumore
+    private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
+    private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -110,13 +108,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             reader.readLine() // Skip the header
             while (reader.readLine().also { line = it } != null) {
                 val columns = line!!.split(",")
-                val latitude = columns[0].toDouble()
-                val longitude = columns[1].toDouble()
-                val streetName = columns[2].split(";").map { it.trim() } // Trim each street name
-                val streetCounter = columns[3].toInt() // street counter is at index 4
+                val id = columns[0].toInt()
+                val latitude = columns[1].toDouble()
+                val longitude = columns[2].toDouble()
+                val streetName = columns[3].split(";").map { it.trim() } // Trim each street name
+                //todo : inutile o no? direi di sì
+                val streetCounter = columns[4].toInt() // street counter is at index 4
 
                 // Create a POI object with latitude, longitude, and street name
-                val poi = Crossing(latitude, longitude, streetName)
+                val poi = Crossing(id, latitude, longitude, streetName)
 
                 // Add the POI object to the markers list
                 markers.add(poi)
@@ -256,17 +256,28 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         Log.d("HomeFragment", "Distance: $minDistance")
         var contains = false
         // controllo se route.last.getStreetname() contiene almeno una street in comune con nearestmarker
-        if (route.isNotEmpty() && nearestMarker != null) {
-            for (name in route.last().getStreetName()) {
+        if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getCrossingId() != nearestMarker.getCrossingId()) {
+            for (name in lastCheckpoint!!.getStreetName()) {
                 if (nearestMarker.getStreetName().contains(name)) {
-                    contains = true
+                    contains = true // essentially, this is saying that we are in a new checkpoint
                     break
                 }
             }
         }
-        if (minDistance < 40 && (route.isEmpty() || contains)) {
+        if (minDistance < 40 && (lastCheckpoint == null || contains)) { // se entro qui sono in nuovo checkpoint
+            if(lastCheckpoint!=null) { // se non sono al primo checkpoint, allora creo un edge tra il nuovo checkpoint ed il precedente
+                val edge = Edge(lastCheckpoint!!.getCrossingId(), nearestMarker!!.getCrossingId(), cumulativeNoise, numberOfMeasurements)
+                route.add(edge)
+                // stampo l'edge per debug
+                Log.d("HomeFragment", "Edge: $edge")
+                // reset delle variabili per il prossimo checkpoint
+                cumulativeNoise = 0.0
+                numberOfMeasurements = 0
+                // invio l'edge al server
+                Apis(requireContext()).uploadEdge(edge)
+            }
             if (nearestMarker != null) {
-                route.add(nearestMarker)
+                lastCheckpoint = nearestMarker
                 return nearestMarker.getLatLng()
             }
         }
@@ -281,7 +292,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 cos(Math.toRadians(location1.latitude)) * cos(Math.toRadians(location2.latitude)) *
                 sin(lonDistance / 2) * sin(lonDistance / 2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        // stampa nel log la distanza
         return radius * c * 1000 // Converti in metri
     }
 
@@ -299,6 +309,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 )
             )
 
+            cumulativeNoise += amplitude
+            numberOfMeasurements++
+            Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
+            Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
             Log.d("HomeFragment", "JSON Entry: $jsonEntry")
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
@@ -312,35 +326,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 )
             }
 
-
-
-            // send the json entry to the server
-            val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.1.1.22:5000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-            val serverApi = retrofit.create(ServerApi::class.java)
-
-            val jsonElement = JsonParser.parseString(jsonEntry)
-            val jsonObject = jsonElement.asJsonObject
-            val call = serverApi.uploadDataJson(jsonObject)
-
-            // Commend API call
-            call.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        // todo : rimuovi, altrimenti ogni volta l'utente vede un toast
-                        Toast.makeText(requireContext(), "JSON entry sent correctly", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(requireContext(), "Failed to send JSON entry", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                    t.printStackTrace()
-                }
-            })
-
+           // scrivi i dati su file
             val filename = "data.json"
             val file = File(context?.filesDir, filename)
             try {
@@ -392,7 +378,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             (startRecordingButton as Button).text = getString(R.string.start_recording)
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark))
             map.clear()
-            route.clear()
+            lastCheckpoint = null
         }
     }
 }
