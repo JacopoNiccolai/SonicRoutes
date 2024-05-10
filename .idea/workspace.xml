@@ -18,8 +18,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="start and stop recording button added">
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="added CSV containing intersections' coordinates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Crossing.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Crossing.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,8 +78,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="resourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -113,13 +114,16 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2fVI6Z5JIhNhhxgcJGiDY44kN6A" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Android App.app.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -132,7 +136,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/giuli/Documents/GitHub/SonicRoutes&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/giuli/Documents/GitHub/MSSSProject/app/src/main/res/raw&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -143,6 +147,11 @@
     <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\giuli\Documents\GitHub\MSSSProject\app\src\main\res\raw" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
@@ -358,7 +367,31 @@
       <option name="project" value="LOCAL" />
       <updated>1715183713790</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="start and stop recording button added">
+      <option name="closed" value="true" />
+      <created>1715184754248</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1715184754248</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added Markers on the map&#10;added basic logic for street segment control">
+      <option name="closed" value="true" />
+      <created>1715335487361</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1715335487361</updated>
+    </task>
+    <task id="LOCAL-00020" summary="added CSV containing intersections' coordinates">
+      <option name="closed" value="true" />
+      <created>1715335553369</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1715335553369</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -373,6 +406,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="added map to home tab" />
     <MESSAGE value="added map class HomeFragment : Fragment(), OnMapReadyCallback {&#10;          &#10;              private lateinit var map: GoogleMap&#10;          &#10;              override fun onMapReady(googleMap: GoogleMap) {&#10;                  map = googleMap&#10;                  setupMap()&#10;              }&#10;          &#10;              private fun setupMap() {&#10;                  if (ActivityCompat.checkSelfPermission(requireContext(),&#10;                          android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(&#10;                          requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {&#10;                      requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)&#10;                      return&#10;                  }&#10;          &#10;                  map.isMyLocationEnabled = true&#10;                  map.uiSettings.isMyLocationButtonEnabled = true&#10;          &#10;                  val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager&#10;                  val provider = locationManager.getBestProvider(Criteria(), true)&#10;                  val location = locationManager.getLastKnownLocation(provider)&#10;          &#10;                  if (location != null) {&#10;                      val userLocation = LatLng(location.latitude, location.longitude)&#10;                      map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))&#10;                  }&#10;              }&#10;          &#10;              override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,&#10;                                        savedInstanceState: Bundle?): View? {&#10;                  return inflater.inflate(R.layout.fragment_home, container, false)&#10;              }&#10;          &#10;              override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;                  super.onViewCreated(view, savedInstanceState)&#10;                  val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?&#10;                  mapFragment?.getMapAsync(this)&#10;              }&#10;          &#10;              companion object {&#10;                  private const val LOCATION_PERMISSION_REQUEST_CODE = 1&#10;              }&#10;          }&#10;to home tab" />
     <MESSAGE value="map added" />
@@ -386,6 +420,8 @@
     <MESSAGE value="duca commit" />
     <MESSAGE value="now position is sent correctly each time to the flask server" />
     <MESSAGE value="start and stop recording button added" />
-    <option name="LAST_COMMIT_MESSAGE" value="start and stop recording button added" />
+    <MESSAGE value="added Markers on the map&#10;added basic logic for street segment control" />
+    <MESSAGE value="added CSV containing intersections' coordinates" />
+    <option name="LAST_COMMIT_MESSAGE" value="added CSV containing intersections' coordinates" />
   </component>
 </project>
