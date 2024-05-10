@@ -297,23 +297,36 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun processRecordingData(audioData: ShortArray) {
         if (isRecording &&::userLocation.isInitialized && audioData.isNotEmpty()) {
-            val amplitude = audioData.maxOrNull()?.toInt() ?: 0
-            Log.d("HomeFragment", "Current Noise Level: $amplitude")
-            val jsonEntry = Gson().toJson(
-                NoiseData(
-                    latitude = userLocation.latitude,
-                    longitude = userLocation.longitude,
-                    amplitude = amplitude,
-                    timestamp = System.currentTimeMillis(),
-                    deviceId = deviceId
-                )
-            )
 
-            cumulativeNoise += amplitude
-            numberOfMeasurements++
-            Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
-            Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
-            Log.d("HomeFragment", "JSON Entry: $jsonEntry")
+            if (lastCheckpoint!=null) { // sound not recorded until at least one checkpoint is reached
+                val amplitude = audioData.maxOrNull()?.toInt() ?: 0
+                Log.d("HomeFragment", "Current Noise Level: $amplitude")
+                val jsonEntry = Gson().toJson(
+                    NoiseData(
+                        latitude = userLocation.latitude,
+                        longitude = userLocation.longitude,
+                        amplitude = amplitude,
+                        timestamp = System.currentTimeMillis(),
+                        deviceId = deviceId
+                    )
+                )
+                cumulativeNoise += amplitude
+                numberOfMeasurements++
+                Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
+                Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
+                Log.d("HomeFragment", "JSON Entry: $jsonEntry")
+
+                // scrivi i dati su file
+                val filename = "data.json"
+                val file = File(context?.filesDir, filename)
+                try {
+                    FileWriter(file, true).use { writer ->
+                        writer.write(jsonEntry + "\n")
+                    }
+                } catch (e: Exception) {
+                    Log.e("HomeFragment", "Failed to write data to file", e)
+                }
+            }
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
                 Log.d("HomeFragment", "Nearest Marker: $nearestMarker")
@@ -324,17 +337,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         .position(nearestMarker)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
-            }
-
-           // scrivi i dati su file
-            val filename = "data.json"
-            val file = File(context?.filesDir, filename)
-            try {
-                FileWriter(file, true).use { writer ->
-                    writer.write(jsonEntry + "\n")
-                }
-            } catch (e: Exception) {
-                Log.e("HomeFragment", "Failed to write data to file", e)
             }
 
         }
