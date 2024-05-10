@@ -45,7 +45,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun deleteDataFile() {
-        val file = File(requireContext().filesDir, "data.json")
+        val file = File(requireContext().filesDir, "data0.json")
         if (file.exists()) {
             if (file.delete()) {
                 Toast.makeText(requireContext(), "File deleted successfully", Toast.LENGTH_SHORT).show()
@@ -62,7 +62,7 @@ class DashboardFragment : Fragment() {
 
     // funzione che consente all'utente di condividere il file data.json
     private fun shareDataFile() {
-        val file = File(requireContext().filesDir, "data.json")
+        val file = File(requireContext().filesDir, "data0.json")
         if (file.exists()) {
             val uri: Uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
             val shareIntent = Intent(Intent.ACTION_SEND).apply {

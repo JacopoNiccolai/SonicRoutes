@@ -37,6 +37,7 @@ import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
+import com.unipi.dii.sonicroutes.model.NoiseData
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileWriter
@@ -62,7 +63,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private val route = ArrayList<Edge>() // contiene gli edge tra i checkpoint, serve per ricostruire il percorso ed avere misura del rumore
     private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
     private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
-
+    private var filename = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -306,8 +307,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         latitude = userLocation.latitude,
                         longitude = userLocation.longitude,
                         amplitude = amplitude,
-                        timestamp = System.currentTimeMillis(),
-                        deviceId = deviceId
+                        timestamp = System.currentTimeMillis()
                     )
                 )
                 cumulativeNoise += amplitude
@@ -316,16 +316,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
                 Log.d("HomeFragment", "JSON Entry: $jsonEntry")
 
-                // scrivi i dati su file
-                val filename = "data.json"
                 val file = File(context?.filesDir, filename)
                 try {
-                    FileWriter(file, true).use { writer ->
+                    FileWriter(file).use { writer ->
                         writer.write(jsonEntry + "\n")
                     }
                 } catch (e: Exception) {
                     Log.e("HomeFragment", "Failed to write data to file", e)
                 }
+
             }
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
@@ -363,7 +362,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             .show()
     }
 
-    data class NoiseData(val latitude: Double, val longitude: Double, val amplitude: Int, val timestamp: Long, val deviceId: String)
 
     private fun toggleRecording(startRecordingButton: View) {
         isRecording = !isRecording
@@ -375,6 +373,39 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             for (marker in markers) {
                 map.addMarker(MarkerOptions().position(marker.getLatLng()))
             }
+
+            val filenamePrefix = "data"
+            val filesDir = context?.filesDir
+            var index = 0
+
+            // Ottieni la lista dei file nella directory
+            val files = filesDir?.listFiles()
+
+            // stampo tutti i file nella directory
+            files?.forEach {
+                Log.d("HomeFragment", "File nella directory: ${it.name}")
+            }
+
+            // Se non ci sono file, l'indice rimane 0, altrimenti ottieni l'indice massimo + 1
+            if (!files.isNullOrEmpty()) {
+                // Cerca l'indice massimo utilizzato
+                // Ottieni l'indice numerico dal nome del file utilizzando un'espressione regolare
+                val maxIndex = files
+                    .filter { it.name.startsWith(filenamePrefix) } // Filtra solo i file con il prefisso corretto
+                    .mapNotNull { Regex("""$filenamePrefix(\d+)\.json""").find(it.name)?.groupValues?.get(1)?.toIntOrNull() } // Estrai l'indice numerico utilizzando un'espressione regolare
+                    .maxOrNull()
+
+                if (maxIndex != null) {
+                    index = maxIndex + 1
+                }
+            }
+
+            // Costruisci il nome del nuovo file
+            filename = "$filenamePrefix$index.json"
+
+            // Ora filename contiene il nome del nuovo file da creare
+            File(filesDir, filename)
+
         } else {
             stopRecording()
             (startRecordingButton as Button).text = getString(R.string.start_recording)

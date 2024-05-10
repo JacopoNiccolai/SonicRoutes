@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.unipi.dii.sonicroutes.model.NoiseData
 import java.io.File
 
 class DashboardViewModel : ViewModel() {
@@ -12,7 +13,7 @@ class DashboardViewModel : ViewModel() {
     val text: LiveData<String> = _text
 
     fun loadData(context: Context) {
-        val fileName = "data.json"
+        val fileName = "data0.json"
         val file = File(context.filesDir, fileName)  // Usa filesDir per il percorso interno
         if (file.exists()) {
             val rawJsonData = file.readText()
@@ -22,19 +23,11 @@ class DashboardViewModel : ViewModel() {
             val type = object : TypeToken<List<NoiseData>>() {}.type
             val data: List<NoiseData> = gson.fromJson(validJsonArray, type)
             _text.value = data.joinToString("\n") {
-                "Time: ${it.timestamp}, Lat: ${it.latitude}, Long: ${it.longitude}, Amp: ${it.amplitude}, Device: ${it.deviceId}"
+                "Time: ${it.timestamp}, Lat: ${it.latitude}, Long: ${it.longitude}, Amp: ${it.amplitude}"
             }
         } else {
             _text.value = "No data available"
         }
     }
 
-
-    data class NoiseData(
-        val latitude: Double,
-        val longitude: Double,
-        val amplitude: Int,
-        val timestamp: Long,
-        val deviceId: String
-    )
 }
