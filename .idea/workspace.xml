@@ -18,10 +18,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="added CSV containing intersections' coordinates">
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="added data_timestamp.json files for user's routes">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/FileAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_file_icon.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_file.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Crossing.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Crossing.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,8 +82,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="resourceFile" />
         <option value="Kotlin Class" />
+        <option value="layoutResourceFile" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -144,13 +149,16 @@
   }
 }</component>
   <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Signing Configs" />
+    <option name="MODULE_TAB" value="Default Config" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\giuli\Documents\GitHub\MSSSProject\app\src\main\res\raw" />
+    </key>
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="com.unipi.dii.sonicroutes.ui.dashboard" />
     </key>
   </component>
   <component name="RunManager">
@@ -391,7 +399,71 @@
       <option name="project" value="LOCAL" />
       <updated>1715335553369</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="added CSV containing intersections' coordinates">
+      <option name="closed" value="true" />
+      <created>1715336169737</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1715336169737</updated>
+    </task>
+    <task id="LOCAL-00022" summary="added crossings' IDs">
+      <option name="closed" value="true" />
+      <created>1715339252156</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1715339252156</updated>
+    </task>
+    <task id="LOCAL-00023" summary="added edge logic">
+      <option name="closed" value="true" />
+      <created>1715339422029</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1715339422029</updated>
+    </task>
+    <task id="LOCAL-00024" summary="added edge logic">
+      <option name="closed" value="true" />
+      <created>1715339509180</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1715339509180</updated>
+    </task>
+    <task id="LOCAL-00025" summary="added edge logic">
+      <option name="closed" value="true" />
+      <created>1715339942847</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1715339942847</updated>
+    </task>
+    <task id="LOCAL-00026" summary="this way we don't record if a checkpoint is not first reached">
+      <option name="closed" value="true" />
+      <created>1715346573219</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1715346573219</updated>
+    </task>
+    <task id="LOCAL-00027" summary="added dataX.json files for user's routes">
+      <option name="closed" value="true" />
+      <created>1715348526834</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1715348526834</updated>
+    </task>
+    <task id="LOCAL-00028" summary="added data_timestamp.json files for user's routes">
+      <option name="closed" value="true" />
+      <created>1715348860542</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1715348860542</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -422,6 +494,11 @@
     <MESSAGE value="start and stop recording button added" />
     <MESSAGE value="added Markers on the map&#10;added basic logic for street segment control" />
     <MESSAGE value="added CSV containing intersections' coordinates" />
-    <option name="LAST_COMMIT_MESSAGE" value="added CSV containing intersections' coordinates" />
+    <MESSAGE value="added crossings' IDs" />
+    <MESSAGE value="added edge logic" />
+    <MESSAGE value="this way we don't record if a checkpoint is not first reached" />
+    <MESSAGE value="added dataX.json files for user's routes" />
+    <MESSAGE value="added data_timestamp.json files for user's routes" />
+    <option name="LAST_COMMIT_MESSAGE" value="added data_timestamp.json files for user's routes" />
   </component>
 </project>
