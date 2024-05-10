@@ -39,6 +39,16 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
                 holder.fileName.text = holder.itemView.context.getString(R.string.invalid_timestamp)
             }
 
+            holder.itemView.setOnClickListener {
+                // Quando l'elemento viene cliccato, avvia una nuova Activity
+                // todo: implementare la nuova schermata, per ora mostro solo un toast
+                Toast.makeText(holder.itemView.context, "Route clicked : $timestamp", Toast.LENGTH_SHORT).show()
+                /*val context = holder.itemView.context
+                val intent = Intent(context, RouteFragment::class.java)
+                intent.putExtra("fileName", file.name) // Aggiungi il nome del file all'intent
+                context.startActivity(intent)*/
+            }
+
             holder.buttonShare.setOnClickListener {
                 shareFile(file,holder.itemView.context)
             }
@@ -54,13 +64,11 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
         val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         return try {
             val date = inputFormat.parse(timestampString)
-            date?.let { outputFormat.format(it) } // Utilizza "let" per gestire il caso in cui date non sia null
+            date?.let { outputFormat.format(it) }
         } catch (e: Exception) {
             null
         }
     }
-
-
 
 
     override fun getItemCount(): Int {
