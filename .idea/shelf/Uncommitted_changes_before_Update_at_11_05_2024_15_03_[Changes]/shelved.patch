@@ -1,0 +1,600 @@
+Index: python/grafi/archi.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/grafi/archi.csv b/python/grafi/archi.csv
+new file mode 100644
+--- /dev/null	(date 1715422657332)
++++ b/python/grafi/archi.csv	(date 1715422657332)
+@@ -0,0 +1,69 @@
++Source,Target
++0,43
++0,5
++0,1
++1,6
++1,17
++2,40
++2,7
++3,4
++4,26
++4,42
++4,12
++5,6
++7,47
++8,46
++8,9
++8,19
++8,10
++9,10
++9,40
++10,19
++10,45
++11,21
++11,45
++11,39
++12,13
++12,37
++12,38
++14,15
++14,24
++14,28
++14,30
++15,25
++16,42
++16,31
++16,37
++16,25
++17,18
++17,22
++18,41
++19,20
++20,30
++20,23
++20,47
++21,44
++21,27
++22,41
++22,43
++23,24
++23,34
++23,39
++24,25
++24,32
++28,29
++29,30
++31,33
++31,32
++32,36
++33,36
++33,37
++34,44
++34,27
++34,35
++35,36
++36,38
++38,44
++41,42
++42,43
++46,47
+\ No newline at end of file
+Index: python/grafi/grafo_completo.graphml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/grafi/grafo_completo.graphml b/python/grafi/grafo_completo.graphml
+new file mode 100644
+--- /dev/null	(date 1715431151796)
++++ b/python/grafi/grafo_completo.graphml	(date 1715431151796)
+@@ -0,0 +1,363 @@
++<?xml version='1.0' encoding='utf-8'?>
++<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
++<key id="d3" for="node" attr.name="street_counter" attr.type="integer"/>
++<key id="d2" for="node" attr.name="street_name" attr.type="string"/>
++<key id="d1" for="node" attr.name="longitude" attr.type="double"/>
++<key id="d0" for="node" attr.name="latitude" attr.type="double"/>
++<graph edgedefault="undirected"><node id="0">
++  <data key="d0">43.7211779</data>
++  <data key="d1">10.3914214</data>
++  <data key="d2">Via Giunta Pisano; Via Bonanno Pisano</data>
++  <data key="d3">2</data>
++</node>
++<node id="1">
++  <data key="d0">43.7221479</data>
++  <data key="d1">10.3882131</data>
++  <data key="d2">Via Giunta Pisano; Via Diotisalvi; Via Andrea Pisano</data>
++  <data key="d3">3</data>
++</node>
++<node id="2">
++  <data key="d0">43.7229513</data>
++  <data key="d1">10.3982212</data>
++  <data key="d2">Via Ugo Camozzo; Via Cardinale Pietro Maffi; Via San Ranierino</data>
++  <data key="d3">3</data>
++</node>
++<node id="3">
++  <data key="d0">43.7164088</data>
++  <data key="d1">10.3882581</data>
++  <data key="d2">Via Bonanno Pisano; Via dei Macelli</data>
++  <data key="d3">2</data>
++</node>
++<node id="4">
++  <data key="d0">43.7181759</data>
++  <data key="d1">10.3894504</data>
++  <data key="d2">Via Turino Vanni; Via Bonanno Pisano; Via Rustichello da Pisa; Via Pietro da Pisa</data>
++  <data key="d3">4</data>
++</node>
++<node id="5">
++  <data key="d0">43.7228292</data>
++  <data key="d1">10.3922295</data>
++  <data key="d2">Via Andrea Pisano; Via Bonanno Pisano; Via G. Battista Niccolini</data>
++  <data key="d3">3</data>
++</node>
++<node id="6">
++  <data key="d0">43.722951</data>
++  <data key="d1">10.3897496</data>
++  <data key="d2">N/A; Via Andrea Pisano; Via Vecchia Barbaricina</data>
++  <data key="d3">3</data>
++</node>
++<node id="7">
++  <data key="d0">43.7225026</data>
++  <data key="d1">10.3984423</data>
++  <data key="d2">Via Ugo Camozzo; Piazza dell'Arcivescovado</data>
++  <data key="d3">2</data>
++</node>
++<node id="8">
++  <data key="d0">43.721923</data>
++  <data key="d1">10.399224</data>
++  <data key="d2">Via San Tommaso; Via Ferdinando Capponi; Via Uguccione della Faggiola</data>
++  <data key="d3">3</data>
++</node>
++<node id="9">
++  <data key="d0">43.7212777</data>
++  <data key="d1">10.4003564</data>
++  <data key="d2">Via dei Martiri; Via Ferdinando Capponi</data>
++  <data key="d3">2</data>
++</node>
++<node id="10">
++  <data key="d0">43.7198717</data>
++  <data key="d1">10.3996002</data>
++  <data key="d2">Via dei Martiri; Via Dalmazia; Piazza dei Cavalieri; Via Corsica</data>
++  <data key="d3">4</data>
++</node>
++<node id="11">
++  <data key="d0">43.7177108</data>
++  <data key="d1">10.3998677</data>
++  <data key="d2">Via Tavoleria; Piazza San Frediano; Via Domenico Cavalca; Via San Frediano; Via Curtatone e Montanara</data>
++  <data key="d3">5</data>
++</node>
++<node id="12">
++  <data key="d0">43.7170206</data>
++  <data key="d1">10.3916516</data>
++  <data key="d2">Via Nicola Pisano; Via Enrico Fermi; Via Rustichello da Pisa</data>
++  <data key="d3">3</data>
++</node>
++<node id="13">
++  <data key="d0">43.7165557</data>
++  <data key="d1">10.3915297</data>
++  <data key="d2">Via Nicola Pisano; Via Volturno</data>
++  <data key="d3">2</data>
++</node>
++<node id="14">
++  <data key="d0">43.7197737</data>
++  <data key="d1">10.3956139</data>
++  <data key="d2">Via Roma; Via Paolo Savi</data>
++  <data key="d3">2</data>
++</node>
++<node id="15">
++  <data key="d0">43.7198919</data>
++  <data key="d1">10.3929772</data>
++  <data key="d2">Via Nicola Pisano; Via Paolo Savi</data>
++  <data key="d3">2</data>
++</node>
++<node id="16">
++  <data key="d0">43.7181988</data>
++  <data key="d1">10.3925435</data>
++  <data key="d2">Via Nicola Pisano; Via Risorgimento</data>
++  <data key="d3">2</data>
++</node>
++<node id="17">
++  <data key="d0">43.720987</data>
++  <data key="d1">10.3886822</data>
++  <data key="d2">Via Cimabue; Via Diotisalvi</data>
++  <data key="d3">2</data>
++</node>
++<node id="18">
++  <data key="d0">43.7196471</data>
++  <data key="d1">10.3879154</data>
++  <data key="d2">Via Cimabue; Via Carlo Francesco Gabba</data>
++  <data key="d3">2</data>
++</node>
++<node id="19">
++  <data key="d0">43.7198206</data>
++  <data key="d1">10.3989136</data>
++  <data key="d2">Via Pasquale Paoli; Piazza Francesco Buonamici; Via Uguccione della Faggiola; Via Dalmazia; Via Corsica; Via dei Mille</data>
++  <data key="d3">6</data>
++</node>
++<node id="20">
++  <data key="d0">43.7198819</data>
++  <data key="d1">10.3973556</data>
++  <data key="d2">Via Luca Ghini; Via Don Gaetano Boschi; Piazza Felice Cavallotti; Via Santa Maria; Via dei Mille</data>
++  <data key="d3">5</data>
++</node>
++<node id="21">
++  <data key="d0">43.7166398</data>
++  <data key="d1">10.3998939</data>
++  <data key="d2">Via Curtatone e Montanara; Lungarno Antonio Pacinotti</data>
++  <data key="d3">2</data>
++</node>
++<node id="22">
++  <data key="d0">43.7205101</data>
++  <data key="d1">10.3895106</data>
++  <data key="d2">Via Diotisalvi; Via Francesco Traini; Largo Lucio Lazzarino</data>
++  <data key="d3">3</data>
++</node>
++<node id="23">
++  <data key="d0">43.718127</data>
++  <data key="d1">10.3969295</data>
++  <data key="d2">Via Santa Maria; Via Alessandro Volta</data>
++  <data key="d3">2</data>
++</node>
++<node id="24">
++  <data key="d0">43.7185764</data>
++  <data key="d1">10.3954069</data>
++  <data key="d2">Via Roma; Via Derna; Via Alessandro Volta</data>
++  <data key="d3">3</data>
++</node>
++<node id="25">
++  <data key="d0">43.7193247</data>
++  <data key="d1">10.3929429</data>
++  <data key="d2">Via Derna; Via Nicola Pisano</data>
++  <data key="d3">2</data>
++</node>
++<node id="26">
++  <data key="d0">43.7184888</data>
++  <data key="d1">10.3882776</data>
++  <data key="d2">Via Turino Vanni; Via Spinello Aretino</data>
++  <data key="d3">2</data>
++</node>
++<node id="27">
++  <data key="d0">43.7166748</data>
++  <data key="d1">10.3970962</data>
++  <data key="d2">Piazza Francesco Carrara; Lungarno Antonio Pacinotti; N/A; Via San Niccola; Via San Nicola</data>
++  <data key="d3">5</data>
++</node>
++<node id="28">
++  <data key="d0">43.7215349</data>
++  <data key="d1">10.3957813</data>
++  <data key="d2">Via Roma; Via Angelo Galli Tassi</data>
++  <data key="d3">2</data>
++</node>
++<node id="29">
++  <data key="d0">43.7215057</data>
++  <data key="d1">10.3966777</data>
++  <data key="d2">Via Porta Buozzi; Via Angelo Galli Tassi</data>
++  <data key="d3">2</data>
++</node>
++<node id="30">
++  <data key="d0">43.7198467</data>
++  <data key="d1">10.396716</data>
++  <data key="d2">Via Porta Buozzi; Via Luca Ghini</data>
++  <data key="d3">2</data>
++</node>
++<node id="31">
++  <data key="d0">43.7180247</data>
++  <data key="d1">10.39365</data>
++  <data key="d2">Via Risorgimento; Via Magenta</data>
++  <data key="d3">2</data>
++</node>
++<node id="32">
++  <data key="d0">43.71779</data>
++  <data key="d1">10.3951959</data>
++  <data key="d2">Via Roma; Via Risorgimento</data>
++  <data key="d3">2</data>
++</node>
++<node id="33">
++  <data key="d0">43.7170109</data>
++  <data key="d1">10.3933401</data>
++  <data key="d2">Via Trieste; Via Magenta</data>
++  <data key="d3">2</data>
++</node>
++<node id="34">
++  <data key="d0">43.7166791</data>
++  <data key="d1">10.3963901</data>
++  <data key="d2">Via Trento; Via San Niccola; Via Santa Maria</data>
++  <data key="d3">3</data>
++</node>
++<node id="35">
++  <data key="d0">43.7168523</data>
++  <data key="d1">10.39526</data>
++  <data key="d2">Via Santa Lucia; Via Trento; Via Ricucchi</data>
++  <data key="d3">3</data>
++</node>
++<node id="36">
++  <data key="d0">43.7169278</data>
++  <data key="d1">10.3949365</data>
++  <data key="d2">Via Trieste; Via Trento; Via Roma</data>
++  <data key="d3">3</data>
++</node>
++<node id="37">
++  <data key="d0">43.717472</data>
++  <data key="d1">10.3919227</data>
++  <data key="d2">Via Trieste; Via Nicola Pisano</data>
++  <data key="d3">2</data>
++</node>
++<node id="38">
++  <data key="d0">43.7163698</data>
++  <data key="d1">10.3945476</data>
++  <data key="d2">Via Roma; Via Enrico Fermi</data>
++  <data key="d3">2</data>
++</node>
++<node id="39">
++  <data key="d0">43.7176731</data>
++  <data key="d1">10.3978318</data>
++  <data key="d2">Piazza San Giorgio; Via del Collegio Ricci; Via La Pergola</data>
++  <data key="d3">3</data>
++</node>
++<node id="40">
++  <data key="d0">43.722343</data>
++  <data key="d1">10.401046</data>
++  <data key="d2">Via San Tommaso; Via Cardinale Pietro Maffi</data>
++  <data key="d3">2</data>
++</node>
++<node id="41">
++  <data key="d0">43.7193253</data>
++  <data key="d1">10.388812</data>
++  <data key="d2">Via Francesco Traini; Via Carlo Francesco Gabba</data>
++  <data key="d3">2</data>
++</node>
++<node id="42">
++  <data key="d0">43.7189718</data>
++  <data key="d1">10.3899712</data>
++  <data key="d2">Via Bonanno Pisano; Via Risorgimento; Via Carlo Francesco Gabba</data>
++  <data key="d3">3</data>
++</node>
++<node id="43">
++  <data key="d0">43.7203357</data>
++  <data key="d1">10.3908775</data>
++  <data key="d2">Via Diotisalvi; Via Bonanno Pisano</data>
++  <data key="d3">2</data>
++</node>
++<node id="44">
++  <data key="d0">43.7161352</data>
++  <data key="d1">10.3966029</data>
++  <data key="d2">Via Santa Maria; Lungarno Antonio Pacinotti</data>
++  <data key="d3">2</data>
++</node>
++<node id="45">
++  <data key="d0">43.7190682</data>
++  <data key="d1">10.3999712</data>
++  <data key="d2">Piazza dei Cavalieri; Via San Frediano</data>
++  <data key="d3">2</data>
++</node>
++<node id="46">
++  <data key="d0">43.7220093</data>
++  <data key="d1">10.3983839</data>
++  <data key="d2">Piazza dell'Arcivescovado; Via Ferdinando Capponi</data>
++  <data key="d3">2</data>
++</node>
++<node id="47">
++  <data key="d0">43.7222385</data>
++  <data key="d1">10.3977108</data>
++  <data key="d2">Piazza dell'Arcivescovado; Via Don Gaetano Boschi</data>
++  <data key="d3">2</data>
++</node>
++<edge source="0" target="1"/>
++<edge source="0" target="5"/>
++<edge source="0" target="43"/>
++<edge source="1" target="6"/>
++<edge source="1" target="17"/>
++<edge source="2" target="7"/>
++<edge source="2" target="40"/>
++<edge source="3" target="4"/>
++<edge source="4" target="12"/>
++<edge source="4" target="26"/>
++<edge source="4" target="42"/>
++<edge source="5" target="6"/>
++<edge source="7" target="47"/>
++<edge source="8" target="9"/>
++<edge source="8" target="10"/>
++<edge source="8" target="19"/>
++<edge source="8" target="46"/>
++<edge source="9" target="10"/>
++<edge source="9" target="40"/>
++<edge source="10" target="19"/>
++<edge source="10" target="45"/>
++<edge source="11" target="21"/>
++<edge source="11" target="39"/>
++<edge source="11" target="45"/>
++<edge source="12" target="13"/>
++<edge source="12" target="37"/>
++<edge source="12" target="38"/>
++<edge source="14" target="15"/>
++<edge source="14" target="24"/>
++<edge source="14" target="28"/>
++<edge source="14" target="30"/>
++<edge source="15" target="25"/>
++<edge source="16" target="25"/>
++<edge source="16" target="31"/>
++<edge source="16" target="37"/>
++<edge source="16" target="42"/>
++<edge source="17" target="18"/>
++<edge source="17" target="22"/>
++<edge source="18" target="41"/>
++<edge source="19" target="20"/>
++<edge source="20" target="23"/>
++<edge source="20" target="30"/>
++<edge source="20" target="47"/>
++<edge source="21" target="27"/>
++<edge source="21" target="44"/>
++<edge source="22" target="41"/>
++<edge source="22" target="43"/>
++<edge source="23" target="24"/>
++<edge source="23" target="34"/>
++<edge source="23" target="39"/>
++<edge source="24" target="25"/>
++<edge source="24" target="32"/>
++<edge source="27" target="34"/>
++<edge source="28" target="29"/>
++<edge source="29" target="30"/>
++<edge source="31" target="32"/>
++<edge source="31" target="33"/>
++<edge source="32" target="36"/>
++<edge source="33" target="36"/>
++<edge source="33" target="37"/>
++<edge source="34" target="35"/>
++<edge source="34" target="44"/>
++<edge source="35" target="36"/>
++<edge source="36" target="38"/>
++<edge source="38" target="44"/>
++<edge source="41" target="42"/>
++<edge source="42" target="43"/>
++<edge source="46" target="47"/>
++</graph></graphml>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AndroidLayouts\">\r\n    <layouts>\r\n      <layout url=\"file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml\">\r\n        <config>\r\n          <theme>@style/Theme.SonicRoutes</theme>\r\n        </config>\r\n      </layout>\r\n      <layout url=\"file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml\">\r\n        <config>\r\n          <theme>@style/Theme.SonicRoutes</theme>\r\n        </config>\r\n      </layout>\r\n    </layouts>\r\n  </component>\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"NONE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"79507d39-1851-403f-92f3-ca524e0ec585\" name=\"Changes\" comment=\"start and stop recording button added\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ClangdSettings\">\r\n    <option name=\"formatViaClangd\" value=\"false\" />\r\n  </component>\r\n  <component name=\"ExecutionTargetManager\" SELECTED_TARGET=\"device_and_snapshot_combo_box_target[]\" />\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <task path=\"$PROJECT_DIR$/app\">\r\n          <activation />\r\n        </task>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"SonicRoutes\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"SonicRoutes\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"app\" type=\"2d1252cf:ModuleNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"SonicRoutes\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"app\" type=\"2d1252cf:ModuleNode\" />\r\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"SonicRoutes\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"app\" type=\"2d1252cf:ModuleNode\" />\r\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\r\n                <item name=\"other\" type=\"c8890929:TasksNode$1\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Kotlin Class\" />\r\n        <option value=\"resourceFile\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;BaffoBello14&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">\r\n    <option name=\"selectedUrlAndAccountId\">\r\n      <UrlAndAccount>\r\n        <option name=\"accountId\" value=\"d395a667-9127-4437-a849-6fed7c1329e7\" />\r\n        <option name=\"url\" value=\"https://github.com/JacopoNiccolai/MSSSProject.git\" />\r\n      </UrlAndAccount>\r\n    </option>\r\n  </component>\r\n  <component name=\"KotlinCodeInsightWorkspaceSettings\">\r\n    <option name=\"optimizeImportsOnTheFly\" value=\"true\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;customColor&quot;: &quot;&quot;,\r\n  &quot;associatedIndex&quot;: 2\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2fVI6Z5JIhNhhxgcJGiDY44kN6A\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;Android App.app.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,\r\n    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/giuli/Documents/GitHub/SonicRoutes&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;\r\n  }\r\n}</component>\r\n  <component name=\"PsdUISettings\">\r\n    <option name=\"MODULE_TAB\" value=\"Signing Configs\" />\r\n    <option name=\"LAST_EDITED_SIGNING_CONFIG\" value=\"debug\" />\r\n    <option name=\"LAST_EDITED_BUILD_TYPE\" value=\"release\" />\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"app\" type=\"AndroidRunConfigurationType\" factoryName=\"Android App\">\r\n      <module name=\"SonicRoutes.app.main\" />\r\n      <option name=\"DEPLOY\" value=\"true\" />\r\n      <option name=\"DEPLOY_APK_FROM_BUNDLE\" value=\"false\" />\r\n      <option name=\"DEPLOY_AS_INSTANT\" value=\"false\" />\r\n      <option name=\"ARTIFACT_NAME\" value=\"\" />\r\n      <option name=\"PM_INSTALL_OPTIONS\" value=\"\" />\r\n      <option name=\"ALL_USERS\" value=\"false\" />\r\n      <option name=\"ALWAYS_INSTALL_WITH_PM\" value=\"false\" />\r\n      <option name=\"CLEAR_APP_STORAGE\" value=\"false\" />\r\n      <option name=\"DYNAMIC_FEATURES_DISABLED_LIST\" value=\"\" />\r\n      <option name=\"ACTIVITY_EXTRA_FLAGS\" value=\"\" />\r\n      <option name=\"MODE\" value=\"default_activity\" />\r\n      <option name=\"CLEAR_LOGCAT\" value=\"false\" />\r\n      <option name=\"SHOW_LOGCAT_AUTOMATICALLY\" value=\"false\" />\r\n      <option name=\"INSPECTION_WITHOUT_ACTIVITY_RESTART\" value=\"false\" />\r\n      <option name=\"TARGET_SELECTION_MODE\" value=\"DEVICE_AND_SNAPSHOT_COMBO_BOX\" />\r\n      <option name=\"SELECTED_CLOUD_MATRIX_CONFIGURATION_ID\" value=\"-1\" />\r\n      <option name=\"SELECTED_CLOUD_MATRIX_PROJECT_ID\" value=\"\" />\r\n      <option name=\"DEBUGGER_TYPE\" value=\"Auto\" />\r\n      <Auto>\r\n        <option name=\"USE_JAVA_AWARE_DEBUGGER\" value=\"false\" />\r\n        <option name=\"SHOW_STATIC_VARS\" value=\"true\" />\r\n        <option name=\"WORKING_DIR\" value=\"\" />\r\n        <option name=\"TARGET_LOGGING_CHANNELS\" value=\"lldb process:gdb-remote packets\" />\r\n        <option name=\"SHOW_OPTIMIZED_WARNING\" value=\"true\" />\r\n        <option name=\"ATTACH_ON_WAIT_FOR_DEBUGGER\" value=\"false\" />\r\n        <option name=\"DEBUG_SANDBOX_SDK\" value=\"false\" />\r\n      </Auto>\r\n      <Hybrid>\r\n        <option name=\"USE_JAVA_AWARE_DEBUGGER\" value=\"false\" />\r\n        <option name=\"SHOW_STATIC_VARS\" value=\"true\" />\r\n        <option name=\"WORKING_DIR\" value=\"\" />\r\n        <option name=\"TARGET_LOGGING_CHANNELS\" value=\"lldb process:gdb-remote packets\" />\r\n        <option name=\"SHOW_OPTIMIZED_WARNING\" value=\"true\" />\r\n        <option name=\"ATTACH_ON_WAIT_FOR_DEBUGGER\" value=\"false\" />\r\n        <option name=\"DEBUG_SANDBOX_SDK\" value=\"false\" />\r\n      </Hybrid>\r\n      <Java>\r\n        <option name=\"ATTACH_ON_WAIT_FOR_DEBUGGER\" value=\"false\" />\r\n        <option name=\"DEBUG_SANDBOX_SDK\" value=\"false\" />\r\n      </Java>\r\n      <Native>\r\n        <option name=\"USE_JAVA_AWARE_DEBUGGER\" value=\"false\" />\r\n        <option name=\"SHOW_STATIC_VARS\" value=\"true\" />\r\n        <option name=\"WORKING_DIR\" value=\"\" />\r\n        <option name=\"TARGET_LOGGING_CHANNELS\" value=\"lldb process:gdb-remote packets\" />\r\n        <option name=\"SHOW_OPTIMIZED_WARNING\" value=\"true\" />\r\n        <option name=\"ATTACH_ON_WAIT_FOR_DEBUGGER\" value=\"false\" />\r\n        <option name=\"DEBUG_SANDBOX_SDK\" value=\"false\" />\r\n      </Native>\r\n      <Profilers>\r\n        <option name=\"ADVANCED_PROFILING_ENABLED\" value=\"false\" />\r\n        <option name=\"STARTUP_PROFILING_ENABLED\" value=\"false\" />\r\n        <option name=\"STARTUP_CPU_PROFILING_ENABLED\" value=\"false\" />\r\n        <option name=\"STARTUP_CPU_PROFILING_CONFIGURATION_NAME\" value=\"Java/Kotlin Method Sample (legacy)\" />\r\n        <option name=\"STARTUP_NATIVE_MEMORY_PROFILING_ENABLED\" value=\"false\" />\r\n        <option name=\"NATIVE_MEMORY_SAMPLE_RATE_BYTES\" value=\"2048\" />\r\n      </Profilers>\r\n      <option name=\"DEEP_LINK\" value=\"\" />\r\n      <option name=\"ACTIVITY_CLASS\" value=\"\" />\r\n      <option name=\"SEARCH_ACTIVITY_IN_GLOBAL_SCOPE\" value=\"false\" />\r\n      <option name=\"SKIP_ACTIVITY_VALIDATION\" value=\"false\" />\r\n      <method v=\"2\">\r\n        <option name=\"Android.Gradle.BeforeRunTask\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"79507d39-1851-403f-92f3-ca524e0ec585\" name=\"Changes\" comment=\"\" />\r\n      <created>1713879644844</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1713879644844</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"added map to home tab\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713884749329</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713884749329</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"added map class HomeFragment : Fragment(), OnMapReadyCallback {&#10;          &#10;              private lateinit var map: GoogleMap&#10;          &#10;              override fun onMapReady(googleMap: GoogleMap) {&#10;                  map = googleMap&#10;                  setupMap()&#10;              }&#10;          &#10;              private fun setupMap() {&#10;                  if (ActivityCompat.checkSelfPermission(requireContext(),&#10;                          android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(&#10;                          requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {&#10;                      requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)&#10;                      return&#10;                  }&#10;          &#10;                  map.isMyLocationEnabled = true&#10;                  map.uiSettings.isMyLocationButtonEnabled = true&#10;          &#10;                  val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager&#10;                  val provider = locationManager.getBestProvider(Criteria(), true)&#10;                  val location = locationManager.getLastKnownLocation(provider)&#10;          &#10;                  if (location != null) {&#10;                      val userLocation = LatLng(location.latitude, location.longitude)&#10;                      map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))&#10;                  }&#10;              }&#10;          &#10;              override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,&#10;                                        savedInstanceState: Bundle?): View? {&#10;                  return inflater.inflate(R.layout.fragment_home, container, false)&#10;              }&#10;          &#10;              override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;                  super.onViewCreated(view, savedInstanceState)&#10;                  val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?&#10;                  mapFragment?.getMapAsync(this)&#10;              }&#10;          &#10;              companion object {&#10;                  private const val LOCATION_PERMISSION_REQUEST_CODE = 1&#10;              }&#10;          }&#10;to home tab\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713885128618</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713885128618</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"map added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713885187206</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713885187206</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"map added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713885592722</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713885592722</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"map added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713887503682</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713887503682</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"map added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713887875127</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713887875127</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"map added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713890928449</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713890928465</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"xml files added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1713974271443</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1713974271444</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"resolved graphical problem; now the map is full-screen\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1714641966163</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1714641966163</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"dashboard is now scrollable\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715003936600</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715003936600</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"position was accessed before its initialization\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715005460062</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715005460062</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"now the 'data.json' is in the application data folder, before it was in external space\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715006349890</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715006349890</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"added 'share data' and 'delete data' buttons in DashboardFragment\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715007716094</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715007716094</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"changes\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715007971050</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715007971050</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"duca commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715164420088</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715164420088</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"now position is sent correctly each time to the flask server\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715178360367</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715178360367</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"start and stop recording button added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1715183713790</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1715183713790</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"18\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"added map to home tab\" />\r\n    <MESSAGE value=\"added map class HomeFragment : Fragment(), OnMapReadyCallback {&#10;          &#10;              private lateinit var map: GoogleMap&#10;          &#10;              override fun onMapReady(googleMap: GoogleMap) {&#10;                  map = googleMap&#10;                  setupMap()&#10;              }&#10;          &#10;              private fun setupMap() {&#10;                  if (ActivityCompat.checkSelfPermission(requireContext(),&#10;                          android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(&#10;                          requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {&#10;                      requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)&#10;                      return&#10;                  }&#10;          &#10;                  map.isMyLocationEnabled = true&#10;                  map.uiSettings.isMyLocationButtonEnabled = true&#10;          &#10;                  val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager&#10;                  val provider = locationManager.getBestProvider(Criteria(), true)&#10;                  val location = locationManager.getLastKnownLocation(provider)&#10;          &#10;                  if (location != null) {&#10;                      val userLocation = LatLng(location.latitude, location.longitude)&#10;                      map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))&#10;                  }&#10;              }&#10;          &#10;              override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,&#10;                                        savedInstanceState: Bundle?): View? {&#10;                  return inflater.inflate(R.layout.fragment_home, container, false)&#10;              }&#10;          &#10;              override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;                  super.onViewCreated(view, savedInstanceState)&#10;                  val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?&#10;                  mapFragment?.getMapAsync(this)&#10;              }&#10;          &#10;              companion object {&#10;                  private const val LOCATION_PERMISSION_REQUEST_CODE = 1&#10;              }&#10;          }&#10;to home tab\" />\r\n    <MESSAGE value=\"map added\" />\r\n    <MESSAGE value=\"xml files added\" />\r\n    <MESSAGE value=\"resolved graphical problem; now the map is full-screen\" />\r\n    <MESSAGE value=\"dashboard is now scrollable\" />\r\n    <MESSAGE value=\"position was accessed before its initialization\" />\r\n    <MESSAGE value=\"now the 'data.json' is in the application data folder, before it was in external space\" />\r\n    <MESSAGE value=\"added 'share data' and 'delete data' buttons in DashboardFragment\" />\r\n    <MESSAGE value=\"changes\" />\r\n    <MESSAGE value=\"duca commit\" />\r\n    <MESSAGE value=\"now position is sent correctly each time to the flask server\" />\r\n    <MESSAGE value=\"start and stop recording button added\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"start and stop recording button added\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision b12289aa089f329a3ba58eea8bda9479c9d16a2a)
++++ b/.idea/workspace.xml	(date 1715432613580)
+@@ -19,7 +19,14 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="start and stop recording button added">
++      <change afterPath="$PROJECT_DIR$/python/grafi/archi.csv" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/python/grafi/grafo_completo.graphml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/python/grafi/graph.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/python/grafi/nodi.csv" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/python/grafi/archi_grafo.csv" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/python/grafi/grafo.csv" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/python/grafi/nodi_grafo.csv" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+Index: python/grafi/graph.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/grafi/graph.py b/python/grafi/graph.py
+new file mode 100644
+--- /dev/null	(date 1715431027726)
++++ b/python/grafi/graph.py	(date 1715431027726)
+@@ -0,0 +1,51 @@
++import csv
++import networkx as nx
++
++# Funzione per caricare i nodi da un file CSV e restituire un dizionario di nodi
++def load_nodes(filename):
++    nodes = {}
++    with open(filename, 'r') as csvfile:
++        reader = csv.DictReader(csvfile)
++        for row in reader:
++            node_id = int(row['index'])  # Converti l'ID del nodo in intero
++            # Crea un dizionario per i valori del nodo escludendo l'ID
++            node_values = {key: value for key, value in row.items() if key != 'index'}
++            nodes[node_id] = node_values  # Aggiungi il nodo al dizionario
++    return nodes
++
++# Funzione per caricare gli archi da un file CSV e restituire una lista di archi ordinata
++def load_edges(filename):
++    edges = []
++    with open(filename, 'r') as csvfile:
++        reader = csv.DictReader(csvfile)
++        for row in reader:
++            source = int(row['Source'])  # Converti l'ID di origine in intero
++            target = int(row['Target'])  # Converti l'ID di destinazione in intero
++            # Aggiungi l'arco alla lista degli archi
++            edges.append((source, target))
++            # Se gli archi non hanno una direzione, aggiungi anche l'arco opposto
++            edges.append((target, source))
++    edges = list(set(edges))  # Rimuovi eventuali archi duplicati
++    edges.sort()  # Ordina gli archi in base al nodo di origine e poi al nodo di destinazione
++    return edges
++
++# Carica i nodi
++nodes = load_nodes('python/grafi/nodi.csv')
++
++# Carica gli archi ordinati
++edges = load_edges('python/grafi/archi.csv')
++
++# Crea un grafo
++graph = nx.Graph()
++
++# Aggiungi i nodi al grafo
++for node_id, node_attrs in nodes.items():
++    graph.add_node(node_id, **node_attrs)
++
++# Aggiungi gli archi al grafo
++graph.add_edges_from(edges)
++
++print(graph.nodes)
++
++# Ora graph contiene il grafo completo di nodi e archi
++nx.write_graphml(graph, 'python/grafi/grafo_completo.graphml')
+Index: python/grafi/nodi.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/grafi/nodi.csv b/python/grafi/nodi.csv
+new file mode 100644
+--- /dev/null	(date 1715419652954)
++++ b/python/grafi/nodi.csv	(date 1715419652954)
+@@ -0,0 +1,49 @@
++index,latitude,longitude,street_name,street_counter
++0,43.7211779,10.3914214,Via Giunta Pisano; Via Bonanno Pisano,2
++1,43.7221479,10.3882131,Via Giunta Pisano; Via Diotisalvi; Via Andrea Pisano,3
++2,43.7229513,10.3982212,Via Ugo Camozzo; Via Cardinale Pietro Maffi; Via San Ranierino,3
++3,43.7164088,10.3882581,Via Bonanno Pisano; Via dei Macelli,2
++4,43.7181759,10.3894504,Via Turino Vanni; Via Bonanno Pisano; Via Rustichello da Pisa; Via Pietro da Pisa,4
++5,43.7228292,10.3922295,Via Andrea Pisano; Via Bonanno Pisano; Via G. Battista Niccolini,3
++6,43.722951,10.3897496,N/A; Via Andrea Pisano; Via Vecchia Barbaricina,3
++7,43.7225026,10.3984423,Via Ugo Camozzo; Piazza dell'Arcivescovado,2
++8,43.721923,10.399224,Via San Tommaso; Via Ferdinando Capponi; Via Uguccione della Faggiola,3
++9,43.7212777,10.4003564,Via dei Martiri; Via Ferdinando Capponi,2
++10,43.7198717,10.3996002,Via dei Martiri; Via Dalmazia; Piazza dei Cavalieri; Via Corsica,4
++11,43.7177108,10.3998677,Via Tavoleria; Piazza San Frediano; Via Domenico Cavalca; Via San Frediano; Via Curtatone e Montanara,5
++12,43.7170206,10.3916516,Via Nicola Pisano; Via Enrico Fermi; Via Rustichello da Pisa,3
++13,43.7165557,10.3915297,Via Nicola Pisano; Via Volturno,2
++14,43.7197737,10.3956139,Via Roma; Via Paolo Savi,2
++15,43.7198919,10.3929772,Via Nicola Pisano; Via Paolo Savi,2
++16,43.7181988,10.3925435,Via Nicola Pisano; Via Risorgimento,2
++17,43.720987,10.3886822,Via Cimabue; Via Diotisalvi,2
++18,43.7196471,10.3879154,Via Cimabue; Via Carlo Francesco Gabba,2
++19,43.7198206,10.3989136,Via Pasquale Paoli; Piazza Francesco Buonamici; Via Uguccione della Faggiola; Via Dalmazia; Via Corsica; Via dei Mille,6
++20,43.7198819,10.3973556,Via Luca Ghini; Via Don Gaetano Boschi; Piazza Felice Cavallotti; Via Santa Maria; Via dei Mille,5
++21,43.7166398,10.3998939,Via Curtatone e Montanara; Lungarno Antonio Pacinotti,2
++22,43.7205101,10.3895106,Via Diotisalvi; Via Francesco Traini; Largo Lucio Lazzarino,3
++23,43.718127,10.3969295,Via Santa Maria; Via Alessandro Volta,2
++24,43.7185764,10.3954069,Via Roma; Via Derna; Via Alessandro Volta,3
++25,43.7193247,10.3929429,Via Derna; Via Nicola Pisano,2
++26,43.7184888,10.3882776,Via Turino Vanni; Via Spinello Aretino,2
++27,43.7166748,10.3970962,Piazza Francesco Carrara; Lungarno Antonio Pacinotti; N/A; Via San Niccola; Via San Nicola,5
++28,43.7215349,10.3957813,Via Roma; Via Angelo Galli Tassi,2
++29,43.7215057,10.3966777,Via Porta Buozzi; Via Angelo Galli Tassi,2
++30,43.7198467,10.396716,Via Porta Buozzi; Via Luca Ghini,2
++31,43.7180247,10.39365,Via Risorgimento; Via Magenta,2
++32,43.71779,10.3951959,Via Roma; Via Risorgimento,2
++33,43.7170109,10.3933401,Via Trieste; Via Magenta,2
++34,43.7166791,10.3963901,Via Trento; Via San Niccola; Via Santa Maria,3
++35,43.7168523,10.39526,Via Santa Lucia; Via Trento; Via Ricucchi,3
++36,43.7169278,10.3949365,Via Trieste; Via Trento; Via Roma,3
++37,43.717472,10.3919227,Via Trieste; Via Nicola Pisano,2
++38,43.7163698,10.3945476,Via Roma; Via Enrico Fermi,2
++39,43.7176731,10.3978318,Piazza San Giorgio; Via del Collegio Ricci; Via La Pergola,3
++40,43.722343,10.401046,Via San Tommaso; Via Cardinale Pietro Maffi,2
++41,43.7193253,10.388812,Via Francesco Traini; Via Carlo Francesco Gabba,2
++42,43.7189718,10.3899712,Via Bonanno Pisano; Via Risorgimento; Via Carlo Francesco Gabba,3
++43,43.7203357,10.3908775,Via Diotisalvi; Via Bonanno Pisano,2
++44,43.7161352,10.3966029,Via Santa Maria; Lungarno Antonio Pacinotti,2
++45,43.7190682,10.3999712,Piazza dei Cavalieri; Via San Frediano,2
++46,43.7220093,10.3983839,Piazza dell'Arcivescovado; Via Ferdinando Capponi,2
++47,43.7222385,10.3977108,Piazza dell'Arcivescovado; Via Don Gaetano Boschi,2
+\ No newline at end of file
