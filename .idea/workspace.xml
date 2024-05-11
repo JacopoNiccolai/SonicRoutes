@@ -18,16 +18,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="start and stop recording button added">
-      <change afterPath="$PROJECT_DIR$/python/grafi/grafo_completo.graphml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python/grafi/graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/grafi/archi_grafo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/python/grafi/archi.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/grafi/grafo.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/grafi/nodi_grafo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/python/grafi/nodi.csv" afterDir="false" />
-    </list>
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="start and stop recording button added" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +27,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\fedef\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -83,9 +74,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="resourceFile" />
         <option value="valueResourceFile" />
+        <option value="Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
