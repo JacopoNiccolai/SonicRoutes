@@ -55,8 +55,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-
-class HomeFragment : Fragment(), OnMapReadyCallback {
+class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -64,11 +63,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private var isRecording = false
     private lateinit var userLocation: LatLng
     private lateinit var geocodingUtil: GeocodingUtil
+    private var isSelectingPoints = false
+    private lateinit var selectPointsButton: Button
     private val markers = ArrayList<Crossing>()
-    private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
+    private var firstPoint: LatLng? = null
     private val route = ArrayList<Edge>() // contiene gli edge tra i checkpoint, serve per ricostruire il percorso ed avere misura del rumore
     private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
     private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
+    private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
     private var filename = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -79,18 +81,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton)
+        val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton) as Button
         changeButtonColor(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
-            geocodingUtil = GeocodingUtil(requireContext())
-
-        //startRecordingButton.isEnabled = false
+        geocodingUtil = GeocodingUtil(requireContext())
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS(startRecordingButton)
     }
 
-    private fun checkAndPromptToEnableGPS(startRecordingButton: View) {
+    private fun checkAndPromptToEnableGPS(startRecordingButton: Button) {
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // GPS is not enabled, show dialog to enable it
@@ -114,8 +114,45 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         map = googleMap
         checkPermissionsAndSetupMap()
         addMarkersFromCSV() // Add markers from CSV when the map is ready
+
+        map.setOnMapClickListener(this)
+
+        selectPointsButton = view?.findViewById(R.id.selectPointsButton)!!
+        selectPointsButton.setOnClickListener {
+            // Abilita la modalità di selezione dei punti sulla mappa
+            enablePointSelection()
+        }
     }
 
+    private fun enablePointSelection() {
+        isSelectingPoints = true
+        // Modifica il testo del pulsante per indicare all'utente lo stato corrente
+        selectPointsButton.text = "Seleziona il primo punto"
+    }
+
+    override fun onMapClick(point: LatLng) {
+        if (isSelectingPoints) {
+            // Gestisci la selezione dei punti in base allo stato corrente
+            if (selectPointsButton.text == "Seleziona il primo punto") {
+                // Salva il primo punto selezionato
+                firstPoint = point
+                selectPointsButton.text = "Seleziona il secondo punto"
+            } else if (selectPointsButton.text == "Seleziona il secondo punto") {
+                // Salva il secondo punto selezionato
+                val secondPoint = point
+                // Invia le coordinate dei punti al server
+                sendPointsToServer(firstPoint!!, secondPoint)
+                // Disabilita la modalità di selezione dei punti e ripristina il testo del pulsante
+                isSelectingPoints = false
+                selectPointsButton.text = "Seleziona punti sulla mappa"
+            }
+        }
+    }
+
+    private fun sendPointsToServer(firstPoint: LatLng, secondPoint: LatLng) {
+        // Invia le coordinate dei punti al server utilizzando le API appropriate
+        // Qui puoi implementare la logica per inviare le coordinate al tuo server
+    }
 
     private fun addMarkersFromCSV() {
         try {
@@ -143,7 +180,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             Log.e("HomeFragment", "Error adding markers from CSV: ${e.message}")
         }
     }
-
 
     private fun checkPermissionsAndSetupMap() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -381,10 +417,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun toggleRecording(startRecordingButton: View) {
+    private fun toggleRecording(startRecordingButton: Button) {
         isRecording = !isRecording
         if (isRecording) {
-            (startRecordingButton as Button).text = getString(R.string.stop_recording)
+            startRecordingButton.text = getString(R.string.stop_recording)
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_light))
             checkPermissionsAndSetupRecording()
             // Add markers to the map
@@ -408,14 +444,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         } else {
             stopRecording()
-            (startRecordingButton as Button).text = getString(R.string.start_recording)
+            startRecordingButton.text = getString(R.string.start_recording)
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_purple))
             map.clear()
             lastCheckpoint = null
         }
     }
 
-    private fun changeButtonColor(startRecordingButton: View) {
+    private fun changeButtonColor(startRecordingButton: Button) {
         if(!isRecording) {
             startRecordingButton.setBackgroundColor(
                 ContextCompat.getColor(
@@ -430,8 +466,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     android.R.color.holo_red_light
                 )
             )
-            (startRecordingButton as Button).text = getString(R.string.stop_recording)
+            startRecordingButton.text = getString(R.string.stop_recording)
         }
     }
-
 }
