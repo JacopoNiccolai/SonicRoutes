@@ -18,13 +18,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="added logic to show &quot;no routes to show&quot; when no antecedent routes data files are present">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/route_icon.xml" afterDir="false" />
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="start and stop recording button added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/FileAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/FileAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_file_icon.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +29,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\giuli\.android\avd\Pixel_8_Pro_API_34.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -82,7 +77,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
-        <option value="layoutResourceFile" />
         <option value="resourceFile" />
       </list>
     </option>
@@ -118,51 +112,36 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2fVI6Z5JIhNhhxgcJGiDY44kN6A" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Android App.app.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/giuli/Documents/GitHub/MSSSProject/app/src/main/res/drawable",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/giuli/Documents/GitHub/SonicRoutes&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
   }
-}]]></component>
+}</component>
   <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Default Config" />
+    <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\giuli\Documents\GitHub\MSSSProject\app\src\main\res\drawable" />
-      <recent name="C:\Users\giuli\Documents\GitHub\MSSSProject\app\src\main\res\raw" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\giuli\Documents\GitHub\MSSSProject\app\src\main\res\drawable" />
-    </key>
-    <key name="CreateKotlinClassDialog.RecentsKey">
-      <recent name="com.unipi.dii.sonicroutes.ui.dashboard" />
-    </key>
   </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
@@ -378,119 +357,7 @@
       <option name="project" value="LOCAL" />
       <updated>1715183713790</updated>
     </task>
-    <task id="LOCAL-00018" summary="start and stop recording button added">
-      <option name="closed" value="true" />
-      <created>1715184754248</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1715184754248</updated>
-    </task>
-    <task id="LOCAL-00019" summary="added Markers on the map&#10;added basic logic for street segment control">
-      <option name="closed" value="true" />
-      <created>1715335487361</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1715335487361</updated>
-    </task>
-    <task id="LOCAL-00020" summary="added CSV containing intersections' coordinates">
-      <option name="closed" value="true" />
-      <created>1715335553369</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1715335553369</updated>
-    </task>
-    <task id="LOCAL-00021" summary="added CSV containing intersections' coordinates">
-      <option name="closed" value="true" />
-      <created>1715336169737</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1715336169737</updated>
-    </task>
-    <task id="LOCAL-00022" summary="added crossings' IDs">
-      <option name="closed" value="true" />
-      <created>1715339252156</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1715339252156</updated>
-    </task>
-    <task id="LOCAL-00023" summary="added edge logic">
-      <option name="closed" value="true" />
-      <created>1715339422029</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1715339422029</updated>
-    </task>
-    <task id="LOCAL-00024" summary="added edge logic">
-      <option name="closed" value="true" />
-      <created>1715339509180</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1715339509180</updated>
-    </task>
-    <task id="LOCAL-00025" summary="added edge logic">
-      <option name="closed" value="true" />
-      <created>1715339942847</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1715339942847</updated>
-    </task>
-    <task id="LOCAL-00026" summary="this way we don't record if a checkpoint is not first reached">
-      <option name="closed" value="true" />
-      <created>1715346573219</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1715346573219</updated>
-    </task>
-    <task id="LOCAL-00027" summary="added dataX.json files for user's routes">
-      <option name="closed" value="true" />
-      <created>1715348526834</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1715348526834</updated>
-    </task>
-    <task id="LOCAL-00028" summary="added data_timestamp.json files for user's routes">
-      <option name="closed" value="true" />
-      <created>1715348860542</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1715348860542</updated>
-    </task>
-    <task id="LOCAL-00029" summary="added dashboard logic to show routes files to the user">
-      <option name="closed" value="true" />
-      <created>1715353807228</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1715353807228</updated>
-    </task>
-    <task id="LOCAL-00030" summary="added dashboard logic to show routes files to the user">
-      <option name="closed" value="true" />
-      <created>1715353934741</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1715353934741</updated>
-    </task>
-    <task id="LOCAL-00031" summary="added logic to show &quot;no routes to show&quot; when no antecedent routes data files are present">
-      <option name="closed" value="true" />
-      <created>1715354416141</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1715354416141</updated>
-    </task>
-    <option name="localTasksCounter" value="32" />
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -505,7 +372,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="added map to home tab" />
     <MESSAGE value="added map class HomeFragment : Fragment(), OnMapReadyCallback {&#10;          &#10;              private lateinit var map: GoogleMap&#10;          &#10;              override fun onMapReady(googleMap: GoogleMap) {&#10;                  map = googleMap&#10;                  setupMap()&#10;              }&#10;          &#10;              private fun setupMap() {&#10;                  if (ActivityCompat.checkSelfPermission(requireContext(),&#10;                          android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(&#10;                          requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {&#10;                      requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)&#10;                      return&#10;                  }&#10;          &#10;                  map.isMyLocationEnabled = true&#10;                  map.uiSettings.isMyLocationButtonEnabled = true&#10;          &#10;                  val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager&#10;                  val provider = locationManager.getBestProvider(Criteria(), true)&#10;                  val location = locationManager.getLastKnownLocation(provider)&#10;          &#10;                  if (location != null) {&#10;                      val userLocation = LatLng(location.latitude, location.longitude)&#10;                      map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12f))&#10;                  }&#10;              }&#10;          &#10;              override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,&#10;                                        savedInstanceState: Bundle?): View? {&#10;                  return inflater.inflate(R.layout.fragment_home, container, false)&#10;              }&#10;          &#10;              override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;                  super.onViewCreated(view, savedInstanceState)&#10;                  val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?&#10;                  mapFragment?.getMapAsync(this)&#10;              }&#10;          &#10;              companion object {&#10;                  private const val LOCATION_PERMISSION_REQUEST_CODE = 1&#10;              }&#10;          }&#10;to home tab" />
     <MESSAGE value="map added" />
@@ -519,15 +385,6 @@
     <MESSAGE value="duca commit" />
     <MESSAGE value="now position is sent correctly each time to the flask server" />
     <MESSAGE value="start and stop recording button added" />
-    <MESSAGE value="added Markers on the map&#10;added basic logic for street segment control" />
-    <MESSAGE value="added CSV containing intersections' coordinates" />
-    <MESSAGE value="added crossings' IDs" />
-    <MESSAGE value="added edge logic" />
-    <MESSAGE value="this way we don't record if a checkpoint is not first reached" />
-    <MESSAGE value="added dataX.json files for user's routes" />
-    <MESSAGE value="added data_timestamp.json files for user's routes" />
-    <MESSAGE value="added dashboard logic to show routes files to the user" />
-    <MESSAGE value="added logic to show &quot;no routes to show&quot; when no antecedent routes data files are present" />
-    <option name="LAST_COMMIT_MESSAGE" value="added logic to show &quot;no routes to show&quot; when no antecedent routes data files are present" />
+    <option name="LAST_COMMIT_MESSAGE" value="start and stop recording button added" />
   </component>
 </project>
