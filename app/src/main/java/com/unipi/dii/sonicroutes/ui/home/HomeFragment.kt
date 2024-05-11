@@ -3,14 +3,18 @@ package com.unipi.dii.sonicroutes.ui.home
 import GeocodingUtil
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -76,24 +80,34 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
         val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton)
-        if(!isRecording) {
-            startRecordingButton.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    android.R.color.holo_green_dark
-                )
-            )
-        }else {
-            startRecordingButton.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    android.R.color.holo_red_light
-                )
-            )
-            (startRecordingButton as Button).text = getString(R.string.stop_recording)
-        }
+        changeButtonColor(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
             geocodingUtil = GeocodingUtil(requireContext())
+
+        //startRecordingButton.isEnabled = false
+
+        // Check and request GPS enablement if not enabled
+        checkAndPromptToEnableGPS(startRecordingButton)
+    }
+
+    private fun checkAndPromptToEnableGPS(startRecordingButton: View) {
+        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            // GPS is not enabled, show dialog to enable it
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("Il GPS è disabilitato. \nSi prega di abilitare il GPS per utilizzare l'applicazione.")
+            builder.setPositiveButton("Abilita") { _, _ ->
+                // Open GPS settings screen
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            builder.setNegativeButton("Annulla") { dialog, _ ->
+                dialog.dismiss()
+            }
+            builder.create().show()
+        } /*else {
+            // GPS is enabled, enable the startRecordingButton
+            startRecordingButton.isEnabled = true
+        }*/
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -395,9 +409,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         } else {
             stopRecording()
             (startRecordingButton as Button).text = getString(R.string.start_recording)
-            startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark))
+            startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_purple))
             map.clear()
             lastCheckpoint = null
         }
     }
+
+    private fun changeButtonColor(startRecordingButton: View) {
+        if(!isRecording) {
+            startRecordingButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_purple
+                )
+            )
+        }else {
+            startRecordingButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_red_light
+                )
+            )
+            (startRecordingButton as Button).text = getString(R.string.stop_recording)
+        }
+    }
+
 }

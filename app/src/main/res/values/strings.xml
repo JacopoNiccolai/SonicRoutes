@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SonicRoutes</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_home">Sonic Tracking</string>
+    <string name="title_dashboard">My Sonic Routes</string>
     <string name="title_notifications">Notifications</string>
     <string name="start_recording">Start Recording</string>
     <string name="stop_recording">Stop Recording</string>
