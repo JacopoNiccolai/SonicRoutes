@@ -73,6 +73,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
     private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
     private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
     private var filename = ""
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -89,7 +90,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS(startRecordingButton)
-        val searchView = view.findViewById<SearchView>(R.id.searchView)
+        searchView = view.findViewById<SearchView>(R.id.searchView)
+        // disabilito la search view fintanto che la posizione utente non è pronta
+        searchView.isEnabled = false
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.searchResultsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val textViewNotFound = view.findViewById<TextView>(R.id.textViewNotFound)
@@ -114,7 +118,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
                         recyclerView.visibility = View.GONE
                     } else {
                         textViewNotFound.visibility = View.GONE
-                        recyclerView.adapter = SearchResultAdapter(filteredMarkers, query, userLocation)
+                        recyclerView.adapter = SearchResultAdapter(filteredMarkers, query, userLocation, searchView)
                         recyclerView.visibility = if (query.isNotEmpty()) View.VISIBLE else View.GONE
 
                     }
@@ -151,8 +155,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         addMarkersFromCSV() // Add markers from CSV when the map is ready
     }
 
-
-
     private fun addMarkersFromCSV() {
         try {
             val inputStream = resources.openRawResource(R.raw.intersections_clustered)
@@ -185,6 +187,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             setupMap()
+            searchView.isEnabled = true
         }
     }
 

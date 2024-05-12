@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
@@ -11,8 +12,12 @@ import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 
+
+// TODO: Jacopo dove van messi gli adapter?
 class SearchResultAdapter(
-    private val crossings: List<Crossing>, private val query: String, private val userLocation: LatLng
+    private val crossings: List<Crossing>, private val query: String, private val userLocation: LatLng,
+    private val searchView: SearchView
+
 ) :
     RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
 
@@ -39,6 +44,8 @@ class SearchResultAdapter(
             val endingPoint = crossing.getCoordinates()
             Log.e("SearchResultAdapter", "Punto iniziale : $userLocation Punto finale: $endingPoint")
             Apis(holder.itemView.context).getRoute(userLocation,endingPoint)
+            searchView.setQuery("", false)
+            searchView.clearFocus()
 
         }
     }
