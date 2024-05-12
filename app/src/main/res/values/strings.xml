@@ -6,8 +6,12 @@
     <string name="start_recording">Start Recording</string>
     <string name="stop_recording">Stop Recording</string>
     <string name="no_routes_to_show">No routes to show</string>
-    <string name="share_text">Condividi</string>
-    <string name="remove_text">Elimina</string>
-    <string name="route_icon">Icona file</string>
+    <string name="share_text">Share</string>
+    <string name="remove_text">Delete</string>
+    <string name="route_icon">File icon</string>
     <string name="invalid_timestamp">Invalid timestamp</string>
+    <string name="search_for_a_street">Search for a street</string>
+    <string name="checkpoint_text">Checkpoint ID: %1$d, Street: %2$s</string>
+    <string name="street_not_found">Street not found</string>
+
 </resources>

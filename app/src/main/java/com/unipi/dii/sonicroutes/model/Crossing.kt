@@ -7,7 +7,7 @@ data class Crossing(val id: Int, val latitude: Double, val longitude: Double, va
         return "Crossing(latitude=$latitude, longitude=$longitude, streetName='$streetName')"
     }
 
-    fun getLatLng(): LatLng {
+    fun getCoordinates(): LatLng {
         return LatLng(latitude, longitude)
     }
 
