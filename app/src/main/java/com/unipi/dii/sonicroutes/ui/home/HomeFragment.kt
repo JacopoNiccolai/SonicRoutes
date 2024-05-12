@@ -20,9 +20,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -55,7 +59,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
+class HomeFragment : Fragment(), OnMapReadyCallback{
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -63,15 +67,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
     private var isRecording = false
     private lateinit var userLocation: LatLng
     private lateinit var geocodingUtil: GeocodingUtil
-    private var isSelectingPoints = false
-    private lateinit var selectPointsButton: Button
     private val markers = ArrayList<Crossing>()
-    private var firstPoint: LatLng? = null
     private val route = ArrayList<Edge>() // contiene gli edge tra i checkpoint, serve per ricostruire il percorso ed avere misura del rumore
     private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
     private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
     private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
     private var filename = ""
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -88,6 +90,43 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS(startRecordingButton)
+        searchView = view.findViewById<SearchView>(R.id.searchView)
+        // disabilito la search view fintanto che la posizione utente non è pronta
+        searchView.isEnabled = false
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.searchResultsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        val textViewNotFound = view.findViewById<TextView>(R.id.textViewNotFound)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // stampo nel log
+                Log.e("HomeFragment","query submitted")
+                //todo : probabilmente è meglio non far niente e far si che l'utente clicchi solo un checkpoint
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { query ->
+                    val filteredMarkers = markers.filter { crossing ->
+                        crossing.streetName.any { street ->
+                            street.contains(query, ignoreCase = true)
+                        }
+                    }
+                    if (filteredMarkers.isEmpty()) {
+                        textViewNotFound.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                    } else {
+                        textViewNotFound.visibility = View.GONE
+                        recyclerView.adapter = SearchResultAdapter(filteredMarkers, query, userLocation, searchView)
+                        recyclerView.visibility = if (query.isNotEmpty()) View.VISIBLE else View.GONE
+
+                    }
+                
+                return true
+            }
+        })
+
     }
 
     private fun checkAndPromptToEnableGPS(startRecordingButton: Button) {
@@ -114,46 +153,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
         map = googleMap
         checkPermissionsAndSetupMap()
         addMarkersFromCSV() // Add markers from CSV when the map is ready
-
-        map.setOnMapClickListener(this)
-
-        selectPointsButton = view?.findViewById(R.id.selectPointsButton)!!
-        selectPointsButton.setOnClickListener {
-            // Abilita la modalità di selezione dei punti sulla mappa
-            enablePointSelection()
-        }
-    }
-
-    private fun enablePointSelection() {
-        isSelectingPoints = true
-        // Modifica il testo del pulsante per indicare all'utente lo stato corrente
-        selectPointsButton.text = "Seleziona il primo punto"
-    }
-
-    override fun onMapClick(point: LatLng) {
-        if (isSelectingPoints) {
-            // Gestisci la selezione dei punti in base allo stato corrente
-            if (selectPointsButton.text == "Seleziona il primo punto") {
-                // Salva il primo punto selezionato
-                firstPoint = point
-                selectPointsButton.text = "Seleziona il secondo punto"
-            } else if (selectPointsButton.text == "Seleziona il secondo punto") {
-                // Salva il secondo punto selezionato
-                val secondPoint = point
-                // Invia le coordinate dei punti al server
-                sendPointsToServer(firstPoint!!, secondPoint)
-                // Disabilita la modalità di selezione dei punti e ripristina il testo del pulsante
-                isSelectingPoints = false
-                selectPointsButton.text = "Seleziona punti sulla mappa"
-            }
-        }
-    }
-
-    private fun sendPointsToServer(firstPoint: LatLng, secondPoint: LatLng) {
-        // Invia le coordinate dei punti al server utilizzando le API appropriate
-        // Qui puoi implementare la logica per inviare le coordinate al tuo server
-        Apis(requireContext()).getRoute(firstPoint,secondPoint)
-
     }
 
     private fun addMarkersFromCSV() {
@@ -188,6 +187,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             setupMap()
+            searchView.isEnabled = true
         }
     }
 
@@ -302,7 +302,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
         var minDistance = Double.MAX_VALUE
 
         for (marker in markerList) {
-            val distance = calculateDistance(userLocation, marker.getLatLng())
+            val distance = calculateDistance(userLocation, marker.getCoordinates())
             if (distance < minDistance) {
                 minDistance = distance
                 nearestMarker = marker
@@ -333,7 +333,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
             }
             if (nearestMarker != null) {
                 lastCheckpoint = nearestMarker
-                return nearestMarker.getLatLng()
+                return nearestMarker.getCoordinates()
             }
         }
         return null
@@ -427,7 +427,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
             checkPermissionsAndSetupRecording()
             // Add markers to the map
             for (marker in markers) {
-                map.addMarker(MarkerOptions().position(marker.getLatLng()))
+                map.addMarker(MarkerOptions().position(marker.getCoordinates()))
             }
 
             val filenamePrefix = "data_"

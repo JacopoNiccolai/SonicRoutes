@@ -18,7 +18,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="start and stop recording button added" />
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="small issue resolved; searchView must be enabled only on map ready since it utilizes user position">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_marker.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/SearchResultAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/SearchResultAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_search_result.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_search_result.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,6 +82,7 @@
       <list>
         <option value="resourceFile" />
         <option value="valueResourceFile" />
+        <option value="layoutResourceFile" />
         <option value="Class" />
         <option value="Kotlin Class" />
       </list>
@@ -112,7 +119,9 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2fVI6Z5JIhNhhxgcJGiDY44kN6A" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -141,6 +150,15 @@
     <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\giuli\Documents\GitHub\MSSSProject\app\src\main\res\drawable" />
+    </key>
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="com.unipi.dii.sonicroutes.model" />
+      <recent name="com.unipi.dii.sonicroutes.ui.home" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
@@ -356,7 +374,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715183713790</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="now the route search is done by looking up for a street">
+      <option name="closed" value="true" />
+      <created>1715513453026</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1715513453026</updated>
+    </task>
+    <task id="LOCAL-00019" summary="-">
+      <option name="closed" value="true" />
+      <created>1715513492557</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1715513492557</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -384,6 +418,10 @@
     <MESSAGE value="duca commit" />
     <MESSAGE value="now position is sent correctly each time to the flask server" />
     <MESSAGE value="start and stop recording button added" />
-    <option name="LAST_COMMIT_MESSAGE" value="start and stop recording button added" />
+    <MESSAGE value="now the route search is done by looking up for a street" />
+    <MESSAGE value="-" />
+    <MESSAGE value="chiusura della searchview on_click di un risultato" />
+    <MESSAGE value="small issue resolved; searchView must be enabled only on map ready since it utilizes user position" />
+    <option name="LAST_COMMIT_MESSAGE" value="small issue resolved; searchView must be enabled only on map ready since it utilizes user position" />
   </component>
 </project>
