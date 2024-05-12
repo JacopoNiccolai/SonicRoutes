@@ -122,7 +122,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
                         recyclerView.visibility = if (query.isNotEmpty()) View.VISIBLE else View.GONE
 
                     }
-                }
+                
                 return true
             }
         })
