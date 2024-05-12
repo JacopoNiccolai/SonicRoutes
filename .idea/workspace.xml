@@ -19,14 +19,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="start and stop recording button added">
-      <change afterPath="$PROJECT_DIR$/python/grafi/grafo_completo.graphml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python/grafi/graph.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Points.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/SearchResultAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/route/RouteFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_route.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_search_result.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_17_10__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_05_2024_17_10__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2024_12_36__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2024_12_36__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2024_16_34__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2024_16_34__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2024_18_14__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2024_18_14__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_05_2024_19_45__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_05_2024_19_45__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2024_15_03__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2024_15_03__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Apis.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Apis.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Crossing.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Crossing.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/network/ServerApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/network/ServerApi.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/grafi/archi_grafo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/python/grafi/archi.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/grafi/grafo.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/grafi/nodi_grafo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/python/grafi/nodi.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +47,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\giuli\.android\avd\Pixel_8_Pro_API_34.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -83,9 +94,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="resourceFile" />
         <option value="valueResourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -120,7 +133,9 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2fVI6Z5JIhNhhxgcJGiDY44kN6A" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -150,6 +165,12 @@
     <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="com.unipi.dii.sonicroutes.model" />
+      <recent name="com.unipi.dii.sonicroutes.ui.home" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
