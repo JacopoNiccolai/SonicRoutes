@@ -152,7 +152,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
     private fun sendPointsToServer(firstPoint: LatLng, secondPoint: LatLng) {
         // Invia le coordinate dei punti al server utilizzando le API appropriate
         // Qui puoi implementare la logica per inviare le coordinate al tuo server
-        Apis(requireContext()).sendPoints(firstPoint,secondPoint)
+        Apis(requireContext()).getRoute(firstPoint,secondPoint)
+
     }
 
     private fun addMarkersFromCSV() {

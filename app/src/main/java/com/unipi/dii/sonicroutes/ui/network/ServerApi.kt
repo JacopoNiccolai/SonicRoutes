@@ -9,6 +9,6 @@ import retrofit2.http.POST
 interface ServerApi {
     @POST("/upload")
     fun uploadDataJson(@Body jsonData: JsonObject): Call<Void>
-    @POST("sendPoints")
+    @POST("/getRoute")
     fun sendPoints(@Body points: Points): Call<Void>
 }

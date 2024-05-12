@@ -24,7 +24,7 @@ class Apis (private val context: Context){
         serverApi = retrofit.create(ServerApi::class.java)
     }
 
-    fun sendPoints(point1: LatLng, point2: LatLng) {
+    fun getRoute(point1: LatLng, point2: LatLng) {
         val points = Points(point1, point2)
         val call = serverApi.sendPoints(points)
 
