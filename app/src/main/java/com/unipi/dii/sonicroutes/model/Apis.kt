@@ -1,9 +1,12 @@
 package com.unipi.dii.sonicroutes.model
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.unipi.dii.sonicroutes.ui.network.ServerApi
 import retrofit2.Call
@@ -28,24 +31,39 @@ class Apis (private val context: Context){
         val points = Points(point1, point2)
         val call = serverApi.sendPoints(points)
 
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        // retrieve the path from the server
+        call.enqueue(object: Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
-                    // Mostra un messaggio di successo all'utente
-                    Toast.makeText(context, "Punti inviati correttamente al server", Toast.LENGTH_SHORT).show()
+                    val jsonResponse = response.body()
+                    val path = jsonResponse?.getAsJsonArray("path")
+                    if (path != null) {
+                        handlePath(path)
+                    } else {
+                        Toast.makeText(context, "Invalid server response", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    // Mostra un messaggio di errore all'utente
-                    Toast.makeText(context, "Errore nell'invio dei punti al server", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to send points to the server", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                // Mostra un messaggio di errore all'utente
-                Toast.makeText(context, "Errore di rete: ${t.message}", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(context, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
                 t.printStackTrace()
             }
         })
+
     }
+
+    private fun handlePath(path: JsonArray) {
+        // Esegui le operazioni necessarie con il percorso ottenuto dal server
+        // Ad esempio, puoi iterare sugli elementi della lista `path`
+        for (element in path) {
+            // Esempio di operazione: stampa gli elementi del percorso
+            Log.i("PathElement", element.toString())
+        }
+    }
+
 
 
     fun uploadEdge(edge: Edge) {
@@ -72,3 +90,5 @@ class Apis (private val context: Context){
 
     }
 }
+
+

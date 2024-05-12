@@ -10,5 +10,5 @@ interface ServerApi {
     @POST("/upload")
     fun uploadDataJson(@Body jsonData: JsonObject): Call<Void>
     @POST("/getRoute")
-    fun sendPoints(@Body points: Points): Call<Void>
+    fun sendPoints(@Body points: Points): Call<JsonObject>
 }
