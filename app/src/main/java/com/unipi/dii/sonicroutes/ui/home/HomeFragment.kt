@@ -101,7 +101,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // stampo nel log
-                Log.e("HomeFragment","query submitted")
+                Log.e("HomeFragment", "query submitted")
                 //todo : probabilmente è meglio non far niente e far si che l'utente clicchi solo un checkpoint
                 return false
             }
@@ -118,15 +118,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
                         recyclerView.visibility = View.GONE
                     } else {
                         textViewNotFound.visibility = View.GONE
-                        recyclerView.adapter = SearchResultAdapter(filteredMarkers, query, userLocation, searchView)
-                        recyclerView.visibility = if (query.isNotEmpty()) View.VISIBLE else View.GONE
+                        recyclerView.adapter =
+                            SearchResultAdapter(filteredMarkers, query, userLocation, searchView)
+                        recyclerView.visibility =
+                            if (query.isNotEmpty()) View.VISIBLE else View.GONE
 
                     }
-                
+                }
                 return true
             }
         })
-
     }
 
     private fun checkAndPromptToEnableGPS(startRecordingButton: Button) {
