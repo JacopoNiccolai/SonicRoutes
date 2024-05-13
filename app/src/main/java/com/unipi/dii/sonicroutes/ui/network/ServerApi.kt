@@ -2,6 +2,7 @@ package com.unipi.dii.sonicroutes.ui.network
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.unipi.dii.sonicroutes.model.CrossingListResponse
 import com.unipi.dii.sonicroutes.model.Points
 import retrofit2.Call
 import retrofit2.http.Body
@@ -16,8 +17,9 @@ interface ServerApi {
     fun sendPoints(@Body points: Points): Call<JsonObject>
     @GET("/getCrossingCoordinates/{crossingId}")
     fun getCrossingCoordinates(@Path("crossingId") crossingId: Int): Call<JsonElement>
-    @GET("/getCrossings/{cityname}")
-    fun getCrossings(@Path("cityName") cityName: String): Call<JsonElement>
+    @GET("/getCrossings/{cityName}")
+    suspend fun getCrossings(@Path("cityName") cityName: String): CrossingListResponse
+
 
 
 }

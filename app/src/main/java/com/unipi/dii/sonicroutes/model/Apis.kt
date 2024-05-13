@@ -121,37 +121,26 @@ class Apis (private val context: Context){
         }
     }
 
-    suspend fun getAllCoordinates(cityName: String): List<Crossing> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = serverApi.getCrossings(cityName).execute()
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        val crossingsJson = responseBody.asJsonArray
-                        crossingsJson.map { crossingElement ->
-                            val crossingObject = crossingElement.asJsonObject
-                            val crossingId = crossingObject["id"].asInt
-                            val latitude = crossingObject["latitude"].asDouble
-                            val longitude = crossingObject["longitude"].asDouble
-                            val streetNames = crossingObject["streetNames"].asJsonArray.map { it.asString }
-                            Crossing(crossingId, LatLng(latitude, longitude), streetNames)
-                        }
-                    } else {
-                        throw IOException("Empty response body")
-                    }
-                } else {
-                    throw IOException("HTTP error: ${response.code()}")
-                }
-            } catch (e: IOException) {
-                // Gestione di IOException
-                throw e
-            } catch (e: HttpException) {
-                // Gestione di HttpException (errore HTTP)
-                throw IOException("HTTP error: ${e.code()}")
+    suspend fun getCrossings(cityName: String): List<Crossing> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val response = serverApi.getCrossings(cityName)
+                val responseBody = response.toString()
+                // stampo nel log
+                Log.e("getAllCrossings", responseBody)
+
+                response.crossings
             }
+        } catch (e: IOException) {
+            // Handle IOException
+            throw e
+        } catch (e: HttpException) {
+            // Handle HttpException (HTTP error)
+            throw IOException("HTTP error: ${e.code()}")
         }
     }
+
+
 
 }
 
