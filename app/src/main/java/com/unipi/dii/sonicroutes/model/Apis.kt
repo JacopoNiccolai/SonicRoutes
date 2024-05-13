@@ -79,10 +79,7 @@ class Apis (private val context: Context){
         // Commend API call (this should be done only at the end of a street segment)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    // todo : rimuovi, altrimenti ogni volta l'utente vede un toast
-                    Toast.makeText(context, "JSON entry sent correctly", Toast.LENGTH_SHORT).show()
-                } else {
+                if (!response.isSuccessful) {
                     Toast.makeText(context, "Failed to send JSON entry", Toast.LENGTH_SHORT).show()
                 }
             }
