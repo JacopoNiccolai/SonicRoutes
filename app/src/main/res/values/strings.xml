@@ -14,5 +14,6 @@
     <string name="checkpoint_text">Checkpoint ID: %1$d, Street: %2$s</string>
     <string name="street_not_found">Street not found</string>
     <string name="marker_icon_description">image of a marker icon</string>
+    <string name="back_to_dashboard">Back to Dashboard</string>
 
 </resources>

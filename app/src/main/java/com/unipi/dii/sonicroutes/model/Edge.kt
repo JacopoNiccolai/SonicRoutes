@@ -6,4 +6,24 @@ class Edge(private val startCrossingId: Int, private val endCrossingId: Int, pri
     override fun toString(): String {
         return "Edge(start=$startCrossingId, end=$endCrossingId, noise=$amplitude, measurements=$measurements)"
     }
+
+    fun toCsvEntry(): String {
+        return "$startCrossingId, $endCrossingId, $amplitude, $measurements"
+    }
+
+    fun getStartCrossingId(): Int {
+        return startCrossingId
+    }
+
+    fun getEndCrossingId(): Int {
+        return endCrossingId
+    }
+
+    fun getAmplitude(): Double {
+        return amplitude
+    }
+
+    fun getMeasurements(): Int {
+        return measurements
+    }
 }

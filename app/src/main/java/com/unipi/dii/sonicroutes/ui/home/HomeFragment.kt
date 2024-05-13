@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -40,18 +41,20 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.gson.Gson
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import com.unipi.dii.sonicroutes.model.NavigationManager
 import com.unipi.dii.sonicroutes.model.NoiseData
 import com.unipi.dii.sonicroutes.model.Route
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStreamReader
+import java.io.IOException
 import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -76,6 +79,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
     private var filename = ""
     private lateinit var searchView: SearchView
+    private var isMapMovedByUser = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -89,6 +93,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         changeButtonColor(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
         geocodingUtil = GeocodingUtil(requireContext())
+
+        fetchAllCrossings() // fetch all crossings from the server
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS(startRecordingButton)
@@ -111,7 +117,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { query ->
                     val filteredMarkers = markers.filter { crossing ->
-                        crossing.streetName.any { street ->
+                        crossing.getStreetName().any { street ->
                             street.contains(query, ignoreCase = true)
                         }
                     }
@@ -159,33 +165,32 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         checkPermissionsAndSetupMap()
-        addMarkersFromCSV() // Add markers from CSV when the map is ready
+        // Add a listener for when the user moves the map
+        map.setOnCameraMoveStartedListener { reason ->
+        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+            isMapMovedByUser = true
+        }
     }
 
-    private fun addMarkersFromCSV() {
-        try {
-            val inputStream = resources.openRawResource(R.raw.intersections_clustered)
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            var line: String?
-            reader.readLine() // Skip the header
-            while (reader.readLine().also { line = it } != null) {
-                val columns = line!!.split(",")
-                val id = columns[0].toInt()
-                val latitude = columns[1].toDouble()
-                val longitude = columns[2].toDouble()
-                val streetName = columns[3].split(";").map { it.trim() } // Trim each street name
-                //todo : inutile o no? direi di sì
-                val streetCounter = columns[4].toInt() // street counter is at index 4
-
-                // Create a POI object with latitude, longitude, and street name
-                val poi = Crossing(id, latitude, longitude, streetName)
-
-                // Add the POI object to the markers list
-                markers.add(poi)
+    // Add a listener for when the user clicks the button to center the map on their location
+    map.setOnMyLocationButtonClickListener {
+        isMapMovedByUser = false
+        false // Return false to let the map handle the click and center on the user's location
+    }
+}
+    private fun fetchAllCrossings() {
+        val apis = Apis(requireContext())
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val crossings =
+                    apis.getCrossings("pisa")
+                markers.clear()
+                markers.addAll(crossings)
+                Log.d("HomeFragment", "Fetched ${crossings.size} crossings")
+            } catch (e: IOException) {
+                // Handle the I/O error here
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            reader.close()
-        } catch (e: Exception) {
-            Log.e("HomeFragment", "Error adding markers from CSV: ${e.message}")
         }
     }
 
@@ -244,7 +249,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             userLocation = LatLng(location.latitude, location.longitude)
         }
 
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+        if(!isMapMovedByUser) {
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+        }
         geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
             //println(address)
             // todo : forse sto address è inutile, ora i controlli sono sulle 'streets' dei crossing
@@ -322,7 +329,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         Log.d("HomeFragment", "Distance: $minDistance")
         var contains = false
         // controllo se route.last.getStreetname() contiene almeno una street in comune con nearestmarker
-        if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getCrossingId() != nearestMarker.getCrossingId()) {
+        if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getId() != nearestMarker.getId()) {
             for (name in lastCheckpoint!!.getStreetName()) {
                 if (nearestMarker.getStreetName().contains(name)) {
                     contains = true // essentially, this is saying that we are in a new checkpoint
@@ -332,7 +339,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
         if (minDistance < 40 && (lastCheckpoint == null || contains)) { // se entro qui sono in nuovo checkpoint
             if(lastCheckpoint!=null) { // se non sono al primo checkpoint, allora creo un edge tra il nuovo checkpoint ed il precedente
-                val edge = Edge(lastCheckpoint!!.getCrossingId(), nearestMarker!!.getCrossingId(), cumulativeNoise, numberOfMeasurements)
+                val edge = Edge(lastCheckpoint!!.getId(), nearestMarker!!.getId(), cumulativeNoise, numberOfMeasurements)
                 route.add(edge)
                 // stampo l'edge per debug
                 Log.d("HomeFragment", "Edge: $edge")
@@ -341,6 +348,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 numberOfMeasurements = 0
                 // invio l'edge al server
                 Apis(requireContext()).uploadEdge(edge)
+                // scrivo sul log locale
+                val file = File(context?.filesDir, filename)
+                try {
+                    FileOutputStream(file, true).use { fos ->
+                        OutputStreamWriter(fos).use { writer ->
+                            writer.write(edge.toCsvEntry() + "\n")
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("HomeFragment", "Failed to write data to file", e)
+                }
+
             }
             if (nearestMarker != null) {
                 lastCheckpoint = nearestMarker
@@ -367,31 +386,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             if (lastCheckpoint!=null) { // sound not recorded until at least one checkpoint is reached
                 val amplitude = audioData.maxOrNull()?.toInt() ?: 0
                 Log.d("HomeFragment", "Current Noise Level: $amplitude")
-                val jsonEntry = Gson().toJson(
-                    NoiseData(
-                        latitude = userLocation.latitude,
-                        longitude = userLocation.longitude,
-                        amplitude = amplitude,
-                        timestamp = System.currentTimeMillis()
-                    )
-                )
                 cumulativeNoise += amplitude
                 numberOfMeasurements++
                 Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
                 Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
-                Log.d("HomeFragment", "JSON Entry: $jsonEntry")
-
-                val file = File(context?.filesDir, filename)
-                try {
-                    FileOutputStream(file, true).use { fos ->
-                        OutputStreamWriter(fos).use { writer ->
-                            writer.write(jsonEntry + "\n")
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e("HomeFragment", "Failed to write data to file", e)
-                }
-
             }
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
@@ -445,15 +443,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             val filesDir = context?.filesDir
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             // Costruisci il nome del nuovo file utilizzando il timestamp attuale
-            filename = "$filenamePrefix$timestamp.json"
-
-            // Ottieni la lista dei file nella directory (debug)
-            filesDir?.listFiles()?.forEach {
-                Log.d("HomeFragment", "File nella directory: ${it.name}")
+            filename = "$filenamePrefix$timestamp.csv"
+            val file = File(filesDir, filename)
+            try {
+                FileOutputStream(file).use { fos ->
+                    OutputStreamWriter(fos).use { writer ->
+                        writer.write("startCrossingId,endCrossingId,amplitude,measurements\n")
+                        //todo : jacopo dice qui sopra di salvare solo strt ed end id e poi recuperare il rumore medio dal server (ci sta)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "Failed to write data to file", e)
             }
 
-            // Creo un file con timestamp corrente
-            File(filesDir, filename)
 
         } else {
             stopRecording()
