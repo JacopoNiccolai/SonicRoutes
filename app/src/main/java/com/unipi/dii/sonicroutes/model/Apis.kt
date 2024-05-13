@@ -122,10 +122,8 @@ class Apis (private val context: Context){
         return try {
             withContext(Dispatchers.IO) {
                 val response = serverApi.getCrossings(cityName)
-                val responseBody = response.toString()
                 // stampo nel log
-                Log.e("getAllCrossings", responseBody)
-
+                Log.d("getAllCrossings", response.toString())
                 response.crossings
             }
         } catch (e: IOException) {
