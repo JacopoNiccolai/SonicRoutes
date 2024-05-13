@@ -48,6 +48,10 @@ import com.unipi.dii.sonicroutes.model.Edge
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.unipi.dii.sonicroutes.model.NavigationManager
+import com.unipi.dii.sonicroutes.model.NoiseData
+import com.unipi.dii.sonicroutes.model.Route
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -60,7 +64,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class HomeFragment : Fragment(), OnMapReadyCallback{
+class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -105,7 +109,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // stampo nel log
-                Log.e("HomeFragment", "query submitted")
+                Log.d("HomeFragment", "query submitted")
                 //todo : probabilmente è meglio non far niente e far si che l'utente clicchi solo un checkpoint
                 return false
             }
@@ -123,12 +127,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
                     } else {
                         textViewNotFound.visibility = View.GONE
                         recyclerView.adapter =
-                            SearchResultAdapter(filteredMarkers, query, userLocation, searchView)
+                            SearchResultAdapter(filteredMarkers, query, userLocation, searchView, this@HomeFragment)
                         recyclerView.visibility =
                             if (query.isNotEmpty()) View.VISIBLE else View.GONE
 
                     }
                 }
+                Log.d("HomeFragment", "End location clicked")
+
+
+
                 return true
             }
         })
@@ -245,7 +253,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
         }
         geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
-            println(address)
+            //println(address)
             // todo : forse sto address è inutile, ora i controlli sono sulle 'streets' dei crossing
         }
     }
@@ -472,4 +480,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             startRecordingButton.text = getString(R.string.stop_recording)
         }
     }
+
+    // function that takes a route and shows it on the map
+
+
+    override fun onSearchResultClicked(route: Route) {
+        // map clear
+        map.clear()
+        val navigationManager = NavigationManager(map)
+        navigationManager.showRouteOnMap(route)
+    }
+
 }
