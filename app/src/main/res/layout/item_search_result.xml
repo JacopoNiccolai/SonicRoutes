@@ -12,11 +12,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:contentDescription="@string/marker_icon_description"
         android:src="@drawable/ic_marker"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/checkpointTextView"
@@ -28,7 +28,7 @@
         android:layout_marginBottom="8dp"
         android:padding="8dp"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@android:color/black"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/markerIcon"
