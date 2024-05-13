@@ -33,13 +33,13 @@ class SearchResultAdapter(
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
         val crossing = crossings[position]
-        val streetMatch = crossing.streetName.find { street -> street.contains(query, ignoreCase = true) }
+        val streetMatch = crossing.getStreetName().find { street -> street.contains(query, ignoreCase = true) }
         val streetText = streetMatch ?: holder.itemView.context.getString(R.string.street_not_found)
-        val checkpointText = holder.itemView.context.getString(R.string.checkpoint_text, crossing.id, streetText)
+        val checkpointText = holder.itemView.context.getString(R.string.checkpoint_text, crossing.getId(), streetText)
         holder.checkpointTextView.text = checkpointText
         holder.itemView.setOnClickListener {
             // TODO : Implementa un'azione quando viene cliccato un risultato di ricerca
-            Log.e("SearchResultAdapter", "Cliccato su ${crossing.id}")
+            Log.e("SearchResultAdapter", "Cliccato su ${crossing.getId()}")
             // invio al server la posizione corrente e quella del checkpoint finale
             val endingPoint = crossing.getCoordinates()
             Log.e("SearchResultAdapter", "Punto iniziale : $userLocation Punto finale: $endingPoint")
