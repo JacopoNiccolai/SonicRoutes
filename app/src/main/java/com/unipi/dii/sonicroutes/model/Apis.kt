@@ -9,11 +9,15 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.unipi.dii.sonicroutes.ui.network.ServerApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 class Apis (private val context: Context){
     // todo : sia questa classe che l'interfaccia in 'ui/network' van spostate
@@ -89,6 +93,66 @@ class Apis (private val context: Context){
         })
 
     }
+
+    suspend fun getCrossingCoordinates(crossingId: Int): LatLng {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = serverApi.getCrossingCoordinates(crossingId).execute()
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        val crossingJson = responseBody.asJsonObject
+                        val latitude = crossingJson["latitude"].asDouble
+                        val longitude = crossingJson["longitude"].asDouble
+                        LatLng(latitude, longitude)
+                    } else {
+                        throw IOException("Empty response body")
+                    }
+                } else {
+                    throw IOException("HTTP error: ${response.code()}")
+                }
+            } catch (e: IOException) {
+                // Gestione di IOException
+                throw e
+            } catch (e: HttpException) {
+                // Gestione di HttpException (errore HTTP)
+                throw IOException("HTTP error: ${e.code()}")
+            }
+        }
+    }
+
+    suspend fun getAllCoordinates(cityName: String): List<Crossing> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = serverApi.getCrossings(cityName).execute()
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        val crossingsJson = responseBody.asJsonArray
+                        crossingsJson.map { crossingElement ->
+                            val crossingObject = crossingElement.asJsonObject
+                            val crossingId = crossingObject["id"].asInt
+                            val latitude = crossingObject["latitude"].asDouble
+                            val longitude = crossingObject["longitude"].asDouble
+                            val streetNames = crossingObject["streetNames"].asJsonArray.map { it.asString }
+                            Crossing(crossingId, LatLng(latitude, longitude), streetNames)
+                        }
+                    } else {
+                        throw IOException("Empty response body")
+                    }
+                } else {
+                    throw IOException("HTTP error: ${response.code()}")
+                }
+            } catch (e: IOException) {
+                // Gestione di IOException
+                throw e
+            } catch (e: HttpException) {
+                // Gestione di HttpException (errore HTTP)
+                throw IOException("HTTP error: ${e.code()}")
+            }
+        }
+    }
+
 }
 
 
