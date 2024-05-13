@@ -72,6 +72,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
     private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
     private var filename = ""
     private lateinit var searchView: SearchView
+    private var isMapMovedByUser = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -149,10 +150,23 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-        checkPermissionsAndSetupMap()
-        addMarkersFromCSV() // Add markers from CSV when the map is ready
+    map = googleMap
+    checkPermissionsAndSetupMap()
+    addMarkersFromCSV() // Add markers from CSV when the map is ready
+
+    // Add a listener for when the user moves the map
+    map.setOnCameraMoveStartedListener { reason ->
+        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+            isMapMovedByUser = true
+        }
     }
+
+    // Add a listener for when the user clicks the button to center the map on their location
+    map.setOnMyLocationButtonClickListener {
+        isMapMovedByUser = false
+        false // Return false to let the map handle the click and center on the user's location
+    }
+}
 
     private fun addMarkersFromCSV() {
         try {
@@ -237,7 +251,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             userLocation = LatLng(location.latitude, location.longitude)
         }
 
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+        if(!isMapMovedByUser) {
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+        }
         geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
             println(address)
             // todo : forse sto address è inutile, ora i controlli sono sulle 'streets' dei crossing
