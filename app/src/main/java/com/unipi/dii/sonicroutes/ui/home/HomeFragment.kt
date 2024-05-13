@@ -81,6 +81,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var emptyFile = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        fetchAllCrossings() // fetch all crossings from the server
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -92,8 +93,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         changeButtonColor(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
         geocodingUtil = GeocodingUtil(requireContext())
-
-        fetchAllCrossings() // fetch all crossings from the server
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS(startRecordingButton)
