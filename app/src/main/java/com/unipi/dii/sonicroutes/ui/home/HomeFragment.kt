@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -44,10 +45,12 @@ import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
-import java.io.BufferedReader
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStreamReader
+import java.io.IOException
 import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -86,6 +89,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         changeButtonColor(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
         geocodingUtil = GeocodingUtil(requireContext())
+
+        fetchAllCrossings() // fetch all crossings from the server
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS(startRecordingButton)
@@ -150,12 +155,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-    map = googleMap
-    checkPermissionsAndSetupMap()
-    addMarkersFromCSV() // Add markers from CSV when the map is ready
-
-    // Add a listener for when the user moves the map
-    map.setOnCameraMoveStartedListener { reason ->
+        map = googleMap
+        checkPermissionsAndSetupMap()
+        // Add a listener for when the user moves the map
+        map.setOnCameraMoveStartedListener { reason ->
         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
             isMapMovedByUser = true
         }
@@ -167,32 +170,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         false // Return false to let the map handle the click and center on the user's location
     }
 }
-
-    private fun addMarkersFromCSV() {
-        try {
-            val inputStream = resources.openRawResource(R.raw.intersections_clustered)
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            var line: String?
-            reader.readLine() // Skip the header
-            while (reader.readLine().also { line = it } != null) {
-                val columns = line!!.split(",")
-                val id = columns[0].toInt()
-                val latitude = columns[1].toDouble()
-                val longitude = columns[2].toDouble()
-                val coordinates = LatLng(latitude, longitude)
-                val streetName = columns[3].split(";").map { it.trim() } // Trim each street name
-                //todo : inutile o no? direi di sì
-                val streetCounter = columns[4].toInt() // street counter is at index 4
-
-                // Create a POI object with latitude, longitude, and street name
-                val poi = Crossing(id, coordinates, streetName)
-
-                // Add the POI object to the markers list
-                markers.add(poi)
+    private fun fetchAllCrossings() {
+        val apis = Apis(requireContext())
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val crossings =
+                    apis.getCrossings("pisa")
+                markers.clear()
+                markers.addAll(crossings)
+                Log.d("HomeFragment", "Fetched ${crossings.size} crossings")
+            } catch (e: IOException) {
+                // Handle the I/O error here
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            reader.close()
-        } catch (e: Exception) {
-            Log.e("HomeFragment", "Error adding markers from CSV: ${e.message}")
         }
     }
 
