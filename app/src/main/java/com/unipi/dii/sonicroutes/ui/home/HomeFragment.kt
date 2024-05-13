@@ -107,7 +107,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { query ->
                     val filteredMarkers = markers.filter { crossing ->
-                        crossing.streetName.any { street ->
+                        crossing.getStreetName().any { street ->
                             street.contains(query, ignoreCase = true)
                         }
                     }
@@ -311,7 +311,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         Log.d("HomeFragment", "Distance: $minDistance")
         var contains = false
         // controllo se route.last.getStreetname() contiene almeno una street in comune con nearestmarker
-        if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getCrossingId() != nearestMarker.getCrossingId()) {
+        if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getId() != nearestMarker.getId()) {
             for (name in lastCheckpoint!!.getStreetName()) {
                 if (nearestMarker.getStreetName().contains(name)) {
                     contains = true // essentially, this is saying that we are in a new checkpoint
@@ -321,7 +321,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         }
         if (minDistance < 40 && (lastCheckpoint == null || contains)) { // se entro qui sono in nuovo checkpoint
             if(lastCheckpoint!=null) { // se non sono al primo checkpoint, allora creo un edge tra il nuovo checkpoint ed il precedente
-                val edge = Edge(lastCheckpoint!!.getCrossingId(), nearestMarker!!.getCrossingId(), cumulativeNoise, numberOfMeasurements)
+                val edge = Edge(lastCheckpoint!!.getId(), nearestMarker!!.getId(), cumulativeNoise, numberOfMeasurements)
                 route.add(edge)
                 // stampo l'edge per debug
                 Log.d("HomeFragment", "Edge: $edge")
