@@ -56,6 +56,21 @@ class Apis (private val context: Context){
     }
 
     private fun handlePath(path: JsonArray) {
+
+        /*for (element in path) {
+
+        }*/
+
+        /*val locations = mutableListOf<LatLng>()
+        for (element in path) {
+            val lat = element.asJsonObject.get("lat").asDouble
+            val lng = element.asJsonObject.get("lng").asDouble
+            locations.add(LatLng(lat, lng))
+        }*/
+
+        //val route = Route(locations)
+        //route.printRoute()
+
         // Esegui le operazioni necessarie con il percorso ottenuto dal server
         // Ad esempio, puoi iterare sugli elementi della lista `path`
         for (element in path) {
