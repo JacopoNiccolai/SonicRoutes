@@ -18,4 +18,12 @@ class Edge(private val startCrossingId: Int, private val endCrossingId: Int, pri
     fun getEndCrossingId(): Int {
         return endCrossingId
     }
+
+    fun getAmplitude(): Double {
+        return amplitude
+    }
+
+    fun getMeasurements(): Int {
+        return measurements
+    }
 }
