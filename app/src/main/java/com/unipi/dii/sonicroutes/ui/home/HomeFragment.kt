@@ -329,7 +329,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
         Log.d("HomeFragment", "Distance: $minDistance")
         var contains = false
-        // controllo se route.last.getStreetname() contiene almeno una street in comune con nearestmarker
+        // controllo se lastCheckpoint contiene almeno una street in comune con nearestmarker
         if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getId() != nearestMarker.getId()) {
             for (name in lastCheckpoint!!.getStreetName()) {
                 if (nearestMarker.getStreetName().contains(name)) {
