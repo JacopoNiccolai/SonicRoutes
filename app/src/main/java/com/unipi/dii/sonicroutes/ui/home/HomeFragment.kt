@@ -249,6 +249,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             //println(address)
             // todo : forse sto address è inutile, ora i controlli sono sulle 'streets' dei crossing
         }
+
+        Log.i("Orsing", map.cameraPosition.bearing.toString())
+        //updateCameraBearing(map, map.cameraPosition.bearing)
+
     }
 
     override fun onResume() {
