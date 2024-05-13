@@ -80,6 +80,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var filename = ""
     private lateinit var searchView: SearchView
     private var isMapMovedByUser = false
+    private var emptyFile = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -354,6 +355,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                     FileOutputStream(file, true).use { fos ->
                         OutputStreamWriter(fos).use { writer ->
                             writer.write(edge.toCsvEntry() + "\n")
+                            emptyFile = false
                         }
                     }
                 } catch (e: Exception) {
@@ -463,6 +465,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_purple))
             map.clear()
             lastCheckpoint = null
+            // if emptyFile, cancello il file
+            if(emptyFile) {
+                val file = File(context?.filesDir, filename)
+                file.delete()
+            }
+            emptyFile = true
         }
     }
 
