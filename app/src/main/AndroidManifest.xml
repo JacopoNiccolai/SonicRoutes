@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SonicRoutes"
         android:networkSecurityConfig="@xml/network_security_config"
-        >
+        android:enableOnBackInvokedCallback="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD25GwPPv5XyqSy_xg1U5HVU0k2cpXpawI"/> <!-- API key here -->

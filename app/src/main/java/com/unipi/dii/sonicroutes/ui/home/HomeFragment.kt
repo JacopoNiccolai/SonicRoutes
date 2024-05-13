@@ -81,7 +81,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var emptyFile = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fetchAllCrossings() // fetch all crossings from the server
+        if (markers.isEmpty())
+            fetchAllCrossings() // fetch all crossings from the server
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -95,7 +96,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         geocodingUtil = GeocodingUtil(requireContext())
 
         // Check and request GPS enablement if not enabled
-        checkAndPromptToEnableGPS(startRecordingButton)
+        checkAndPromptToEnableGPS()
         searchView = view.findViewById<SearchView>(R.id.searchView)
         // disabilito la search view fintanto che la posizione utente non è pronta
         searchView.isEnabled = false
@@ -140,7 +141,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         })
     }
 
-    private fun checkAndPromptToEnableGPS(startRecordingButton: Button) {
+    private fun checkAndPromptToEnableGPS() {
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // GPS is not enabled, show dialog to enable it
