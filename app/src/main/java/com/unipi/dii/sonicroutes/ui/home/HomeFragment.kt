@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.media.AudioFormat
@@ -41,12 +40,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import com.google.gson.Gson
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
+import com.unipi.dii.sonicroutes.model.NavigationManager
 import com.unipi.dii.sonicroutes.model.NoiseData
 import com.unipi.dii.sonicroutes.model.Route
 import java.io.BufferedReader
@@ -247,7 +246,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
         geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
-            println(address)
+            //println(address)
             // todo : forse sto address è inutile, ora i controlli sono sulle 'streets' dei crossing
         }
     }
@@ -481,22 +480,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     // function that takes a route and shows it on the map
-    private fun showRouteOnMap(route: Route) {
-        val segments = route.getSegments()
-        for (segment in segments) {
-            val start = segment.getStart()
-            val end = segment.getEnd()
-            map.addPolyline(
-                PolylineOptions()
-                    .add(start, end)
-                    .width(5f)
-                    .color(Color.RED)
-            )
-        }
-    }
+
 
     override fun onSearchResultClicked(route: Route) {
-        showRouteOnMap(route)
+        // map clear
+        map.clear()
+        val navigationManager = NavigationManager(map)
+        navigationManager.showRouteOnMap(route)
     }
 
 }

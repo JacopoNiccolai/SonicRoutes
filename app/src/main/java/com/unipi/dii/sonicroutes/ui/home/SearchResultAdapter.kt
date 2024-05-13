@@ -50,9 +50,6 @@ class SearchResultAdapter(
                     route.printRoute()
 
                     // show the route on the map of the HomeFragment
-                    // here I have to call a function of the HomeFragment
-                    // how can I do that?
-                    // Trigger the callback passing the route to the HomeFragment
                     clickListener.onSearchResultClicked(route)
 
 
