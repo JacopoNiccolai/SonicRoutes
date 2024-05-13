@@ -23,3 +23,5 @@ Contributions are welcome. If you would like to contribute, please fork the repo
 
 ## License
 
+SonicRoutes is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
+```
