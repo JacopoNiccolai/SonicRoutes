@@ -23,4 +23,3 @@ Contributions are welcome. If you would like to contribute, please fork the repo
 
 ## License
 
-State your license here.
