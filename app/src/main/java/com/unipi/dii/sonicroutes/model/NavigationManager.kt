@@ -1,10 +1,15 @@
 package com.unipi.dii.sonicroutes.model
 
 import android.graphics.Color
+import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class NavigationManager(private val map: GoogleMap) {
@@ -46,21 +51,55 @@ class NavigationManager(private val map: GoogleMap) {
         val destinationLatLng = segments[0].getEnd()
         //requestDirections(currentLatLng, destinationLatLng)
 
+        // get the degrees between the two points
+        val degrees = getDegrees(currentLatLng, destinationLatLng)
+        // rotate the map camera to match the degrees
 
-        updateCameraBearing(map, map.cameraPosition.bearing)
-
-    }
-
-    private fun updateCameraBearing(googleMap: GoogleMap?, bearing: Float) {
-        if (googleMap == null) return
-        val camPos = CameraPosition
-            .builder(
-                googleMap.cameraPosition // current Camera
-            )
-            .bearing(bearing)
+        Log.i("Bearings", "Current: ${map.cameraPosition.bearing}, Destination: $degrees")
+        // update the camera bearing to match the device orientation
+        val currentCameraPosition = map.cameraPosition
+        val newCameraPosition = CameraPosition.Builder(currentCameraPosition)
+            .bearing(-degrees) // Rotate map based on azimuth (negative to match device orientation)
             .build()
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(camPos))
+
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition))
+
+        Log.i("Bearings Mod", "Current: ${map.cameraPosition.bearing}, Destination: $degrees")
+
     }
+
+    private fun getDegrees(currentLatLng: LatLng, destinationLatLng: LatLng): Float {
+        val lat1 = Math.toRadians(currentLatLng.latitude)
+        val lon1 = Math.toRadians(currentLatLng.longitude)
+        val lat2 = Math.toRadians(destinationLatLng.latitude)
+        val lon2 = Math.toRadians(destinationLatLng.longitude)
+
+        val dLon = lon2 - lon1
+
+        val y = sin(dLon) * cos(lat2)
+        val x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
+
+        var bearing = atan2(y, x)
+        bearing = Math.toDegrees(bearing)
+
+        // Normalize the bearing to a compass bearing (between 0 and 360 degrees)
+        val normalizedBearing = (bearing + 360) % 360
+
+        // TODO try it
+
+        return normalizedBearing.toFloat()
+    }
+
+
+    /*private fun updateCameraBearing(map: GoogleMap) {
+        // Rotate the map
+        val currentCameraPosition = map.cameraPosition
+        val newCameraPosition = CameraPosition.Builder(currentCameraPosition)
+            .bearing() // Rotate map based on azimuth (negative to match device orientation)
+            .build()
+
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition))
+    }*/
 
     /*private fun requestDirections(origin: LatLng, destination: LatLng) {
         val context = GeoApiContext.Builder()

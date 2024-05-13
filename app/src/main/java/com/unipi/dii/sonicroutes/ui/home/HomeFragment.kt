@@ -1,6 +1,7 @@
 package com.unipi.dii.sonicroutes.ui.home
 
 import GeocodingUtil
+import MapOrientationHelper
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
@@ -39,19 +40,18 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
+import com.unipi.dii.sonicroutes.model.NavigationManager
+import com.unipi.dii.sonicroutes.model.Route
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.unipi.dii.sonicroutes.model.NavigationManager
-import com.unipi.dii.sonicroutes.model.NoiseData
-import com.unipi.dii.sonicroutes.model.Route
-import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -63,6 +63,7 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+
 
 class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
@@ -87,6 +88,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
         val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton) as Button
@@ -217,9 +221,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             map.isMyLocationEnabled = true
             map.uiSettings.isMyLocationButtonEnabled = true
             startLocationUpdates()
+
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception: ${e.message}")
         }
+
     }
 
     private fun startLocationUpdates() {
@@ -264,6 +270,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     override fun onResume() {
         super.onResume()
+
         if(isRecording)
             checkPermissionsAndSetupRecording()
     }
