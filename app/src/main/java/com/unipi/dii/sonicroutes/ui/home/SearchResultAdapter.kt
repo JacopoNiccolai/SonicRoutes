@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import com.unipi.dii.sonicroutes.R
@@ -16,7 +17,8 @@ import com.unipi.dii.sonicroutes.model.Crossing
 // TODO: Jacopo dove van messi gli adapter?
 class SearchResultAdapter(
     private val crossings: List<Crossing>, private val query: String, private val userLocation: LatLng,
-    private val searchView: SearchView
+    private val searchView: SearchView,
+    private val clickListener: SearchResultClickListener
 
 ) :
     RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
@@ -39,11 +41,27 @@ class SearchResultAdapter(
         holder.checkpointTextView.text = checkpointText
         holder.itemView.setOnClickListener {
             // TODO : Implementa un'azione quando viene cliccato un risultato di ricerca
-            Log.e("SearchResultAdapter", "Cliccato su ${crossing.id}")
+            Log.d("SearchResultAdapter", "Cliccato su ${crossing.id}")
             // invio al server la posizione corrente e quella del checkpoint finale
             val endingPoint = crossing.getCoordinates()
-            Log.e("SearchResultAdapter", "Punto iniziale : $userLocation Punto finale: $endingPoint")
-            Apis(holder.itemView.context).getRoute(userLocation,endingPoint)
+            Log.d("SearchResultAdapter", "Punto iniziale : $userLocation Punto finale: $endingPoint")
+            Apis(holder.itemView.context).getRoute(userLocation,endingPoint,
+                onComplete = { route ->
+                    route.printRoute()
+
+                    // show the route on the map of the HomeFragment
+                    // here I have to call a function of the HomeFragment
+                    // how can I do that?
+                    // Trigger the callback passing the route to the HomeFragment
+                    clickListener.onSearchResultClicked(route)
+
+
+                },
+                onError = { errorMessage ->
+                    Toast.makeText(holder.itemView.context, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            )
+
             searchView.setQuery("", false)
             searchView.clearFocus()
 
@@ -54,4 +72,5 @@ class SearchResultAdapter(
         return crossings.size
     }
 }
+
 

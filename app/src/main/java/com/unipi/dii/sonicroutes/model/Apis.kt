@@ -27,56 +27,69 @@ class Apis (private val context: Context){
         serverApi = retrofit.create(ServerApi::class.java)
     }
 
-    fun getRoute(point1: LatLng, point2: LatLng) {
+    fun getRoute(
+        point1: LatLng,
+        point2: LatLng,
+        onComplete: (Route) -> Unit,
+        onError: (String) -> Unit
+    ) {
         val points = Points(point1, point2)
         val call = serverApi.sendPoints(points)
 
-        // retrieve the path from the server
-        call.enqueue(object: Callback<JsonObject> {
+        call.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     val jsonResponse = response.body()
                     val path = jsonResponse?.getAsJsonArray("path")
+                    Log.d("JSON Path", path.toString())
                     if (path != null) {
-                        handlePath(path)
+                        val route = handlePath(path)
+                        onComplete(route) // Invoke the callback with the retrieved route
                     } else {
-                        Toast.makeText(context, "Invalid server response", Toast.LENGTH_SHORT).show()
+                        onError("Invalid server response")
                     }
                 } else {
-                    Toast.makeText(context, "Failed to send points to the server", Toast.LENGTH_SHORT).show()
+                    onError("Failed to send points to the server")
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                Toast.makeText(context, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                onError("Network error: ${t.message}")
                 t.printStackTrace()
             }
         })
-
     }
 
-    private fun handlePath(path: JsonArray) {
+    private fun handlePath(path: JsonArray): Route {
 
-        /*for (element in path) {
+        val locations = mutableListOf<LatLng>()
 
-        }*/
+        Log.d("Path", path.toString())
 
-        /*val locations = mutableListOf<LatLng>()
+        // Convert the JSON array to a list of LatLng objects
         for (element in path) {
-            val lat = element.asJsonObject.get("lat").asDouble
-            val lng = element.asJsonObject.get("lng").asDouble
+            val lat = element.asJsonArray[0].asDouble
+            val lng = element.asJsonArray[1].asDouble
             locations.add(LatLng(lat, lng))
-        }*/
-
-        //val route = Route(locations)
-        //route.printRoute()
-
-        // Esegui le operazioni necessarie con il percorso ottenuto dal server
-        // Ad esempio, puoi iterare sugli elementi della lista `path`
-        for (element in path) {
-            // Esempio di operazione: stampa gli elementi del percorso
             Log.i("PathElement", element.toString())
         }
+
+        // create a segment for each pair of points
+        val segments = mutableListOf<Segment>()
+        for (i in 0 until locations.size - 1) {
+            val start = locations[i]
+            val end = locations[i + 1]
+            val amplitude = 0.0
+            val segment = Segment(start, end, amplitude)
+            segments.add(segment)
+        }
+
+        // create a route from the segments
+        val route = Route(segments)
+        route.printRoute()
+
+        return route
+
     }
 
 

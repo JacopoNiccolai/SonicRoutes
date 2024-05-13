@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.media.AudioFormat
@@ -40,12 +41,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.gson.Gson
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
 import com.unipi.dii.sonicroutes.model.NoiseData
+import com.unipi.dii.sonicroutes.model.Route
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -59,7 +62,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class HomeFragment : Fragment(), OnMapReadyCallback{
+class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -101,7 +104,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // stampo nel log
-                Log.e("HomeFragment", "query submitted")
+                Log.d("HomeFragment", "query submitted")
                 //todo : probabilmente è meglio non far niente e far si che l'utente clicchi solo un checkpoint
                 return false
             }
@@ -119,12 +122,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
                     } else {
                         textViewNotFound.visibility = View.GONE
                         recyclerView.adapter =
-                            SearchResultAdapter(filteredMarkers, query, userLocation, searchView)
+                            SearchResultAdapter(filteredMarkers, query, userLocation, searchView, this@HomeFragment)
                         recyclerView.visibility =
                             if (query.isNotEmpty()) View.VISIBLE else View.GONE
 
                     }
                 }
+                Log.d("HomeFragment", "End location clicked")
+
+
+
                 return true
             }
         })
@@ -472,4 +479,24 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             startRecordingButton.text = getString(R.string.stop_recording)
         }
     }
+
+    // function that takes a route and shows it on the map
+    private fun showRouteOnMap(route: Route) {
+        val segments = route.getSegments()
+        for (segment in segments) {
+            val start = segment.getStart()
+            val end = segment.getEnd()
+            map.addPolyline(
+                PolylineOptions()
+                    .add(start, end)
+                    .width(5f)
+                    .color(Color.RED)
+            )
+        }
+    }
+
+    override fun onSearchResultClicked(route: Route) {
+        showRouteOnMap(route)
+    }
+
 }
