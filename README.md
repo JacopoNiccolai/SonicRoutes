@@ -15,7 +15,7 @@ To install SonicRoutes, you need to have Android Studio Jellyfish | 2023.3.1 ins
 
 ## Usage
 
-SonicRoutes is a mobile and social sensing system. It is developed in Kotlin and Java for the Android platform, and Python is used for data analysis and backend services. To use the application, install it on your Android device.
+SonicRoutes is a mobile application developed for Android. It is written in Kotlin for the Android platform, and Python is used for data analysis and backend services. To use the application, install it on your Android device.
 
 ## Contributing
 
