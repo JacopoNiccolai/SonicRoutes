@@ -2,6 +2,7 @@ package com.unipi.dii.sonicroutes.ui.dashboard
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +10,18 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.ui.route.RouteFragment
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
+class FileAdapter(private val files: MutableList<File> = mutableListOf(),
+                  private val fragmentManager : FragmentManager
+) :
     RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
@@ -40,13 +45,16 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
             }
 
             holder.itemView.setOnClickListener {
-                // Quando l'elemento viene cliccato, avvia una nuova Activity (in cui mostro per esempio l'heatmap del rumore del percorso seguito)
-                // todo: implementare la nuova schermata, per ora mostro solo un toast
-                Toast.makeText(holder.itemView.context, "Route clicked : $timestamp", Toast.LENGTH_SHORT).show()
-                /*val context = holder.itemView.context
-                val intent = Intent(context, RouteFragment::class.java)
-                intent.putExtra("fileName", file.name) // Aggiungi il nome del file all'intent
-                context.startActivity(intent)*/
+                val bundle = Bundle().apply {
+                    putString("fileName", file.name)
+                }
+                val routeFragment = RouteFragment().apply {
+                    arguments = bundle
+                }
+                fragmentManager.beginTransaction() // Use the passed fragmentManager
+                    .replace(R.id.route_fragment_container, routeFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
 
             holder.buttonShare.setOnClickListener {
@@ -59,7 +67,7 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
     }
 
     private fun File.extractTimestampFromDataFileName(): String? {
-        val timestampString = name.substringAfter("data_").substringBeforeLast(".json")
+        val timestampString = name.substringAfter("data_").substringBeforeLast(".csv")
         val inputFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         return try {
@@ -95,7 +103,7 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf()) :
 
     private fun deleteFile(file: File, context: Context) {
         val position = files.indexOf(file)
-        val timestamp = file.name.substringAfter("data_").substringBefore(".json")
+        val timestamp = file.name.substringAfter("data_").substringBefore(".csv")
         if (file.delete() && position != -1) {
             files.removeAt(position) // Rimuove il file dall'elenco
             notifyItemRemoved(position) // Notifica alla RecyclerView la rimozione dell'elemento

@@ -22,7 +22,7 @@ class DashboardFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_dashboard, container, false)
         recyclerView = rootView.findViewById(R.id.recycler_view_dashboard)
-        adapter = FileAdapter(getDataFiles().toMutableList())
+        adapter = FileAdapter(getDataFiles().toMutableList(),childFragmentManager)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         return rootView

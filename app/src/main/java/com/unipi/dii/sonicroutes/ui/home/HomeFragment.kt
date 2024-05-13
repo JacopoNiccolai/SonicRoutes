@@ -40,12 +40,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.gson.Gson
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
-import com.unipi.dii.sonicroutes.model.NoiseData
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -167,12 +165,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
                 val id = columns[0].toInt()
                 val latitude = columns[1].toDouble()
                 val longitude = columns[2].toDouble()
+                val coordinates = LatLng(latitude, longitude)
                 val streetName = columns[3].split(";").map { it.trim() } // Trim each street name
                 //todo : inutile o no? direi di sì
                 val streetCounter = columns[4].toInt() // street counter is at index 4
 
                 // Create a POI object with latitude, longitude, and street name
-                val poi = Crossing(id, latitude, longitude, streetName)
+                val poi = Crossing(id, coordinates, streetName)
 
                 // Add the POI object to the markers list
                 markers.add(poi)
@@ -331,6 +330,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
                 numberOfMeasurements = 0
                 // invio l'edge al server
                 Apis(requireContext()).uploadEdge(edge)
+                // scrivo sul log locale
+                val file = File(context?.filesDir, filename)
+                try {
+                    FileOutputStream(file, true).use { fos ->
+                        OutputStreamWriter(fos).use { writer ->
+                            writer.write(edge.toCsvEntry() + "\n")
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("HomeFragment", "Failed to write data to file", e)
+                }
+
             }
             if (nearestMarker != null) {
                 lastCheckpoint = nearestMarker
@@ -357,31 +368,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             if (lastCheckpoint!=null) { // sound not recorded until at least one checkpoint is reached
                 val amplitude = audioData.maxOrNull()?.toInt() ?: 0
                 Log.d("HomeFragment", "Current Noise Level: $amplitude")
-                val jsonEntry = Gson().toJson(
-                    NoiseData(
-                        latitude = userLocation.latitude,
-                        longitude = userLocation.longitude,
-                        amplitude = amplitude,
-                        timestamp = System.currentTimeMillis()
-                    )
-                )
                 cumulativeNoise += amplitude
                 numberOfMeasurements++
                 Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
                 Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
-                Log.d("HomeFragment", "JSON Entry: $jsonEntry")
-
-                val file = File(context?.filesDir, filename)
-                try {
-                    FileOutputStream(file, true).use { fos ->
-                        OutputStreamWriter(fos).use { writer ->
-                            writer.write(jsonEntry + "\n")
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e("HomeFragment", "Failed to write data to file", e)
-                }
-
             }
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
@@ -435,15 +425,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback{
             val filesDir = context?.filesDir
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             // Costruisci il nome del nuovo file utilizzando il timestamp attuale
-            filename = "$filenamePrefix$timestamp.json"
-
-            // Ottieni la lista dei file nella directory (debug)
-            filesDir?.listFiles()?.forEach {
-                Log.d("HomeFragment", "File nella directory: ${it.name}")
+            filename = "$filenamePrefix$timestamp.csv"
+            val file = File(filesDir, filename)
+            try {
+                FileOutputStream(file).use { fos ->
+                    OutputStreamWriter(fos).use { writer ->
+                        writer.write("startCrossingId,endCrossingId,amplitude,measurements\n")
+                        //todo : jacopo dice qui sopra di salvare solo strt ed end id e poi recuperare il rumore medio dal server (ci sta)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "Failed to write data to file", e)
             }
 
-            // Creo un file con timestamp corrente
-            File(filesDir, filename)
 
         } else {
             stopRecording()

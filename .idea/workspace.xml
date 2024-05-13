@@ -18,9 +18,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="small issue resolved">
+    <list default="true" id="79507d39-1851-403f-92f3-ca524e0ec585" name="Changes" comment="-">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/route/RouteFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/route/RouteViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_route.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/grafi/grafo_completo.graphml" beforeDir="false" afterPath="$PROJECT_DIR$/python/grafi/grafo_completo.graphml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Edge.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/model/Edge.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/DashboardFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/FileAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/dashboard/FileAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/unipi/dii/sonicroutes/ui/home/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +37,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=RFCW501QBBF)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\giuli\.android\avd\Pixel_8_Pro_API_34.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -79,8 +86,8 @@
       <list>
         <option value="resourceFile" />
         <option value="valueResourceFile" />
-        <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -141,7 +148,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;
   }
 }</component>
   <component name="PsdUISettings">
@@ -156,6 +163,13 @@
     <key name="CreateKotlinClassDialog.RecentsKey">
       <recent name="com.unipi.dii.sonicroutes.model" />
       <recent name="com.unipi.dii.sonicroutes.ui.home" />
+    </key>
+    <key name="android.template.-230062340">
+      <recent name="com.unipi.dii.sonicroutes.ui.Route" />
+      <recent name="com.unipi.dii.sonicroutes.ui.dashboard" />
+    </key>
+    <key name="android.template.-52677044">
+      <recent name="com.unipi.dii.sonicroutes.ui.Route" />
     </key>
   </component>
   <component name="RunManager">
@@ -396,7 +410,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715522753769</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="-">
+      <option name="closed" value="true" />
+      <created>1715589038208</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1715589038208</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -425,10 +447,10 @@
     <MESSAGE value="now position is sent correctly each time to the flask server" />
     <MESSAGE value="start and stop recording button added" />
     <MESSAGE value="now the route search is done by looking up for a street" />
-    <MESSAGE value="-" />
     <MESSAGE value="chiusura della searchview on_click di un risultato" />
     <MESSAGE value="small issue resolved; searchView must be enabled only on map ready since it utilizes user position" />
     <MESSAGE value="small issue resolved" />
-    <option name="LAST_COMMIT_MESSAGE" value="small issue resolved" />
+    <MESSAGE value="-" />
+    <option name="LAST_COMMIT_MESSAGE" value="-" />
   </component>
 </project>
