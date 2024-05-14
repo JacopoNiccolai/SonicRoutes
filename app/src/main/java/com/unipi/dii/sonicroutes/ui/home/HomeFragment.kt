@@ -171,10 +171,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         checkPermissionsAndSetupMap()
         // Add a listener for when the user moves the map
         map.setOnCameraMoveStartedListener { reason ->
-        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-            isMapMovedByUser = true
+            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                isMapMovedByUser = true
+            }
         }
-    }
+
+        // map.uiSettings.isRotateGesturesEnabled = false
 
     // Add a listener for when the user clicks the button to center the map on their location
     map.setOnMyLocationButtonClickListener {
