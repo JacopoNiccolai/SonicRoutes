@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -35,7 +36,9 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     private var map: GoogleMap? = null
     private var fileName: String? = null // received as argument
     private val minAmplitude = 0.0 // this and the following are used to map the amplitude to a color
-    private val maxAmplitude = 500.0
+    private val maxAmplitude = 500.0 //TODO: parliamone; per come è fatto ora, se amplitude >= 500, il colore è sempre rosso
+    private lateinit var loadingLayout: FrameLayout
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_route, container, false)
@@ -52,6 +55,9 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         view.findViewById<Button>(R.id.button_back_to_dashboard).setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+
+        loadingLayout = view.findViewById(R.id.loading_layout)
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -95,6 +101,10 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
                 reader.close()
+
+                loadingLayout.visibility = View.GONE
+                view?.findViewById<Button>(R.id.button_back_to_dashboard)?.visibility = View.VISIBLE
+
             } catch (e: Exception) {
                 Log.e(TAG, "Error reading file: ${e.message}")
                 // Print a more detailed log
@@ -141,10 +151,11 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                 map?.addPolyline(polylineOptions)
 
                 // Center the map on the last point with animation
-                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(endingCrossing, 16f))
+                map?.moveCamera(CameraUpdateFactory.newLatLngZoom(endingCrossing, 16f))
             } catch (e: IOException) {
                 // Handle the I/O error here
                 Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
             }
         }
     }
