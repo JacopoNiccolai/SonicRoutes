@@ -92,6 +92,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         mapFragment?.getMapAsync(this)
         val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton) as Button
         changeButtonColor(startRecordingButton)
+        changeButtonVisibility(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
         geocodingUtil = GeocodingUtil(requireContext())
 
@@ -133,9 +134,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                     }
                 }
                 Log.d("HomeFragment", "End location clicked")
-
-
-
                 return true
             }
         })
@@ -427,7 +425,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             .show()
     }
 
-
     private fun toggleRecording(startRecordingButton: Button) {
         isRecording = !isRecording
         if (isRecording) {
@@ -491,14 +488,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
-    // function that takes a route and shows it on the map
+    private fun changeButtonVisibility(startRecordingButton: Button) {
+        if(isRecording) {
+            startRecordingButton.visibility = View.VISIBLE
+        }else {
+            startRecordingButton.visibility = View.GONE
+        }
+    }
 
+    // function that takes a route and shows it on the map
 
     override fun onSearchResultClicked(route: Route) {
         // map clear
         map.clear()
         val navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route)
+        changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
     }
 
 }
