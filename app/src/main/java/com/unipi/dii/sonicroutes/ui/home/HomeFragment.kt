@@ -68,6 +68,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
     private var isRecording = false
+    private var routeReceived = false
     private lateinit var userLocation: LatLng
     private lateinit var geocodingUtil: GeocodingUtil
     private val markers = ArrayList<Crossing>()
@@ -409,6 +410,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 audioRecord?.stop() // Ferma la registrazione
                 audioRecord?.release() // Rilascia le risorse dell'oggetto AudioRecord
                 isRecording = false // Imposta lo stato di registrazione su falso
+                routeReceived = false
+                changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
+
             } catch (e: SecurityException) {
                 Log.e("HomeFragment", "Security Exception during audio recording stop: ${e.message}")
             }
@@ -521,7 +525,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     private fun changeButtonVisibility(startRecordingButton: Button) {
-        if(isRecording) {
+        if(isRecording || routeReceived) {
             startRecordingButton.visibility = View.VISIBLE
         }else {
             startRecordingButton.visibility = View.GONE
@@ -535,6 +539,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         map.clear()
         val navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route)
+        routeReceived = true
         changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
     }
 
