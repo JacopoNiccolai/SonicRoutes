@@ -75,7 +75,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
     private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
     private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
-    private var filename = ""
     private lateinit var searchView: SearchView
     private var isMapMovedByUser = false
     private var emptyFile = true
@@ -346,7 +345,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 // invio l'edge al server
                 Apis(requireContext()).uploadEdge(edge)
                 // scrivo sul log locale
-                val file = File(context?.filesDir, filename)
+                val file = File(context?.filesDir, "TMP")
                 try {
                     FileOutputStream(file, true).use { fos ->
                         OutputStreamWriter(fos).use { writer ->
@@ -436,23 +435,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 map.addMarker(MarkerOptions().position(marker.getCoordinates()))
             }
 
-            val filenamePrefix = "data_"
-            val filesDir = context?.filesDir
-            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            // Costruisci il nome del nuovo file utilizzando il timestamp attuale
-            filename = "$filenamePrefix$timestamp.csv"
-            val file = File(filesDir, filename)
-            try {
-                FileOutputStream(file).use { fos ->
-                    OutputStreamWriter(fos).use { writer ->
-                        writer.write("startCrossingId,endCrossingId,amplitude,measurements\n")
-                        //todo : jacopo dice qui sopra di salvare solo strt ed end id e poi recuperare il rumore medio dal server (ci sta)
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("HomeFragment", "Failed to write data to file", e)
-            }
-
+            createTMPFile()
 
         } else {
             stopRecording()
@@ -462,11 +445,60 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             lastCheckpoint = null
             // if emptyFile, cancello il file
             if(emptyFile) {
-                val file = File(context?.filesDir, filename)
+                val file = File(context?.filesDir, "TMP")
                 file.delete()
             }
+            commitFile()
             emptyFile = true
         }
+    }
+
+    /**
+     * This function is responsible for creating a temporary file that will be used to store data during the recording session.
+     * The function first deletes any existing temporary files to ensure a clean start.
+     * Then, it creates a new temporary file and writes the header line for the data to be stored.
+     * The data includes the start and end IDs of a crossing and the amplitude and number of measurements of the noise recorded.
+     * The file is named "TMP" and is stored in the application's private file directory.
+     * Reason : if user starts recording then goes inside Dashboard, he can see the file even tough he/she still hasn't completed the route
+     */
+    private fun createTMPFile(){
+        // delete all "TMP" files if they exist
+        val files = context?.filesDir?.listFiles { file ->
+            file.name.startsWith("TMP")
+        }
+        files?.forEach { file ->
+            file.delete()
+        }
+
+        val filename = "TMP"
+        val filesDir = context?.filesDir
+        val file = File(filesDir, filename)
+        try {
+            FileOutputStream(file).use { fos ->
+                OutputStreamWriter(fos).use { writer ->
+                    writer.write("startCrossingId,endCrossingId,amplitude,measurements\n")
+                    //todo : jacopo dice qui sopra di salvare solo strt ed end id e poi recuperare il rumore medio dal server (ci sta)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("HomeFragment", "Failed to write data to file", e)
+        }
+    }
+
+    /**
+     * This function is responsible for committing the temporary file to a permanent file.
+     * The function changes the name of the temporary file to a new file with a timestamp.
+     * The timestamp is generated using the current date and time when the route is ended.
+     * The new file is named "data_yyyyMMdd_HHmmss.csv" and is stored in the application's private file directory.
+     */
+    private fun commitFile(){
+        // function to change the file with "filename" to "TMP"
+        val file = File(context?.filesDir, "TMP")
+        val filenamePrefix = "data_"
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        // Costruisci il nome del nuovo file utilizzando il timestamp attuale
+        val newFilename = "$filenamePrefix$timestamp.csv"
+        file.renameTo(File(context?.filesDir, newFilename))
     }
 
     private fun changeButtonColor(startRecordingButton: Button) {
