@@ -25,6 +25,10 @@ class DashboardFragment : Fragment() {
         adapter = FileAdapter(getDataFiles().toMutableList(),childFragmentManager)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        //tolgo tutti i figli dal childFragmentManager
+        for (fragment in childFragmentManager.fragments) {
+            childFragmentManager.beginTransaction().remove(fragment).commit()
+        }
         return rootView
     }
 

@@ -52,6 +52,8 @@ import com.unipi.dii.sonicroutes.model.Route
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.unipi.dii.sonicroutes.model.NavigationManager
+import com.unipi.dii.sonicroutes.model.Route
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -64,13 +66,13 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-
 class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
     private var isRecording = false
+    private var routeReceived = false
     private lateinit var userLocation: LatLng
     private lateinit var geocodingUtil: GeocodingUtil
     private val markers = ArrayList<Crossing>()
@@ -78,30 +80,28 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
     private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
     private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
-    private var filename = ""
     private lateinit var searchView: SearchView
     private var isMapMovedByUser = false
+    private var emptyFile = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        if (markers.isEmpty())
+            fetchAllCrossings() // fetch all crossings from the server
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
         val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton) as Button
         changeButtonColor(startRecordingButton)
+        changeButtonVisibility(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
         geocodingUtil = GeocodingUtil(requireContext())
 
-        fetchAllCrossings() // fetch all crossings from the server
-
         // Check and request GPS enablement if not enabled
-        checkAndPromptToEnableGPS(startRecordingButton)
+        checkAndPromptToEnableGPS()
         searchView = view.findViewById<SearchView>(R.id.searchView)
         // disabilito la search view fintanto che la posizione utente non è pronta
         searchView.isEnabled = false
@@ -138,15 +138,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                     }
                 }
                 Log.d("HomeFragment", "End location clicked")
-
-
-
                 return true
             }
         })
     }
 
-    private fun checkAndPromptToEnableGPS(startRecordingButton: Button) {
+    private fun checkAndPromptToEnableGPS() {
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // GPS is not enabled, show dialog to enable it
@@ -175,8 +172,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 isMapMovedByUser = true
             }
         }
-
-        // map.uiSettings.isRotateGesturesEnabled = false
 
     // Add a listener for when the user clicks the button to center the map on their location
     map.setOnMyLocationButtonClickListener {
@@ -223,11 +218,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             map.isMyLocationEnabled = true
             map.uiSettings.isMyLocationButtonEnabled = true
             startLocationUpdates()
-
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception: ${e.message}")
         }
-
     }
 
     private fun startLocationUpdates() {
@@ -272,7 +265,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     override fun onResume() {
         super.onResume()
-
         if(isRecording)
             checkPermissionsAndSetupRecording()
     }
@@ -337,7 +329,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
         Log.d("HomeFragment", "Distance: $minDistance")
         var contains = false
-        // controllo se route.last.getStreetname() contiene almeno una street in comune con nearestmarker
+        // controllo se lastCheckpoint contiene almeno una street in comune con nearestmarker
         if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getId() != nearestMarker.getId()) {
             for (name in lastCheckpoint!!.getStreetName()) {
                 if (nearestMarker.getStreetName().contains(name)) {
@@ -358,11 +350,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 // invio l'edge al server
                 Apis(requireContext()).uploadEdge(edge)
                 // scrivo sul log locale
-                val file = File(context?.filesDir, filename)
+                val file = File(context?.filesDir, "TMP")
                 try {
                     FileOutputStream(file, true).use { fos ->
                         OutputStreamWriter(fos).use { writer ->
                             writer.write(edge.toCsvEntry() + "\n")
+                            emptyFile = false
                         }
                     }
                 } catch (e: Exception) {
@@ -421,6 +414,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 audioRecord?.stop() // Ferma la registrazione
                 audioRecord?.release() // Rilascia le risorse dell'oggetto AudioRecord
                 isRecording = false // Imposta lo stato di registrazione su falso
+                routeReceived = false
+                changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
+
             } catch (e: SecurityException) {
                 Log.e("HomeFragment", "Security Exception during audio recording stop: ${e.message}")
             }
@@ -448,23 +444,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 map.addMarker(MarkerOptions().position(marker.getCoordinates()))
             }
 
-            val filenamePrefix = "data_"
-            val filesDir = context?.filesDir
-            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            // Costruisci il nome del nuovo file utilizzando il timestamp attuale
-            filename = "$filenamePrefix$timestamp.csv"
-            val file = File(filesDir, filename)
-            try {
-                FileOutputStream(file).use { fos ->
-                    OutputStreamWriter(fos).use { writer ->
-                        writer.write("startCrossingId,endCrossingId,amplitude,measurements\n")
-                        //todo : jacopo dice qui sopra di salvare solo strt ed end id e poi recuperare il rumore medio dal server (ci sta)
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("HomeFragment", "Failed to write data to file", e)
-            }
-
+            createTMPFile()
 
         } else {
             stopRecording()
@@ -472,7 +452,62 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_purple))
             map.clear()
             lastCheckpoint = null
+            // if emptyFile, cancello il file
+            if(emptyFile) {
+                val file = File(context?.filesDir, "TMP")
+                file.delete()
+            }
+            commitFile()
+            emptyFile = true
         }
+    }
+
+    /**
+     * This function is responsible for creating a temporary file that will be used to store data during the recording session.
+     * The function first deletes any existing temporary files to ensure a clean start.
+     * Then, it creates a new temporary file and writes the header line for the data to be stored.
+     * The data includes the start and end IDs of a crossing and the amplitude and number of measurements of the noise recorded.
+     * The file is named "TMP" and is stored in the application's private file directory.
+     * Reason : if user starts recording then goes inside Dashboard, he can see the file even tough he/she still hasn't completed the route
+     */
+    private fun createTMPFile(){
+        // delete all "TMP" files if they exist
+        val files = context?.filesDir?.listFiles { file ->
+            file.name.startsWith("TMP")
+        }
+        files?.forEach { file ->
+            file.delete()
+        }
+
+        val filename = "TMP"
+        val filesDir = context?.filesDir
+        val file = File(filesDir, filename)
+        try {
+            FileOutputStream(file).use { fos ->
+                OutputStreamWriter(fos).use { writer ->
+                    writer.write("startCrossingId,endCrossingId,amplitude,measurements\n")
+                    //todo : jacopo dice qui sopra di salvare solo strt ed end id e poi recuperare il rumore medio dal server (ci sta)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("HomeFragment", "Failed to write data to file", e)
+        }
+    }
+
+    /**
+     * This function is responsible for committing the temporary file to a permanent file.
+     * The function changes the name of the temporary file to a new file with a timestamp.
+     * The timestamp is generated using the current date and time when the route is ended.
+     * The new file is named "data_yyyyMMdd_HHmmss.csv" and is stored in the application's private file directory.
+     */
+    private fun commitFile(){
+        // function to change the file with "filename" to "TMP"
+        val file = File(context?.filesDir, "TMP")
+        val filenamePrefix = "data_"
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        // Costruisci il nome del nuovo file utilizzando il timestamp attuale
+        val newFilename = "$filenamePrefix$timestamp.csv"
+        file.renameTo(File(context?.filesDir, newFilename))
     }
 
     private fun changeButtonColor(startRecordingButton: Button) {
@@ -494,14 +529,23 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
-    // function that takes a route and shows it on the map
+    private fun changeButtonVisibility(startRecordingButton: Button) {
+        if(isRecording || routeReceived) {
+            startRecordingButton.visibility = View.VISIBLE
+        }else {
+            startRecordingButton.visibility = View.GONE
+        }
+    }
 
+    // function that takes a route and shows it on the map
 
     override fun onSearchResultClicked(route: Route) {
         // map clear
         map.clear()
         val navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route)
+        routeReceived = true
+        changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
     }
 
 }
