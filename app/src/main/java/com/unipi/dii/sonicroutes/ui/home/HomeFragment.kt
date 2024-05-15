@@ -513,6 +513,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                     android.R.color.holo_purple
                 )
             )
+            startRecordingButton.text = getString(R.string.start_recording)
         }else {
             startRecordingButton.setBackgroundColor(
                 ContextCompat.getColor(
@@ -539,6 +540,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         map.clear()
         val navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route)
+        if(routeReceived && isRecording){
+            isRecording = false
+            changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)
+        }
         routeReceived = true
         changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
     }

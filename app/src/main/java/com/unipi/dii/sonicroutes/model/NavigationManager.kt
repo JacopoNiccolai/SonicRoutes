@@ -12,7 +12,7 @@ class NavigationManager(private val map: GoogleMap) {
     private var currentRoute: Route? = null
     private var currentRouteIndex = 0
 
-    public fun showRouteOnMap(route: Route) {
+    fun showRouteOnMap(route: Route) {
         currentRoute = route
         currentRouteIndex = 0
 
