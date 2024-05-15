@@ -52,8 +52,6 @@ import com.unipi.dii.sonicroutes.model.Route
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.unipi.dii.sonicroutes.model.NavigationManager
-import com.unipi.dii.sonicroutes.model.Route
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
