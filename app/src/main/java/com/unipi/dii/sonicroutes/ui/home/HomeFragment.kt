@@ -1,6 +1,7 @@
 package com.unipi.dii.sonicroutes.ui.home
 
 import GeocodingUtil
+import MapOrientationHelper
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
@@ -39,17 +40,18 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Apis
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
+import com.unipi.dii.sonicroutes.model.NavigationManager
+import com.unipi.dii.sonicroutes.model.Route
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.unipi.dii.sonicroutes.model.NavigationManager
-import com.unipi.dii.sonicroutes.model.Route
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -164,10 +166,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         checkPermissionsAndSetupMap()
         // Add a listener for when the user moves the map
         map.setOnCameraMoveStartedListener { reason ->
-        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-            isMapMovedByUser = true
+            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                isMapMovedByUser = true
+            }
         }
-    }
 
     // Add a listener for when the user clicks the button to center the map on their location
     map.setOnMyLocationButtonClickListener {
@@ -428,6 +430,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             .show()
     }
 
+
     private fun toggleRecording(startRecordingButton: Button) {
         isRecording = !isRecording
         if (isRecording) {
@@ -513,6 +516,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                     android.R.color.holo_purple
                 )
             )
+            startRecordingButton.text = getString(R.string.start_recording)
         }else {
             startRecordingButton.setBackgroundColor(
                 ContextCompat.getColor(
@@ -539,6 +543,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         map.clear()
         val navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route)
+        if(routeReceived && isRecording){
+            isRecording = false
+            changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)
+        }
         routeReceived = true
         changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
     }
