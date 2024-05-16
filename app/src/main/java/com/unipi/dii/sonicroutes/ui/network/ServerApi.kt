@@ -15,6 +15,8 @@ interface ServerApi {
     fun uploadDataJson(@Body jsonData: JsonObject): Call<Void>
     @POST("/getRoute")
     fun sendPoints(@Body points: Points): Call<JsonObject>
+    @POST("/oldGetRoute")
+    fun oldSendPoints(@Body points: Points): Call<JsonObject>
     @GET("/getCrossingCoordinates/{crossingId}")
     fun getCrossingCoordinates(@Path("crossingId") crossingId: Int): Call<JsonElement>
     @GET("/getCrossings/{cityName}")

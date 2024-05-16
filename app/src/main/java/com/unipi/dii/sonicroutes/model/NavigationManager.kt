@@ -2,16 +2,11 @@ package com.unipi.dii.sonicroutes.model
 
 import android.graphics.Color
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
-import kotlin.math.acos
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
 
 
 class NavigationManager(private val map: GoogleMap) {
@@ -19,7 +14,7 @@ class NavigationManager(private val map: GoogleMap) {
     private var currentRoute: Route? = null
     private var currentRouteIndex = 0
 
-    fun showRouteOnMap(route: Route) {
+    fun showRouteOnMap(route: Route, i: Int) {
         currentRoute = route
         currentRouteIndex = 0
 
@@ -27,11 +22,12 @@ class NavigationManager(private val map: GoogleMap) {
         for (segment in segments) {
             val start = segment.getStart()
             val end = segment.getEnd()
+            val color = if (i == 1) Color.RED else Color.BLUE
             map.addPolyline(
                 PolylineOptions()
                     .add(start, end)
                     .width(5f)
-                    .color(Color.BLUE)
+                    .color(color)
             )
         }
 

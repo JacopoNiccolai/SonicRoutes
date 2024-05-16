@@ -1,7 +1,6 @@
 package com.unipi.dii.sonicroutes.ui.home
 
 import GeocodingUtil
-import MapOrientationHelper
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
@@ -40,7 +39,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
@@ -538,11 +536,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     // function that takes a route and shows it on the map
 
-    override fun onSearchResultClicked(route: Route) {
+    override fun onSearchResultClicked(route: Route, i: Int) {
         // map clear
-        map.clear()
+        if (i==2)
+            map.clear()
         val navigationManager = NavigationManager(map)
-        navigationManager.showRouteOnMap(route)
+        navigationManager.showRouteOnMap(route,i)
         if(routeReceived && isRecording){
             isRecording = false
             changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)

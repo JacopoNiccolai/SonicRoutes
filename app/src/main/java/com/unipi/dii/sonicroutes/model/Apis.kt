@@ -64,6 +64,40 @@ class Apis (private val context: Context){
         })
     }
 
+
+    fun oldGetRoute(
+        point1: LatLng,
+        point2: LatLng,
+        onComplete: (Route) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val points = Points(point1, point2)
+        val call = serverApi.oldSendPoints(points)
+
+        call.enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    val jsonResponse = response.body()
+                    val path = jsonResponse?.getAsJsonArray("path")
+                    Log.d("JSON Path", path.toString())
+                    if (path != null) {
+                        val route = handlePath(path)
+                        onComplete(route) // Invoke the callback with the retrieved route
+                    } else {
+                        onError("Invalid server response")
+                    }
+                } else {
+                    onError("Failed to send points to the server")
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                onError("Network error: ${t.message}")
+                t.printStackTrace()
+            }
+        })
+    }
+
     private fun handlePath(path: JsonArray): Route {
 
         val locations = mutableListOf<LatLng>()
