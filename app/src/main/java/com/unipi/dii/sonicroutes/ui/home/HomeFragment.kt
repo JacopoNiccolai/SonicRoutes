@@ -66,6 +66,7 @@ import kotlin.math.sqrt
 
 class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
+    private lateinit var navigationManager: NavigationManager
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
@@ -401,6 +402,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         .position(nearestMarker)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
+
+                navigationManager.updateAlignment()
             }
 
         }
@@ -541,8 +544,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     override fun onSearchResultClicked(route: Route) {
         // map clear
         map.clear()
-        val navigationManager = NavigationManager(map)
-        navigationManager.showRouteOnMap(route)
+        navigationManager = NavigationManager(map)
+        navigationManager.initializeAlignment(route)
         if(routeReceived && isRecording){
             isRecording = false
             changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)
