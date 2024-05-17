@@ -220,7 +220,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     private fun startLocationUpdates() {
-        val locationRequest = LocationRequest.Builder(5000)
+        val locationRequest = LocationRequest.Builder(3000)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build()
 
@@ -303,10 +303,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         } else {
                             Log.e("HomeFragment", "Error reading audio data")
                         }
-                        handler.postDelayed(this, 5000)
+                        handler.postDelayed(this, 3000)
                     }
                 }
-            }, 5000)
+            }, 3000)
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception during audio recording setup: ${e.message}")
         }
