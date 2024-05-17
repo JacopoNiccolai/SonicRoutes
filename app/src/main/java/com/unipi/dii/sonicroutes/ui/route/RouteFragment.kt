@@ -136,7 +136,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 // Define a pattern for the polyline
-                val pattern: List<PatternItem> = listOf(Dash(30f), Gap(20f))
+                val pattern: List<PatternItem> = listOf(Dash(30f), Gap(5f))
 
                 // Map the amplitude to a color
                 val amplitude = edge.getAmplitude() / edge.getMeasurements()
@@ -148,6 +148,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                     .add(endingCrossing)
                     .pattern(pattern) // Apply the pattern
                     .color(color) // Set the color
+                    .width(20f)
                 map?.addPolyline(polylineOptions)
 
                 // Center the map on the last point with animation

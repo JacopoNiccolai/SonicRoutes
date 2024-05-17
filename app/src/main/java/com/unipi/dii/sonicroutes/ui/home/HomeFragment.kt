@@ -1,7 +1,6 @@
 package com.unipi.dii.sonicroutes.ui.home
 
 import GeocodingUtil
-import MapOrientationHelper
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
@@ -40,7 +39,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
@@ -223,7 +221,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     private fun startLocationUpdates() {
-        val locationRequest = LocationRequest.Builder(5000)
+        val locationRequest = LocationRequest.Builder(3000)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build()
 
@@ -306,10 +304,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         } else {
                             Log.e("HomeFragment", "Error reading audio data")
                         }
-                        handler.postDelayed(this, 5000)
+                        handler.postDelayed(this, 3000)
                     }
                 }
-            }, 5000)
+            }, 3000)
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception during audio recording setup: ${e.message}")
         }
@@ -541,11 +539,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     // function that takes a route and shows it on the map
 
-    override fun onSearchResultClicked(route: Route) {
+    override fun onSearchResultClicked(route: Route, i: Int) {
         // map clear
-        map.clear()
-        navigationManager = NavigationManager(map)
-        navigationManager.initializeAlignment(route)
+        if (i==2)
+            map.clear()
+        val navigationManager = NavigationManager(map)
+        navigationManager.showRouteOnMap(route,i)
+
         if(routeReceived && isRecording){
             isRecording = false
             changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)

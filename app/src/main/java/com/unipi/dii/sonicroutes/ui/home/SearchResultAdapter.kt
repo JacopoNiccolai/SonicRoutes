@@ -50,7 +50,22 @@ class SearchResultAdapter(
                     route.printRoute()
 
                     // show the route on the map of the HomeFragment
-                    clickListener.onSearchResultClicked(route)
+                    clickListener.onSearchResultClicked(route,1)
+
+
+                },
+                onError = { errorMessage ->
+                    Toast.makeText(holder.itemView.context, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            )
+
+
+            Apis(holder.itemView.context).oldGetRoute(userLocation,endingPoint,
+                onComplete = { route ->
+                    route.printRoute()
+
+                    // show the route on the map of the HomeFragment
+                    clickListener.onSearchResultClicked(route,2)
 
 
                 },
