@@ -64,6 +64,7 @@ import kotlin.math.sqrt
 
 class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
+    private lateinit var navigationManager: NavigationManager
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
@@ -220,7 +221,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     private fun startLocationUpdates() {
-        val locationRequest = LocationRequest.Builder(5000)
+        val locationRequest = LocationRequest.Builder(3000)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build()
 
@@ -303,10 +304,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         } else {
                             Log.e("HomeFragment", "Error reading audio data")
                         }
-                        handler.postDelayed(this, 5000)
+                        handler.postDelayed(this, 3000)
                     }
                 }
-            }, 5000)
+            }, 3000)
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception during audio recording setup: ${e.message}")
         }
@@ -404,6 +405,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         .position(nearestMarker)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
+
+                navigationManager.updateAlignment()
             }
 
         }
@@ -547,6 +550,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             map.clear()
         val navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route,i)
+
         if(routeReceived && isRecording){
             isRecording = false
             changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)

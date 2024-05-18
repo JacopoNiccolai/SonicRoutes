@@ -31,35 +31,27 @@ class NavigationManager(private val map: GoogleMap) {
             )
         }
 
-        resetMapOrientation()
-
-
         //get the map current location
         val currentLatLng = map.cameraPosition.target
-        Log.i("Coords", "Current LATLON: $currentLatLng")
         val destinationLatLng = segments[0].getEnd()
-        Log.i("Coords", "Destination LATLON: $destinationLatLng")
         //requestDirections(currentLatLng, destinationLatLng)
 
+        val bearing = map.cameraPosition.bearing
+
         // get the degrees between the two points
-        val degrees = getDegrees(currentLatLng, destinationLatLng)
-        Log.i("Deggghhh", "Deg: $degrees")
-        // rotate the map camera to match the degrees
+        val degrees = angleFromNorth(currentLatLng, destinationLatLng)
+        Log.d("NavigationManager", "currentLatLng: $currentLatLng")
+        Log.d("NavigationManager", "degrees: $degrees")
+        Log.d("NavigationManager", "bearing: $bearing")
 
-        Log.i("Bearings", "Current: ${map.cameraPosition.bearing}, Destination: $degrees")
-        // update the camera bearing to match the device orientation
-        val currentCameraPosition = map.cameraPosition
-        val newCameraPosition = CameraPosition.Builder(currentCameraPosition)
-            .bearing(degrees) // Rotate (negative to match device orientation)
-            .build()
+        val angle = bearing - degrees
+        Log.d("NavigationManager", "angle: $angle")
 
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition))
-
-        Log.i("Bearings Mod", "Current: ${map.cameraPosition.bearing}, Destination: $degrees")
+        setMapRotation(degrees)
 
     }
 
-    private fun getDegrees(start: LatLng, end: LatLng): Float {
+    private fun angleFromNorth(start: LatLng, end: LatLng): Float {
         val lat1 = Math.toRadians(start.latitude)
         val lon1 = Math.toRadians(start.longitude)
         val lat2 = Math.toRadians(end.latitude)
@@ -67,22 +59,41 @@ class NavigationManager(private val map: GoogleMap) {
 
         val dLon = lon2 - lon1
 
-        val y = Math.sin(dLon) * Math.cos(lat2)
-        val x = Math.cos(lat1) * Math.sin(lat2) -
-                Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
+        val y = sin(dLon) * cos(lat2)
+        val x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
 
-        return (Math.toDegrees(Math.atan2(y, x)).toFloat() + 360) % 360
+        var angle = atan2(y, x)
+        angle = Math.toDegrees(angle)
+        angle = (angle + 360) % 360
+
+        return angle.toFloat()
     }
 
+    private fun setMapRotation(angle: Float) {
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(
+            CameraPosition.builder()
+                .target(map.cameraPosition.target)
+                .zoom(18f)
+                .bearing(angle)
+                .build()
+        ))
+    }
 
-    private fun resetMapOrientation() {
-        val currentCameraPosition = map.cameraPosition
-        val newCameraPosition = CameraPosition.Builder(currentCameraPosition)
-            .bearing(0f) // Set bearing to 0 degrees (north)
-            .build()
+    fun updateAlignment(){
 
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition))
+        setMapRotation(0f)
 
+        if (currentRoute != null) {
+            val segments = currentRoute!!.getSegments()
+            val currentLatLng = segments[currentRouteIndex].getEnd()
+            currentRouteIndex++
+            val destinationLatLng = segments[currentRouteIndex].getEnd()
+
+            val degrees = angleFromNorth(currentLatLng, destinationLatLng)
+            setMapRotation(degrees)
+        }
+
+        
     }
 
 

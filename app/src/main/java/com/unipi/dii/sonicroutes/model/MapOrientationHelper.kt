@@ -3,13 +3,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Handler
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
 
 class MapOrientationHelper(private val context: Context, private val map: GoogleMap) : SensorEventListener {
 
@@ -25,7 +21,7 @@ class MapOrientationHelper(private val context: Context, private val map: Google
     private var magnetometerReading = FloatArray(3)
 
     private var lastUpdateTime: Long = 0
-    private val updateInterval = 5000 // Update interval in milliseconds (e.g., 5 seconds)
+    private val updateInterval = 3000 // Update interval in milliseconds (e.g., 5 seconds)
 
     init {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
