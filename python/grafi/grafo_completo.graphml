@@ -63,20 +63,20 @@
 <node id="9">
   <data key="d0">43.7212777</data>
   <data key="d1">10.4003564</data>
-  <data key="d2">Via dei Martiri; Via Ferdinando Capponi</data>
-  <data key="d3">2</data>
+  <data key="d2">Via dei Martiri; Via Ferdinando Capponi; Via San Tommaso</data>
+  <data key="d3">3</data>
 </node>
 <node id="10">
   <data key="d0">43.7198717</data>
   <data key="d1">10.3996002</data>
-  <data key="d2">Via dei Martiri; Via Dalmazia; Piazza dei Cavalieri; Via Corsica</data>
-  <data key="d3">4</data>
+  <data key="d2">Via dei Martiri; Via Dalmazia; Piazza dei Cavalieri; Via Corsica; Via Uguccione della Faggiola</data>
+  <data key="d3">5</data>
 </node>
 <node id="11">
   <data key="d0">43.7177108</data>
   <data key="d1">10.3998677</data>
-  <data key="d2">Via Tavoleria; Piazza San Frediano; Via Domenico Cavalca; Via San Frediano; Via Curtatone e Montanara</data>
-  <data key="d3">5</data>
+  <data key="d2">Via Tavoleria; Piazza San Frediano; Via Domenico Cavalca; Via San Frediano; Via Curtatone e Montanara; Piazza Dante</data>
+  <data key="d3">6</data>
 </node>
 <node id="12">
   <data key="d0">43.7170206</data>
@@ -147,8 +147,8 @@
 <node id="23">
   <data key="d0">43.718127</data>
   <data key="d1">10.3969295</data>
-  <data key="d2">Via Santa Maria; Via Alessandro Volta</data>
-  <data key="d3">2</data>
+  <data key="d2">Via Santa Maria; Via Alessandro Volta; Via L'Arancio</data>
+  <data key="d3">3</data>
 </node>
 <node id="24">
   <data key="d0">43.7185764</data>
@@ -237,14 +237,14 @@
 <node id="38">
   <data key="d0">43.7163698</data>
   <data key="d1">10.3945476</data>
-  <data key="d2">Via Roma; Via Enrico Fermi</data>
-  <data key="d3">2</data>
+  <data key="d2">Via Roma; Via Enrico Fermi; Lungarno Antonio Pacinotti</data>
+  <data key="d3">3</data>
 </node>
 <node id="39">
   <data key="d0">43.7176731</data>
   <data key="d1">10.3978318</data>
-  <data key="d2">Piazza San Giorgio; Via del Collegio Ricci; Via La Pergola</data>
-  <data key="d3">3</data>
+  <data key="d2">Piazza San Giorgio; Via L'Arancio; Via La Pergola; Piazza Dante</data>
+  <data key="d3">4</data>
 </node>
 <node id="40">
   <data key="d0">43.722343</data>
@@ -412,10 +412,6 @@
 </edge>
 <edge source="14" target="28">
     <data key="d4">521.6105078394995</data>
-    <data key="d5">1</data>
-</edge>
-<edge source="14" target="30">
-    <data key="d4">1</data>
     <data key="d5">1</data>
 </edge>
 <edge source="15" target="25">

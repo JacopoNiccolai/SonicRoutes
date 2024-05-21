@@ -223,9 +223,4 @@ class Apis (private val context: Context){
             throw IOException("HTTP error: ${e.code()}")
         }
     }
-
-
-
 }
-
-

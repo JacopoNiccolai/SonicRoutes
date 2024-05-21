@@ -7,10 +7,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
-
+import kotlin.math.*
 
 class NavigationManager(private val map: GoogleMap) {
 
