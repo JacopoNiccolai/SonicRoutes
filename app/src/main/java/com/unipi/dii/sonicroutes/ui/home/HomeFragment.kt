@@ -80,6 +80,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var searchView: SearchView
     private var isMapMovedByUser = false
     private var emptyFile = true
+    private lateinit var startRecordingButton : Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (markers.isEmpty())
@@ -88,10 +89,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        startRecordingButton = view.findViewById(R.id.startRecordingButton)
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        val startRecordingButton = view.findViewById<View>(R.id.startRecordingButton) as Button
         changeButtonColor(startRecordingButton)
         changeButtonVisibility(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
@@ -427,7 +428,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 audioRecord?.release() // Rilascia le risorse dell'oggetto AudioRecord
                 isRecording = false // Imposta lo stato di registrazione su falso
                 routeReceived = false
-                changeButtonVisibility(view?.findViewById(R.id.startRecordingButton)!!)
+                changeButtonVisibility(startRecordingButton)
 
             } catch (e: SecurityException) {
                 Log.e("HomeFragment", "Security Exception during audio recording stop: ${e.message}")
@@ -568,9 +569,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
         if(routeReceived && isRecording){
             isRecording = false
-            changeButtonColor(view?.findViewById(R.id.startRecordingButton)!!)
+            changeButtonColor(startRecordingButton)
         }
         routeReceived = true
-        changeButtonVisibility(view?.findViewById(R.id.startRecordingButton)!!)
+        changeButtonVisibility(startRecordingButton)
     }
 }
