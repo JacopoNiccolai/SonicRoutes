@@ -64,6 +64,7 @@ import kotlin.math.sqrt
 
 class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
+    private lateinit var navigationManager: NavigationManager
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
@@ -383,11 +384,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
             if (lastCheckpoint!=null) { // sound not recorded until at least one checkpoint is reached
                 val amplitude = audioData.maxOrNull()?.toInt() ?: 0
-                Log.d("HomeFragment", "Current Noise Level: $amplitude")
-                cumulativeNoise += amplitude
-                numberOfMeasurements++
-                Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
-                Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
+                // if amplitude < 0 or > 30000
+                if (amplitude in 0..30000) {
+                    Log.d("HomeFragment", "Current Noise Level: $amplitude")
+                    cumulativeNoise += amplitude
+                    numberOfMeasurements++
+                    Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
+                    Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
+                } else {
+                    Log.d("HomeFragment", "Invalid Noise Level: $amplitude")
+                }
             }
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
@@ -399,6 +405,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         .position(nearestMarker)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
+
+                navigationManager.updateAlignment()
             }
 
         }
@@ -542,6 +550,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             map.clear()
         val navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route,i)
+
         if(routeReceived && isRecording){
             isRecording = false
             changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)
