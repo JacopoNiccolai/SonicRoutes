@@ -129,10 +129,10 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val startingCrossing = withContext(Dispatchers.IO) {
-                    Apis(requireContext()).getCrossingCoordinates(edge.getStartCrossingId())
+                    context?.let { Apis(requireContext()).getCrossingCoordinates(it,edge.getStartCrossingId()) }
                 }
                 val endingCrossing = withContext(Dispatchers.IO) {
-                    Apis(requireContext()).getCrossingCoordinates(edge.getEndCrossingId())
+                    context?.let { Apis(requireContext()).getCrossingCoordinates(it,edge.getEndCrossingId()) }
                 }
 
                 // Define a pattern for the polyline
@@ -152,7 +152,8 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                 map?.addPolyline(polylineOptions)
 
                 // Center the map on the last point with animation
-                map?.moveCamera(CameraUpdateFactory.newLatLngZoom(endingCrossing, 16f))
+                endingCrossing?.let { CameraUpdateFactory.newLatLngZoom(it, 16f) }
+                    ?.let { map?.moveCamera(it) }
             } catch (e: IOException) {
                 // Handle the I/O error here
                 Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()

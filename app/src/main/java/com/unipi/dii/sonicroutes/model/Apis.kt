@@ -1,11 +1,9 @@
 package com.unipi.dii.sonicroutes.model
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.finishAffinity
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -24,7 +22,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import kotlin.coroutines.resume
-import kotlin.system.exitProcess
 
 class Apis (private val context: Context){
     // todo : sia questa classe che l'interfaccia in 'ui/network' van spostate
@@ -42,7 +39,7 @@ class Apis (private val context: Context){
         point1: LatLng,
         point2: LatLng,
         onComplete: (Route) -> Unit,
-        onError: (String, () -> Unit) -> Unit
+        onError: (String) -> Unit
     ) {
         val points = Points(point1, point2)
         val call = serverApi.sendPoints(points)
@@ -57,15 +54,15 @@ class Apis (private val context: Context){
                         val route = handlePath(path)
                         onComplete(route) // Invoke the callback with the retrieved route
                     } else {
-                        onError("Invalid server response") {}
+                        onError("Invalid server response")
                     }
                 } else {
-                    onError("Failed to send points to the server") {}
+                    onError("Failed to send points to the server")
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                onError("Network error: ${t.message}") {}
+                onError("Network error: ${t.message}")
                 t.printStackTrace()
             }
         })
@@ -76,7 +73,7 @@ class Apis (private val context: Context){
         point1: LatLng,
         point2: LatLng,
         onComplete: (Route) -> Unit,
-        onError: (String, () -> Unit) -> Unit
+        onError: (String) -> Unit
     ) {
         val points = Points(point1, point2)
         val call = serverApi.oldSendPoints(points)
@@ -92,15 +89,15 @@ class Apis (private val context: Context){
                         val route = handlePath(path)
                         onComplete(route) // Invoke the callback with the retrieved route
                     } else {
-                        onError("Invalid server response") {}
+                        onError("Invalid server response")
                     }
                 } else {
-                    onError("Failed to send points to the server") {}
+                    onError("Failed to send points to the server")
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                onError("Network error: ${t.message}") {}
+                onError("Network error: ${t.message}")
                 t.printStackTrace()
             }
         })
