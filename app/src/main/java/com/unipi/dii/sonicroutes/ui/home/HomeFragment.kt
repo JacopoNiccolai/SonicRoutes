@@ -134,7 +134,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
                     }
                 }
-                Log.d("HomeFragment", "End location clicked")
                 return true
             }
         })
@@ -181,10 +180,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val crossings =
-                    apis.getCrossings("pisa")
+                    context?.let { apis.getCrossings(it,"pisa") }
                 markers.clear()
-                markers.addAll(crossings)
-                Log.d("HomeFragment", "Fetched ${crossings.size} crossings")
+                if (crossings != null) {
+                    markers.addAll(crossings)
+                }
+                if (crossings != null) {
+                    Log.d("HomeFragment", "Fetched ${crossings.size} crossings")
+                }
             } catch (e: IOException) {
                 // Handle the I/O error here
                 Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
