@@ -99,7 +99,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS()
-        searchView = view.findViewById<SearchView>(R.id.searchView)
+        searchView = view.findViewById(R.id.searchView)
         // disabilito la search view fintanto che la posizione utente non è pronta
         searchView.isEnabled = false
 
@@ -197,14 +197,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     private fun checkPermissionsAndSetupMap() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            print("Permission not granted")
+            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             setupMap()
             searchView.isEnabled = true
         }
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+    private val requestLocationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
             setupMap()
         } else {
@@ -212,8 +213,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
-    private fun setupMap() {
+    private val requestAudioPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            startNoiseRecording()
+        } else {
+            showMessageToUser("Per favore, concedere il permesso per la registrazione audio.")
+        }
+    }
 
+    private fun setupMap() {
         try {
             map.isMyLocationEnabled = true
             map.uiSettings.isMyLocationButtonEnabled = true
@@ -253,10 +261,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         if(!isMapMovedByUser) {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
         }
-        geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) { address ->
-            //println(address)
-            // todo : forse sto address è inutile, ora i controlli sono sulle 'streets' dei crossing
-        }
+        geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) {}
 
         Log.i("Orsing", map.cameraPosition.bearing.toString())
         //updateCameraBearing(map, map.cameraPosition.bearing)
@@ -271,7 +276,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     private fun checkPermissionsAndSetupRecording() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         } else {
             startNoiseRecording()
         }
@@ -422,7 +427,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 audioRecord?.release() // Rilascia le risorse dell'oggetto AudioRecord
                 isRecording = false // Imposta lo stato di registrazione su falso
                 routeReceived = false
-                changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
+                changeButtonVisibility(view?.findViewById(R.id.startRecordingButton)!!)
 
             } catch (e: SecurityException) {
                 Log.e("HomeFragment", "Security Exception during audio recording stop: ${e.message}")
@@ -434,11 +439,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         AlertDialog.Builder(requireContext())
             .setTitle("ATTENZIONE!")
             .setMessage(message)
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                if(message.contains("localizzazione")) {
+                    requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
+                else {
+                    requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                }
+            }
             .create()
             .show()
     }
-
 
     private fun toggleRecording(startRecordingButton: Button) {
         isRecording = !isRecording
@@ -556,10 +568,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
         if(routeReceived && isRecording){
             isRecording = false
-            changeButtonColor(view?.findViewById<Button>(R.id.startRecordingButton)!!)
+            changeButtonColor(view?.findViewById(R.id.startRecordingButton)!!)
         }
         routeReceived = true
-        changeButtonVisibility(view?.findViewById<Button>(R.id.startRecordingButton)!!)
+        changeButtonVisibility(view?.findViewById(R.id.startRecordingButton)!!)
     }
-
 }
