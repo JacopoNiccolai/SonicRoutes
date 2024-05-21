@@ -107,14 +107,14 @@ class Apis (private val context: Context){
 
         val locations = mutableListOf<LatLng>()
 
-        Log.d("Path", path.toString())
+        //Log.d("Path", path.toString())
 
         // Convert the JSON array to a list of LatLng objects
         for (element in path) {
             val lat = element.asJsonArray[0].asDouble
             val lng = element.asJsonArray[1].asDouble
             locations.add(LatLng(lat, lng))
-            Log.i("PathElement", element.toString())
+            //Log.i("PathElement", element.toString())
         }
 
         // create a segment for each pair of points
@@ -129,7 +129,7 @@ class Apis (private val context: Context){
 
         // create a route from the segments
         val route = Route(segments)
-        route.printRoute()
+        //route.printRoute()
 
         return route
     }

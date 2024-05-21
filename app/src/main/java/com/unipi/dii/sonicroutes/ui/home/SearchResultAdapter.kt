@@ -47,12 +47,8 @@ class SearchResultAdapter(
             Log.d("SearchResultAdapter", "Punto iniziale : $userLocation Punto finale: $endingPoint")
             Apis(holder.itemView.context).getRoute(userLocation,endingPoint,
                 onComplete = { route ->
-                    route.printRoute()
-
                     // show the route on the map of the HomeFragment
                     clickListener.onSearchResultClicked(route,1)
-
-
                 },
                 onError = { errorMessage ->
                     Toast.makeText(holder.itemView.context, errorMessage, Toast.LENGTH_SHORT).show()
@@ -62,21 +58,15 @@ class SearchResultAdapter(
 
             Apis(holder.itemView.context).oldGetRoute(userLocation,endingPoint,
                 onComplete = { route ->
-                    route.printRoute()
-
                     // show the route on the map of the HomeFragment
                     clickListener.onSearchResultClicked(route,2)
-
-
                 },
                 onError = { errorMessage ->
                     Toast.makeText(holder.itemView.context, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             )
-
             searchView.setQuery("", false)
             searchView.clearFocus()
-
         }
     }
 
