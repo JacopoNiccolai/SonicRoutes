@@ -1,15 +1,20 @@
 package com.unipi.dii.sonicroutes.model
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.finishAffinity
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.unipi.dii.sonicroutes.MainActivity
 import com.unipi.dii.sonicroutes.ui.network.ServerApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,6 +23,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import kotlin.coroutines.resume
+import kotlin.system.exitProcess
 
 class Apis (private val context: Context){
     // todo : sia questa classe che l'interfaccia in 'ui/network' van spostate
@@ -35,7 +42,7 @@ class Apis (private val context: Context){
         point1: LatLng,
         point2: LatLng,
         onComplete: (Route) -> Unit,
-        onError: (String) -> Unit
+        onError: (String, () -> Unit) -> Unit
     ) {
         val points = Points(point1, point2)
         val call = serverApi.sendPoints(points)
@@ -50,15 +57,15 @@ class Apis (private val context: Context){
                         val route = handlePath(path)
                         onComplete(route) // Invoke the callback with the retrieved route
                     } else {
-                        onError("Invalid server response")
+                        onError("Invalid server response") {}
                     }
                 } else {
-                    onError("Failed to send points to the server")
+                    onError("Failed to send points to the server") {}
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                onError("Network error: ${t.message}")
+                onError("Network error: ${t.message}") {}
                 t.printStackTrace()
             }
         })
@@ -69,7 +76,7 @@ class Apis (private val context: Context){
         point1: LatLng,
         point2: LatLng,
         onComplete: (Route) -> Unit,
-        onError: (String) -> Unit
+        onError: (String, () -> Unit) -> Unit
     ) {
         val points = Points(point1, point2)
         val call = serverApi.oldSendPoints(points)
@@ -85,15 +92,15 @@ class Apis (private val context: Context){
                         val route = handlePath(path)
                         onComplete(route) // Invoke the callback with the retrieved route
                     } else {
-                        onError("Invalid server response")
+                        onError("Invalid server response") {}
                     }
                 } else {
-                    onError("Failed to send points to the server")
+                    onError("Failed to send points to the server") {}
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                onError("Network error: ${t.message}")
+                onError("Network error: ${t.message}") {}
                 t.printStackTrace()
             }
         })
@@ -153,9 +160,10 @@ class Apis (private val context: Context){
 
     }
 
-    suspend fun getCrossingCoordinates(crossingId: Int): LatLng {
-        return withContext(Dispatchers.IO) {
-            try {
+    suspend fun getCrossingCoordinates(context: Context, crossingId: Int): LatLng {
+        return retryOnFailure(context) {
+            Log.d("getCrossingCoordinates", "getCrossingCoordinates")
+            withContext(Dispatchers.IO) {
                 val response = serverApi.getCrossingCoordinates(crossingId).execute()
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -170,29 +178,51 @@ class Apis (private val context: Context){
                 } else {
                     throw IOException("HTTP error: ${response.code()}")
                 }
-            } catch (e: IOException) {
-                // Gestione di IOException
-                throw e
-            } catch (e: HttpException) {
-                // Gestione di HttpException (errore HTTP)
-                throw IOException("HTTP error: ${e.code()}")
             }
         }
     }
 
-    suspend fun getCrossings(cityName: String): List<Crossing> {
+    suspend fun getCrossings(context: Context, cityName: String): List<Crossing> {
+        return retryOnFailure(context) {
+            val response = serverApi.getCrossings(cityName)
+            Log.d("getAllCrossings", response.toString())
+            response.crossings
+        }
+    }
+
+    private suspend fun showRetryDialog(context: Context): Boolean {
+        return suspendCancellableCoroutine { continuation ->
+            AlertDialog.Builder(context)
+                .setTitle("Server not reachable right now")
+                .setMessage("Impossible to connect to the server. Please try again later.")
+                .setCancelable(false)
+                .setPositiveButton("Retry") { _, _ ->
+                    continuation.resume(true)
+                }
+                .setNegativeButton("Close the app") { _, _ ->
+                    continuation.resume(false)
+                    MainActivity.instance?.finishAffinity()
+                }
+                .show()
+        }
+    }
+
+    private suspend fun <T> retryOnFailure(
+        context: Context,
+        apiCall: suspend () -> T
+    ): T {
         return try {
             withContext(Dispatchers.IO) {
-                val response = serverApi.getCrossings(cityName)
-                // stampo nel log
-                Log.d("getAllCrossings", response.toString())
-                response.crossings
+                apiCall()
             }
         } catch (e: IOException) {
-            // Handle IOException
-            throw e
+            val shouldRetry = withContext(Dispatchers.Main) { showRetryDialog(context) }
+            if (shouldRetry) {
+                retryOnFailure(context, apiCall)
+            } else {
+                throw e
+            }
         } catch (e: HttpException) {
-            // Handle HttpException (HTTP error)
             throw IOException("HTTP error: ${e.code()}")
         }
     }
