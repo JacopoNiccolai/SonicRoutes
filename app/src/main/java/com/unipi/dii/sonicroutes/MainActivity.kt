@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instance = this
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
@@ -22,6 +23,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         setupNavigation()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        instance = null
     }
 
     private fun setupNavigation() {
@@ -35,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("MainActivity", "Error setting up navigation: ${e.message}")
         }
+    }
+
+    companion object {
+        var instance: MainActivity? = null
     }
 }
 
