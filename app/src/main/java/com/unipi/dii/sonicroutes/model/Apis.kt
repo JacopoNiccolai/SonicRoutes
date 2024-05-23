@@ -29,7 +29,7 @@ class Apis (private val context: Context){
 
     init {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5000/")
+            .baseUrl("http://10.1.1.23:5000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         serverApi = retrofit.create(ServerApi::class.java)
