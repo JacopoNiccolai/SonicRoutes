@@ -37,14 +37,14 @@ class NavigationManager(private val map: GoogleMap) {
             val destinationLatLng = segment.getEnd()
             val degrees = angleFromNorth(currentLatLng, destinationLatLng)
 
-            if (segments.indexOf(segment) != segments.size - 1) { // if this is not the last segment i add an arrow
+            if (segments.indexOf(segment) != segments.size - 1) { // if this is not the last segment I add an arrow
                 map.addMarker(
                     MarkerOptions()
                         .position(start)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow_icon))
-                        .anchor(0.5f, 0.5f) // Adjust the anchor point if necessary
+                        .anchor(0.5f, 0.5f)
                         .rotation(degrees)
-                        .flat(true) // Make the marker flat to the map surface
+                        .flat(true)
                 )
             }else{
                 map.addMarker(
