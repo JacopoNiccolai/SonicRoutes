@@ -24,6 +24,7 @@ class NavigationManager(private val map: GoogleMap) {
 
         val segments = route.getSegments()
         for (segment in segments) {
+
             val start = segment.getStart()
             val end = segment.getEnd()
             map.addPolyline(
@@ -37,7 +38,9 @@ class NavigationManager(private val map: GoogleMap) {
             val destinationLatLng = segment.getEnd()
             val degrees = angleFromNorth(currentLatLng, destinationLatLng)
 
-            if (segments.indexOf(segment) != segments.size - 1) { // if this is not the last segment I add an arrow
+            if (segments.indexOf(segment) == 0) { // don't add an arrow for the first segment
+                continue
+            }else{ // if this is not the first
                 map.addMarker(
                     MarkerOptions()
                         .position(start)
@@ -46,13 +49,15 @@ class NavigationManager(private val map: GoogleMap) {
                         .rotation(degrees)
                         .flat(true)
                 )
-            }else{
+            }
+            if(segments.indexOf(segment) == segments.size-1) { // if this is the last segment I add a green marker
                 map.addMarker(
                     MarkerOptions()
-                        .position(start)
+                        .position(end)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
             }
+
         }
 
         //get the map current location

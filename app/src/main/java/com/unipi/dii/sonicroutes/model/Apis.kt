@@ -50,7 +50,7 @@ class Apis (private val context: Context){
                     val jsonResponse = response.body()
                     val path = jsonResponse?.getAsJsonArray("path")
 
-                    Log.d("oldGetRoute: JSON Path", path.toString())
+                    Log.d("getRoute: JSON Path", path.toString())
                     if (path != null) {
                         val route = handlePath(path)
                         onComplete(route) // Invoke the callback with the retrieved route
