@@ -406,7 +406,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
 
-                //TODO navigationManager.updateAlignment() // non ha senso se l'utente non segue il percorso
             }
 
         }
