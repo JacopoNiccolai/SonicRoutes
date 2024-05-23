@@ -38,6 +38,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
@@ -62,6 +63,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
+    private lateinit var navigationManager: NavigationManager
     private lateinit var map: GoogleMap
     //private lateinit var navigationManager: NavigationManager
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -252,7 +254,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
 
         if(!isMapMovedByUser) {
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+            //map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
+
+            val cameraPosition = CameraPosition.Builder()
+                .target(userLocation)
+                .zoom(17f)
+                .bearing(location.bearing) // Orient the map in the direction of the user's movement
+                .build()
+            map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+
         }
 
     }
@@ -396,7 +406,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
 
-                //navigationManager.updateAlignment()
+                //TODO navigationManager.updateAlignment() // non ha senso se l'utente non segue il percorso
             }
 
         }
@@ -543,7 +553,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     override fun onSearchResultClicked(route: Route) {
         map.clear()
-        val navigationManager = NavigationManager(map)
+        navigationManager = NavigationManager(map)
         navigationManager.showRouteOnMap(route)
 
         if(routeReceived && isRecording){

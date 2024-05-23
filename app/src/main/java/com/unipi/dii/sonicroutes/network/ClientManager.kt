@@ -87,8 +87,7 @@ class ClientManager (private val context: Context){
         for (i in 0 until locations.size - 1) {
             val start = locations[i]
             val end = locations[i + 1]
-            val amplitude = 0.0
-            val segment = Segment(start, end, amplitude)
+            val segment = Segment(start, end)
             segments.add(segment)
         }
 

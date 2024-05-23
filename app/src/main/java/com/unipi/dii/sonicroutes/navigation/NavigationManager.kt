@@ -61,19 +61,17 @@ class NavigationManager(private val map: GoogleMap) {
 
         }
 
-        //get the map current location
-        val currentLatLng = map.cameraPosition.target
-        val destinationLatLng = segments[0].getEnd()
-        //requestDirections(currentLatLng, destinationLatLng)
+        if (segments.size > 1) {
+            //get the map current location
+            val sourceLatLng = segments[0].getEnd()
+            val destinationLatLng = segments[1].getEnd()
 
-        val bearing = map.cameraPosition.bearing
+            // get the degrees between the two points
+            val degrees = angleFromNorth(sourceLatLng, destinationLatLng)
 
-        // get the degrees between the two points
-        val degrees = angleFromNorth(currentLatLng, destinationLatLng)
+            setMapRotation(degrees, sourceLatLng)
 
-        val angle = bearing - degrees
-
-        setMapRotation(angle)
+        }
 
     }
 
@@ -95,11 +93,11 @@ class NavigationManager(private val map: GoogleMap) {
         return angle.toFloat()
     }
 
-    private fun setMapRotation(angle: Float) {
+    private fun setMapRotation(angle: Float, position: LatLng) {
         map.moveCamera(CameraUpdateFactory.newCameraPosition(
             CameraPosition.builder()
-                .target(map.cameraPosition.target)
-                .zoom(18f)
+                .target(position)
+                .zoom(16.5f)
                 .bearing(angle)
                 .build()
         ))
@@ -107,69 +105,18 @@ class NavigationManager(private val map: GoogleMap) {
 
     fun updateAlignment(){
 
-        setMapRotation(0f)
-
-        if (currentRoute != null) {
+        if (currentRoute != null && currentRouteIndex < currentRoute!!.getSegments().size) {
             val segments = currentRoute!!.getSegments()
             val currentLatLng = segments[currentRouteIndex].getEnd()
             currentRouteIndex++
             val destinationLatLng = segments[currentRouteIndex].getEnd()
 
             val degrees = angleFromNorth(currentLatLng, destinationLatLng)
-            setMapRotation(degrees)
+
+            setMapRotation(degrees, currentLatLng)
         }
 
 
     }
-
-
-
-    /*private fun updateCameraBearing(map: GoogleMap) {
-        // Rotate the map
-        val currentCameraPosition = map.cameraPosition
-        val newCameraPosition = CameraPosition.Builder(currentCameraPosition)
-            .bearing() // Rotate map based on azimuth (negative to match device orientation)
-            .build()
-
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition))
-    }*/
-
-    /*private fun requestDirections(origin: LatLng, destination: LatLng) {
-        val context = GeoApiContext.Builder()
-            .apiKey(getString(R.string.google_maps_key)) // Replace with your Google Maps API key
-            .build()
-
-        DirectionsApi.newRequest(context)
-            .mode(TravelMode.WALKING)
-            .origin(com.google.maps.model.LatLng(origin.latitude, origin.longitude))
-            .destination(com.google.maps.model.LatLng(destination.latitude, destination.longitude))
-            .setCallback(object : com.google.maps.PendingResult.Callback<DirectionsResult> {
-                override fun onResult(result: DirectionsResult?) {
-                    result?.routes?.let { routes ->
-                        if (routes.isNotEmpty()) {
-                            // Display the first route on the map
-                            displayRoute(routes[0])
-                        }
-                    }
-                }
-
-                override fun onFailure(e: Throwable?) {
-                    // Handle API request failure
-                }
-            })
-    }
-
-    private fun displayRoute(route: com.google.maps.model.DirectionsRoute) {
-        val decodedPath = route.overviewPolyline.decodePath()
-
-        val polylineOptions = PolylineOptions().apply {
-            width(8f)
-            color(ContextCompat.getColor(this@MapsActivity, R.color.colorPrimary))
-            addAll(decodedPath)
-        }
-
-        mMap.addPolyline(polylineOptions)
-    }*/
-
 
 }
