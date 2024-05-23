@@ -45,21 +45,21 @@ class SearchResultAdapter(
             // invio al server la posizione corrente e quella del checkpoint finale
             val endingPoint = crossing.getCoordinates()
             Log.d("SearchResultAdapter", "Punto iniziale : $userLocation Punto finale: $endingPoint")
+//            Apis(holder.itemView.context).getRoute(userLocation,endingPoint,
+//                onComplete = { route ->
+//                    // show the route on the map of the HomeFragment
+//                    clickListener.onSearchResultClicked(route,1)
+//                },
+//                onError = { errorMessage ->
+//                    Toast.makeText(holder.itemView.context, errorMessage, Toast.LENGTH_SHORT).show()
+//                }
+//            )
+
+
             Apis(holder.itemView.context).getRoute(userLocation,endingPoint,
                 onComplete = { route ->
                     // show the route on the map of the HomeFragment
-                    clickListener.onSearchResultClicked(route,1)
-                },
-                onError = { errorMessage ->
-                    Toast.makeText(holder.itemView.context, errorMessage, Toast.LENGTH_SHORT).show()
-                }
-            )
-
-
-            Apis(holder.itemView.context).oldGetRoute(userLocation,endingPoint,
-                onComplete = { route ->
-                    // show the route on the map of the HomeFragment
-                    clickListener.onSearchResultClicked(route,2)
+                    clickListener.onSearchResultClicked(route)
                 },
                 onError = { errorMessage ->
                     Toast.makeText(holder.itemView.context, errorMessage, Toast.LENGTH_SHORT).show()

@@ -415,7 +415,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 )
 
-                navigationManager.updateAlignment()
+                //navigationManager.updateAlignment()
             }
 
         }
@@ -560,12 +560,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     // function that takes a route and shows it on the map
 
-    override fun onSearchResultClicked(route: Route, i: Int) {
-        // map clear
-        if (i==2)
-            map.clear()
+    override fun onSearchResultClicked(route: Route) {
+        map.clear()
         val navigationManager = NavigationManager(map)
-        navigationManager.showRouteOnMap(route,i)
+        navigationManager.showRouteOnMap(route)
 
         if(routeReceived && isRecording){
             isRecording = false
