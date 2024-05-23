@@ -4,17 +4,21 @@ import android.graphics.Color
 import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import kotlin.math.*
+import com.google.android.gms.maps.model.MarkerOptions
+import com.unipi.dii.sonicroutes.R
+
 
 class NavigationManager(private val map: GoogleMap) {
 
     private var currentRoute: Route? = null
     private var currentRouteIndex = 0
 
-    fun showRouteOnMap(route: Route, i: Int) {
+    fun showRouteOnMap(route: Route) {
         currentRoute = route
         currentRouteIndex = 0
 
@@ -22,13 +26,33 @@ class NavigationManager(private val map: GoogleMap) {
         for (segment in segments) {
             val start = segment.getStart()
             val end = segment.getEnd()
-            val color = if (i == 1) Color.RED else Color.BLUE
             map.addPolyline(
                 PolylineOptions()
                     .add(start, end)
                     .width(5f)
-                    .color(color)
+                    .color(Color.BLUE)
             )
+
+            val currentLatLng = segment.getStart()
+            val destinationLatLng = segment.getEnd()
+            val degrees = angleFromNorth(currentLatLng, destinationLatLng)
+
+            if (segments.indexOf(segment) != segments.size - 1) { // if this is not the last segment i add an arrow
+                map.addMarker(
+                    MarkerOptions()
+                        .position(start)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow_icon))
+                        .anchor(0.5f, 0.5f) // Adjust the anchor point if necessary
+                        .rotation(degrees)
+                        .flat(true) // Make the marker flat to the map surface
+                )
+            }else{
+                map.addMarker(
+                    MarkerOptions()
+                        .position(start)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                )
+            }
         }
 
         //get the map current location
