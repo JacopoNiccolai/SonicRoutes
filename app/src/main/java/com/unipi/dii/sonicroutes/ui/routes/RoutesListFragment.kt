@@ -1,4 +1,4 @@
-package com.unipi.dii.sonicroutes.ui.dashboard
+package com.unipi.dii.sonicroutes.ui.routes
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.unipi.dii.sonicroutes.R
 import java.io.File
 
-class DashboardFragment : Fragment() {
+class RoutesListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FileAdapter

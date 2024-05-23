@@ -1,4 +1,4 @@
-package com.unipi.dii.sonicroutes.ui.dashboard
+package com.unipi.dii.sonicroutes.ui.routes
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -13,7 +13,6 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.unipi.dii.sonicroutes.R
-import com.unipi.dii.sonicroutes.ui.route.RouteFragment
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale

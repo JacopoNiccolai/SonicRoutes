@@ -1,6 +1,5 @@
-package com.unipi.dii.sonicroutes.ui.home
+package com.unipi.dii.sonicroutes.ui.tracking
 
-import GeocodingUtil
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
@@ -42,11 +41,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
-import com.unipi.dii.sonicroutes.model.Apis
+import com.unipi.dii.sonicroutes.network.ClientManager
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
-import com.unipi.dii.sonicroutes.model.NavigationManager
 import com.unipi.dii.sonicroutes.model.Route
+import com.unipi.dii.sonicroutes.navigation.NavigationManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,16 +61,15 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
+class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var map: GoogleMap
-    private lateinit var navigationManager: NavigationManager
+    //private lateinit var navigationManager: NavigationManager
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
     private var isRecording = false
     private var routeReceived = false
     private lateinit var userLocation: LatLng
-    private lateinit var geocodingUtil: GeocodingUtil
     private val markers = ArrayList<Crossing>()
     private val route = ArrayList<Edge>() // contiene gli edge tra i checkpoint, serve per ricostruire il percorso ed avere misura del rumore
     private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
@@ -96,7 +94,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         changeButtonColor(startRecordingButton)
         changeButtonVisibility(startRecordingButton)
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
-        geocodingUtil = GeocodingUtil(requireContext())
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS()
@@ -110,9 +107,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // stampo nel log
-                Log.d("HomeFragment", "query submitted")
-                //todo : probabilmente è meglio non far niente e far si che l'utente clicchi solo un checkpoint
                 return false
             }
 
@@ -129,7 +123,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                     } else {
                         textViewNotFound.visibility = View.GONE
                         recyclerView.adapter =
-                            SearchResultAdapter(filteredMarkers, query, userLocation, searchView, this@HomeFragment)
+                            SearchResultAdapter(filteredMarkers, query, userLocation, searchView, this@MapFragment)
                         recyclerView.visibility =
                             if (query.isNotEmpty()) View.VISIBLE else View.GONE
 
@@ -177,18 +171,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 }
     private fun fetchAllCrossings() {
-        val apis = Apis(requireContext())
+        val clientManager = ClientManager(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val crossings =
-                    context?.let { apis.getCrossings(it,"pisa") }
+                    context?.let { clientManager.getCrossings(it,"pisa") }
                 markers.clear()
                 if (crossings != null) {
                     markers.addAll(crossings)
                 }
-                if (crossings != null) {
-                    Log.d("HomeFragment", "Fetched ${crossings.size} crossings")
-                }
+
             } catch (e: IOException) {
                 // Handle the I/O error here
                 Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -262,10 +254,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         if(!isMapMovedByUser) {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 18f))
         }
-        geocodingUtil.getAddressFromLocation(location.latitude, location.longitude) {}
-
-        Log.i("Orsing", map.cameraPosition.bearing.toString())
-        //updateCameraBearing(map, map.cameraPosition.bearing)
 
     }
 
@@ -333,7 +321,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 nearestMarker = marker
             }
         }
-        Log.d("HomeFragment", "Distance: $minDistance")
+
         var contains = false
         // controllo se lastCheckpoint contiene almeno una street in comune con nearestmarker
         if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getId() != nearestMarker.getId()) {
@@ -348,13 +336,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             if(lastCheckpoint!=null) { // se non sono al primo checkpoint, allora creo un edge tra il nuovo checkpoint ed il precedente
                 val edge = Edge(lastCheckpoint!!.getId(), nearestMarker!!.getId(), cumulativeNoise, numberOfMeasurements)
                 route.add(edge)
-                // stampo l'edge per debug
-                Log.d("HomeFragment", "Edge: $edge")
+
                 // reset delle variabili per il prossimo checkpoint
                 cumulativeNoise = 0.0
                 numberOfMeasurements = 0
                 // invio l'edge al server
-                Apis(requireContext()).uploadEdge(edge)
+                ClientManager(requireContext()).uploadEdge(edge)
                 // scrivo sul log locale
                 val file = File(context?.filesDir, "TMP")
                 try {
@@ -395,18 +382,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 val amplitude = audioData.maxOrNull()?.toInt() ?: 0
                 // if amplitude < 0 or > 30000
                 if (amplitude in 0..30000) {
-                    Log.d("HomeFragment", "Current Noise Level: $amplitude")
                     cumulativeNoise += amplitude
                     numberOfMeasurements++
-                    Log.d("HomeFragment", "Cumulative Noise: $cumulativeNoise")
-                    Log.d("HomeFragment", "Number of Measurements: $numberOfMeasurements")
-                } else {
-                    Log.d("HomeFragment", "Invalid Noise Level: $amplitude")
                 }
             }
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
-                Log.d("HomeFragment", "Nearest Marker: $nearestMarker")
 
                 // Aggiungi il marker più vicino alla mappa con un colore diverso
                 map.addMarker(

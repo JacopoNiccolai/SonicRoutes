@@ -1,4 +1,4 @@
-package com.unipi.dii.sonicroutes.model
+package com.unipi.dii.sonicroutes.network
 
 import android.app.AlertDialog
 import android.content.Context
@@ -10,7 +10,10 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.unipi.dii.sonicroutes.MainActivity
-import com.unipi.dii.sonicroutes.ui.network.ServerApi
+import com.unipi.dii.sonicroutes.model.Crossing
+import com.unipi.dii.sonicroutes.model.Edge
+import com.unipi.dii.sonicroutes.model.Route
+import com.unipi.dii.sonicroutes.model.Segment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -23,8 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import kotlin.coroutines.resume
 
-class Apis (private val context: Context){
-    // todo : sia questa classe che l'interfaccia in 'ui/network' van spostate
+class ClientManager (private val context: Context){
+
     private val serverApi: ServerApi
 
     init {
@@ -50,7 +53,6 @@ class Apis (private val context: Context){
                     val jsonResponse = response.body()
                     val path = jsonResponse?.getAsJsonArray("path")
 
-                    Log.d("getRoute: JSON Path", path.toString())
                     if (path != null) {
                         val route = handlePath(path)
                         onComplete(route) // Invoke the callback with the retrieved route
@@ -73,14 +75,11 @@ class Apis (private val context: Context){
 
         val locations = mutableListOf<LatLng>()
 
-        //Log.d("Path", path.toString())
-
         // Convert the JSON array to a list of LatLng objects
         for (element in path) {
             val lat = element.asJsonArray[0].asDouble
             val lng = element.asJsonArray[1].asDouble
             locations.add(LatLng(lat, lng))
-            //Log.i("PathElement", element.toString())
         }
 
         // create a segment for each pair of points
@@ -95,7 +94,6 @@ class Apis (private val context: Context){
 
         // create a route from the segments
         val route = Route(segments)
-        //route.printRoute()
 
         return route
     }
@@ -125,7 +123,6 @@ class Apis (private val context: Context){
 
     suspend fun getCrossingCoordinates(context: Context, crossingId: Int): LatLng {
         return retryOnFailure(context) {
-            Log.d("getCrossingCoordinates", "getCrossingCoordinates")
             withContext(Dispatchers.IO) {
                 val response = serverApi.getCrossingCoordinates(crossingId).execute()
                 if (response.isSuccessful) {
@@ -148,7 +145,6 @@ class Apis (private val context: Context){
     suspend fun getCrossings(context: Context, cityName: String): List<Crossing> {
         return retryOnFailure(context) {
             val response = serverApi.getCrossings(cityName)
-            Log.d("getAllCrossings", response.toString())
             response.crossings
         }
     }

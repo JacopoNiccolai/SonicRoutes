@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">SonicRoutes</string>
-    <string name="title_home">Sonic Tracking</string>
-    <string name="title_dashboard">My Sonic Routes</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_tracking">Sonic Tracking</string>
+    <string name="title_routes">My Sonic Routes</string>
     <string name="start_recording">Start Recording</string>
     <string name="stop_recording">Stop Recording</string>
     <string name="no_routes_to_show">No routes to show</string>
@@ -14,6 +13,5 @@
     <string name="checkpoint_text">Checkpoint ID: %1$d, Street: %2$s</string>
     <string name="street_not_found">Street not found</string>
     <string name="marker_icon_description">image of a marker icon</string>
-    <string name="back_to_dashboard">Back to Dashboard</string>
-
+    <string name="back_to_routes">Back to my routes</string>
 </resources>

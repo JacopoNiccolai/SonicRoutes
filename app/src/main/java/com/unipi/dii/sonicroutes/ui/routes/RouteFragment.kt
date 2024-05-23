@@ -1,4 +1,4 @@
-package com.unipi.dii.sonicroutes.ui.route
+package com.unipi.dii.sonicroutes.ui.routes
 
 import android.content.ContentValues.TAG
 import android.graphics.Color
@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.PatternItem
 import com.google.android.gms.maps.model.PolylineOptions
 import com.unipi.dii.sonicroutes.R
-import com.unipi.dii.sonicroutes.model.Apis
+import com.unipi.dii.sonicroutes.network.ClientManager
 import com.unipi.dii.sonicroutes.model.Edge
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +48,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         // Get filename from arguments
         fileName = arguments?.getString("fileName")?.trim()
-        Log.d(TAG, "File name: $fileName")
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.route_fragment_container) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -125,14 +125,14 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
      * @param edge The Edge object containing the IDs of the starting and ending crossings.
      */
     private fun addPointToPolyline(edge: Edge) {
-        Log.d(TAG, "edge: $edge")
+
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val startingCrossing = withContext(Dispatchers.IO) {
-                    context?.let { Apis(requireContext()).getCrossingCoordinates(it,edge.getStartCrossingId()) }
+                    context?.let { ClientManager(requireContext()).getCrossingCoordinates(it,edge.getStartCrossingId()) }
                 }
                 val endingCrossing = withContext(Dispatchers.IO) {
-                    context?.let { Apis(requireContext()).getCrossingCoordinates(it,edge.getEndCrossingId()) }
+                    context?.let { ClientManager(requireContext()).getCrossingCoordinates(it,edge.getEndCrossingId()) }
                 }
 
                 // Define a pattern for the polyline
