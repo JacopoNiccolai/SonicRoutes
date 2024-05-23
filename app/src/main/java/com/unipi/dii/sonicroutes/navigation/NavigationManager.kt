@@ -1,4 +1,4 @@
-package com.unipi.dii.sonicroutes.model
+package com.unipi.dii.sonicroutes.navigation
 
 import android.graphics.Color
 import android.util.Log
@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import kotlin.math.*
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.model.Route
 
 
 class NavigationManager(private val map: GoogleMap) {
@@ -64,14 +65,10 @@ class NavigationManager(private val map: GoogleMap) {
 
         // get the degrees between the two points
         val degrees = angleFromNorth(currentLatLng, destinationLatLng)
-        Log.d("NavigationManager", "currentLatLng: $currentLatLng")
-        Log.d("NavigationManager", "degrees: $degrees")
-        Log.d("NavigationManager", "bearing: $bearing")
 
         val angle = bearing - degrees
-        Log.d("NavigationManager", "angle: $angle")
 
-        setMapRotation(degrees)
+        setMapRotation(angle)
 
     }
 
@@ -117,7 +114,7 @@ class NavigationManager(private val map: GoogleMap) {
             setMapRotation(degrees)
         }
 
-        
+
     }
 
 

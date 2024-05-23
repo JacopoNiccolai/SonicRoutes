@@ -8,8 +8,4 @@ class Segment (private val start: LatLng, private val end: LatLng, private val a
     fun getEnd(): LatLng = end
     fun getAmplitude(): Double = amplitude
 
-    fun printSegment() {
-        Log.d("Segment", "Segment from $start to $end with amplitude $amplitude")
-    }
-
 }

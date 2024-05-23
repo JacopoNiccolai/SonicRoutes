@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
         android:layout_margin="14dp"
-        android:text="@string/back_to_dashboard"
+        android:text="@string/back_to_routes"
         android:visibility="gone"/>
 
 </FrameLayout>

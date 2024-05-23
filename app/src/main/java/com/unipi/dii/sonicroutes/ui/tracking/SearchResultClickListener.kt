@@ -1,4 +1,4 @@
-package com.unipi.dii.sonicroutes.ui.home
+package com.unipi.dii.sonicroutes.ui.tracking
 
 import com.unipi.dii.sonicroutes.model.Route
 
