@@ -1,0 +1,20 @@
+23/04:  Preliminary discussion on how to implement the project
+25/04:  Permission management for audio and GPS
+        Saving the detected noise into a JSON file in the application folder
+02/05:  Reading data from the JSON file and displaying them on the dashboard
+07/05:  Meeting with Cima
+11/05:  Add graph module for loading nodes and edges from CSV files
+        Enable selection on the map to start navigation
+12:05:  All together, test API to interact with the flask server from the application
+14/05:  Added logic for appearing and disappearing to the StartRecording button, now it's only shown after requesting a route
+16/05:  Graph analysis on Gephi and some metrics with Jacopo
+17/05:  Imported the graphml file on the server and added the build_graph function
+18/05:  All together, the server find the best path using A* algorithm using the amplitude as weight
+20/05:  Added error message if the user declines to provide access to location or microphone
+        Permission is requested again if the user declines
+        Random population of the graph
+21/05:  Some test on the application before the meeting with Cima and Vecchio
+22/05:  Meeting with Cima and Vecchio
+23/05:  Battery Consumption with Giulio
+        Documentation with Federico
+24/05:  Screen rotation lock to prevent routes from disappearing

@@ -57,15 +57,10 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.route_fragment_container) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
-        /*view.findViewById<Button>(R.id.button_back_to_dashboard).setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }*/
         binding.buttonBackToDashboard.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        //loadingLayout = view.findViewById(R.id.loading_layout)
         loadingLayout = binding.loadingLayout
 
     }
@@ -113,7 +108,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                 reader.close()
 
                 loadingLayout.visibility = View.GONE
-                //view?.findViewById<Button>(R.id.button_back_to_dashboard)?.visibility = View.VISIBLE
+
                 binding.buttonBackToDashboard.visibility = View.VISIBLE
 
             } catch (e: Exception) {
