@@ -16,6 +16,8 @@ navigationUiKtx = "2.7.7"
 playServicesLocation = "21.2.0"
 playServicesMaps = "18.2.0"
 retrofit = "2.9.0"
+databindingRuntime = "8.4.1"
+library = "3.2.0-alpha11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +36,8 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-databinding-runtime = { group = "androidx.databinding", name = "databinding-runtime", version.ref = "databindingRuntime" }
+androidx-library = { group = "androidx.databinding", name = "library", version.ref = "library" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
