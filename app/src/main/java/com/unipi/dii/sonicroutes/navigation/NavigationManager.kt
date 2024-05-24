@@ -116,7 +116,6 @@ class NavigationManager(private val map: GoogleMap) {
             setMapRotation(degrees, currentLatLng)
         }
 
-
     }
 
 }
