@@ -1,44 +1,46 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_item_file"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp"
-    android:clickable="true"
-    android:focusable="true">
-
-    <ImageView
-        android:id="@+id/image_file_icon"
-        android:layout_width="wrap_content"
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_item_file"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/route_icon"
-        android:src="@drawable/route_icon"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="16dp" />
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true">
 
-    <TextView
-        android:id="@+id/text_file_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:textColor="?android:textColorPrimary"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="16dp" />
+        <ImageView
+            android:id="@+id/image_file_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/route_icon"
+            android:src="@drawable/route_icon"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp" />
 
-    <Button
-        android:id="@+id/button_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_text"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="8dp" />
+        <TextView
+            android:id="@+id/text_file_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="?android:textColorPrimary"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp" />
 
-    <Button
-        android:id="@+id/button_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/remove_text"
-        android:layout_gravity="center_vertical" />
+        <Button
+            android:id="@+id/button_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share_text"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remove_text"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+</layout>
