@@ -1,0 +1,21 @@
+I have not a right measure of code lines and commits. I worked on server's part mainly in the middle part of the project, but it was not added on GitHub until 19/05.
+
+23/04/24: discussions on general architecture of the app
+25/04/24: add a functionality to handle user permissions and sample noise at regular interval. The noise is shown in output in the log
+02/05/24: Study on how to handle graph data
+06/05/24: Utilization of geocoding's APIs. How to use them to pair noise and streets?
+07/05/24: Meeting with prof. Cima
+09/05/24: Meeting with my collegues. Implementation of last checkpoint solution to find which road has been crossed
+10/05/24: Client now pass data to the server. Working on server side. To receive data and store them in a JSON file. 
+11/05/24: Working on server side. Now the admin can visualize the maps of noise and traffic. Data from JSON file. On client side, the user can click a point and the coordinates are retrieved. It can be useful to compute path
+12/05/24: Added on server side the routing part. Client sends coordinates of starting and end point. To find the nearest checkpoint from starting point. A* algorithm to find the best path and to send response to client. Added graphml file exported from gephi. It substitute the JSON one
+14/05/24: Added scripts to update dynamically the weigths of graphml's edges. Added script to remove namespace, the library added them and gephy was not able to read it.
+15/05/24: Working with J.Niccolai on map orientation
+16/05/24: Still working with J.Niccolai
+18/05/24: Fixing server. Count updating was not correct, added a check on amplitude (Not negative and under a threshold to avoid outliers)
+SERVER IS ADDED TO GIT. UNTIL NOW IT WAS NOT
+19/05/24: Review on graph's methrics computed by G.Capecchi's script. Bug fixing and tests. Added a script to generate fake data, useful to test if A* avoid noisest streets.
+21/05/24: Meeting with all my collegues to test the app before the meeting with the professors
+22/05/24: Meeting with prof. Cima and prof. Vecchio
+23/05/24: Start working on documentation with G.Bello. Abstract, introduction and a bit of architecture part. 
+24/05/24: Tests on battery consuption. Data analisys and creation of this section in the documentation. 
