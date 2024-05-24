@@ -156,10 +156,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 dialog.dismiss()
             }
             builder.create().show()
-        } /*else {
-            // GPS is enabled, enable the startRecordingButton
-            startRecordingButton.isEnabled = true
-        }*/
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -172,12 +169,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             }
         }
 
-    // Add a listener for when the user clicks the button to center the map on their location
-    map.setOnMyLocationButtonClickListener {
-        isMapMovedByUser = false
-        false // Return false to let the map handle the click and center on the user's location
+        // Add a listener for when the user clicks the button to center the map on their location
+        map.setOnMyLocationButtonClickListener {
+            isMapMovedByUser = false
+            false // Return false to let the map handle the click and center on the user's location
+        }
     }
-}
+
     private fun fetchAllCrossings() {
         val clientManager = ClientManager(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
@@ -268,9 +266,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 .bearing(location.bearing) // Orient the map in the direction of the user's movement
                 .build()
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
         }
-
     }
 
     override fun onResume() {
