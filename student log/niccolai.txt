@@ -1,0 +1,18 @@
+Student: Niccolai Jacopo 585021
+
+Mobile and Social Sensing Systems A.Y. 2023/24
+
+23/04: 
+03/05:
+07/05: 	Meeting with my colleagues and Prof. Cima. 
+	Scraping a subset of data relating to the city of Pisa from OpenStreetMap.
+	Implementation of Python scripts to filter out only relevant informations about streets and crossing.
+
+08/05:	Implementation of Python scripts for clustering nearby street intersections, trying both a sort of k-means and k-medians approaches.
+
+09/05:	Meeting with my colleagues.
+	Implementation of Python scripts for obtaining a csv file with all the relevant crossings, each one characterized by location (lat, lon), names of related streets.
+	Writing Kotlin code for the app in order to show on the map all the crossings (reading the crossing csv saved locally on the client).
+
+10/05:	Working on crossing csv format, in order to simplify the code that reads it.
+22/05:	
