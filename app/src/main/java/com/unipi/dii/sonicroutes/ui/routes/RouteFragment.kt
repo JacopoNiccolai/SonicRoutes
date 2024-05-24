@@ -83,7 +83,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                 while (reader.readLine().also { line = it } != null) {
                     // Process the file content line by line
                     val data = line!!.split(",")
-                    if (data.size == 4) {
+                    if (data.size == 5) {
                         try {
                             val edge = Edge(
                                 data[0].trim().toInt(),
