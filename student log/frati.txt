@@ -8,7 +8,7 @@ I have not a right measure of code lines and commits. I worked on server's part 
 09/05/24: Meeting with my collegues. Implementation of last checkpoint solution to find which road has been crossed
 10/05/24: Client now pass data to the server. Working on server side. To receive data and store them in a JSON file. 
 11/05/24: Working on server side. Now the admin can visualize the maps of noise and traffic. Data from JSON file. On client side, the user can click a point and the coordinates are retrieved. It can be useful to compute path
-12/05/24: Added on server side the routing part. Client sends coordinates of starting and end point. To find the nearest checkpoint from starting point. A* algorithm to find the best path and to send response to client. Added graphml file exported from gephi. It substitute the JSON one
+12/05/24: Added on server side the routing part. Client sends coordinates of starting and end point. To find the nearest checkpoint from starting point. A* algorithm to find the best path and to send response to client. Added graphml file exported from gephi. It substitute the JSON one. Created a script to transfer from JSON to Graphml file (NOW DELETED)
 14/05/24: Added scripts to update dynamically the weigths of graphml's edges. Added script to remove namespace, the library added them and gephy was not able to read it.
 15/05/24: Working with J.Niccolai on map orientation
 16/05/24: Still working with J.Niccolai
@@ -18,4 +18,4 @@ SERVER IS ADDED TO GIT. UNTIL NOW IT WAS NOT
 21/05/24: Meeting with all my collegues to test the app before the meeting with the professors
 22/05/24: Meeting with prof. Cima and prof. Vecchio
 23/05/24: Start working on documentation with G.Bello. Abstract, introduction and a bit of architecture part. 
-24/05/24: Tests on battery consuption. Data analisys and creation of this section in the documentation. 
+24/05/24: Tests on battery consuption with G.Capecchi and G.Bello. Data analisys and creation of this section in the documentation. 
