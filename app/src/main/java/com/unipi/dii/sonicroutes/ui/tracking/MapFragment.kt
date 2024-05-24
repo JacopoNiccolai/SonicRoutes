@@ -495,7 +495,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         try {
             FileOutputStream(file).use { fos ->
                 OutputStreamWriter(fos).use { writer ->
-                    writer.write("startCrossingId,endCrossingId,amplitude,measurements\n")
+                    writer.write("startCrossingId,endCrossingId,amplitude,measurements,city\n")
                     //todo : jacopo dice qui sopra di salvare solo strt ed end id e poi recuperare il rumore medio dal server (ci sta)
                 }
             }
