@@ -1,6 +1,7 @@
 package com.unipi.dii.sonicroutes.ui.routes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.unipi.dii.sonicroutes.R
 import java.io.File
+import java.text.SimpleDateFormat
 
 class RoutesListFragment : Fragment() {
 
@@ -38,10 +40,19 @@ class RoutesListFragment : Fragment() {
             file.name.startsWith("data_")
         }?.toList()
 
-        return if (files.isNullOrEmpty()) {
+        // Define a date format to parse the timestamp
+        val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
+
+        // Sort the files based on the parsed timestamp, in descending order
+        val sortedFiles = files?.sortedByDescending { file ->
+            val timestampStr = file.name.substringAfter("data_").substringBefore(".csv")
+            dateFormat.parse(timestampStr)
+        }
+
+        return if (sortedFiles.isNullOrEmpty()) {
             listOf(File("")) // Aggiungi un oggetto "dummy" quando non ci sono file
         } else {
-            files
+            sortedFiles
         }
     }
 
