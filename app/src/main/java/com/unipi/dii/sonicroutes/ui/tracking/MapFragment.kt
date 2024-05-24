@@ -62,10 +62,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
+class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener {
     private lateinit var navigationManager: NavigationManager
     private lateinit var map: GoogleMap
-    //private lateinit var navigationManager: NavigationManager
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
@@ -80,7 +79,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var searchView: SearchView
     private var isMapMovedByUser = false
     private var emptyFile = true
-    private lateinit var startRecordingButton : Button
+    private lateinit var startRecordingButton: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (markers.isEmpty())
@@ -150,10 +149,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 dialog.dismiss()
             }
             builder.create().show()
-        } /*else {
-            // GPS is enabled, enable the startRecordingButton
-            startRecordingButton.isEnabled = true
-        }*/
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -166,12 +162,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             }
         }
 
-    // Add a listener for when the user clicks the button to center the map on their location
-    map.setOnMyLocationButtonClickListener {
-        isMapMovedByUser = false
-        false // Return false to let the map handle the click and center on the user's location
+        // Add a listener for when the user clicks the button to center the map on their location
+        map.setOnMyLocationButtonClickListener {
+            isMapMovedByUser = false
+            false // Return false to let the map handle the click and center on the user's location
+        }
     }
-}
+
     private fun fetchAllCrossings() {
         val clientManager = ClientManager(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
@@ -232,7 +229,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             .build()
 
         locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
+            override fun onLocationResult(locationResult: LocationResult){
                 if (locationResult.locations.isNotEmpty()) {
                     val location = locationResult.locations.first()
                     updateMap(location)
@@ -262,9 +259,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 .bearing(location.bearing) // Orient the map in the direction of the user's movement
                 .build()
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
         }
-
     }
 
     override fun onResume() {
