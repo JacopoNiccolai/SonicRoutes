@@ -24,6 +24,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +43,8 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.databinding.FragmentHomeBinding
+import com.unipi.dii.sonicroutes.databinding.ItemFileBinding
 import com.unipi.dii.sonicroutes.network.ClientManager
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
@@ -63,9 +66,9 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var navigationManager: NavigationManager
     private lateinit var map: GoogleMap
-    //private lateinit var navigationManager: NavigationManager
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var audioRecord: AudioRecord? = null
@@ -83,13 +86,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private lateinit var startRecordingButton : Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+
         if (markers.isEmpty())
             fetchAllCrossings() // fetch all crossings from the server
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        startRecordingButton = view.findViewById(R.id.startRecordingButton)
+
+        startRecordingButton = binding.startRecordingButton
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -99,13 +105,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
         // Check and request GPS enablement if not enabled
         checkAndPromptToEnableGPS()
-        searchView = view.findViewById(R.id.searchView)
+        searchView = binding.searchView
         // disabilito la search view fintanto che la posizione utente non è pronta
         searchView.isEnabled = false
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.searchResultsRecyclerView)
+        val recyclerView = binding.searchResultsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val textViewNotFound = view.findViewById<TextView>(R.id.textViewNotFound)
+        val textViewNotFound = binding.textViewNotFound
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

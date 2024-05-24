@@ -1,4 +1,6 @@
 package com.unipi.dii.sonicroutes.ui.routes
+
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,18 +12,19 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.databinding.ItemFileBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
-class FileAdapter(private val files: MutableList<File> = mutableListOf(),
-                  private val fragmentManager : FragmentManager
-) :
-    RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
+class FileAdapter(
+    private val files: MutableList<File> = mutableListOf(),
+    private val fragmentManager: FragmentManager
+) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -57,10 +60,10 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf(),
             }
 
             holder.buttonShare.setOnClickListener {
-                shareFile(file,holder.itemView.context)
+                shareFile(file, holder.itemView.context)
             }
             holder.buttonDelete.setOnClickListener {
-                deleteFile(file,holder.itemView.context)
+                deleteFile(file, holder.itemView.context)
             }
         }
     }
@@ -76,7 +79,6 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf(),
             null
         }
     }
-
 
     override fun getItemCount(): Int {
         return if (files.size == 1 && files[0].name.isBlank()) {
@@ -106,18 +108,17 @@ class FileAdapter(private val files: MutableList<File> = mutableListOf(),
         if (file.delete() && position != -1) {
             files.removeAt(position) // Rimuove il file dall'elenco
             notifyItemRemoved(position) // Notifica alla RecyclerView la rimozione dell'elemento
-            // take the timestamp fromthe file name
+            // take the timestamp from the file name
             Toast.makeText(context, "Route deleted : $timestamp", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, "Unable to delete route : $timestamp", Toast.LENGTH_SHORT).show()
         }
     }
 
-
-
     inner class FileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val fileName: TextView = itemView.findViewById(R.id.text_file_name)
-        val buttonShare: Button = itemView.findViewById(R.id.button_share)
-        val buttonDelete: Button = itemView.findViewById(R.id.button_delete)
+        private val binding: ItemFileBinding = DataBindingUtil.bind(itemView)!!
+        val fileName: TextView = binding.textFileName
+        val buttonShare: Button = binding.buttonShare
+        val buttonDelete: Button = binding.buttonDelete
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -20,6 +21,8 @@ import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.PatternItem
 import com.google.android.gms.maps.model.PolylineOptions
 import com.unipi.dii.sonicroutes.R
+import com.unipi.dii.sonicroutes.databinding.FragmentHomeBinding
+import com.unipi.dii.sonicroutes.databinding.FragmentRouteBinding
 import com.unipi.dii.sonicroutes.network.ClientManager
 import com.unipi.dii.sonicroutes.model.Edge
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +36,7 @@ import java.io.IOException
 
 class RouteFragment : Fragment(), OnMapReadyCallback {
 
+    private lateinit var binding: FragmentRouteBinding
     private var map: GoogleMap? = null
     private var fileName: String? = null // received as argument
     private val minAmplitude = 0.0 // this and the following are used to map the amplitude to a color
@@ -41,7 +45,8 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_route, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_route, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,11 +57,16 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.route_fragment_container) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        view.findViewById<Button>(R.id.button_back_to_dashboard).setOnClickListener {
+
+        /*view.findViewById<Button>(R.id.button_back_to_dashboard).setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }*/
+        binding.buttonBackToDashboard.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        loadingLayout = view.findViewById(R.id.loading_layout)
+        //loadingLayout = view.findViewById(R.id.loading_layout)
+        loadingLayout = binding.loadingLayout
 
     }
 
@@ -103,7 +113,8 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                 reader.close()
 
                 loadingLayout.visibility = View.GONE
-                view?.findViewById<Button>(R.id.button_back_to_dashboard)?.visibility = View.VISIBLE
+                //view?.findViewById<Button>(R.id.button_back_to_dashboard)?.visibility = View.VISIBLE
+                binding.buttonBackToDashboard.visibility = View.VISIBLE
 
             } catch (e: Exception) {
                 Log.e(TAG, "Error reading file: ${e.message}")
