@@ -61,4 +61,6 @@ Mobile and Social Sensing Systems A.Y. 2023/24
 	Fixed problems about the night theme visualization.
 	Replaced the findViewById approach in favor of the introduction of layout inflation with data binding.
 	Review of the documentation.
+
+25/05:	Review of my personal student log.
 	
