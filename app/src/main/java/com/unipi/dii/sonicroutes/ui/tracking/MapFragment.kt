@@ -112,6 +112,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         val recyclerView = binding.searchResultsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         val textViewNotFound = binding.textViewNotFound
+        showMessageToUser("Welcome to SonicRoutes, the app for finding the quietest route to navigate your city! Search for your destination in the top bar and enjoy the journey!", "Welcome!")
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -208,7 +209,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         if (isGranted) {
             setupMap()
         } else {
-            showMessageToUser("Per favore, concedere il permesso per la localizzazione.")
+            showMessageToUser("Please grant permission for location access.", "WARNING!")
         }
     }
 
@@ -216,7 +217,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         if (isGranted) {
             startNoiseRecording()
         } else {
-            showMessageToUser("Per favore, concedere il permesso per la registrazione audio.")
+            showMessageToUser("Please grant permission for audio recording.", "WARNING!")
         }
     }
 
@@ -428,17 +429,20 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
-    private fun showMessageToUser(message: String) {
+    private fun showMessageToUser(message: String, title: String) {
         AlertDialog.Builder(requireContext())
-            .setTitle("ATTENZIONE!")
+
+            .setTitle(title)
             .setMessage(message)
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
-                if(message.contains("localizzazione")) {
-                    requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                }
-                else {
-                    requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                if(title=="WARNING!"){
+                    if(message.contains("location")) {
+                        requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                    }
+                    else if(message.contains("audio")) {
+                        requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                    }
                 }
             }
             .create()
