@@ -20,14 +20,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -44,12 +42,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.databinding.FragmentHomeBinding
-import com.unipi.dii.sonicroutes.databinding.ItemFileBinding
-import com.unipi.dii.sonicroutes.network.ClientManager
 import com.unipi.dii.sonicroutes.model.Crossing
 import com.unipi.dii.sonicroutes.model.Edge
 import com.unipi.dii.sonicroutes.model.Route
 import com.unipi.dii.sonicroutes.navigation.NavigationManager
+import com.unipi.dii.sonicroutes.network.ClientManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -75,17 +72,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var isRecording = false
     private var routeReceived = false
     private lateinit var userLocation: LatLng
-    private val markers = ArrayList<Crossing>() //conterrà i crossing presi dal server, inizialmente vuoto
-    private val route = ArrayList<Edge>() // contiene gli edge tra i checkpoint, serve per ricostruire il percorso ed avere misura del rumore
-    private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
-    private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
-    private var lastCheckpoint: Crossing? = null // contiene l'ultimo checkpoint visitato, serve per capire se si è in un nuovo checkpoint
+    private val markers = ArrayList<Crossing>() // list of nodes, initialized as empty
+    private val route = ArrayList<Edge>() // list of edges, used to build the route and store the noise level
+    private var cumulativeNoise = 0.0 // noise level in an edge
+    private var numberOfMeasurements = 0 // number of measurements of the noise in an edge
+    private var lastCheckpoint: Crossing? = null // last visited node(checkpoint), used to check if we are in a new checkpoint
     private lateinit var searchView: SearchView
     private var isMapMovedByUser = false
     private var emptyFile = true
     private lateinit var startRecordingButton : Button
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         if (markers.isEmpty())
@@ -94,26 +91,41 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        // Initialize the recording button and assign it to the startRecordingButton variable
         startRecordingButton = binding.startRecordingButton
+
+        // Call the super.onViewCreated() function to execute the parent class's code
         super.onViewCreated(view, savedInstanceState)
+
+        // Get a reference to the SupportMapFragment instance and request the map to be loaded asynchronously
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        changeButtonColor(startRecordingButton) //setta il colore del bottone a viola
-        changeButtonVisibility(startRecordingButton)    //bottone inizialmente non visibile
+
+        // Call functions to change the color and visibility of the recording button
+        changeButtonColor(startRecordingButton)
+        changeButtonVisibility(startRecordingButton)
+
+        // Set a listener on the recording button to start or stop recording when it is pressed
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
 
-        // Check and request GPS enablement if not enabled
+        // Check and request GPS enablement if it is not enabled
         checkAndPromptToEnableGPS()
+
+        // Initialize the SearchView
         searchView = binding.searchView
-        // disabilito la search view fintanto che la posizione utente non è pronta
+
+        // Disable the SearchView until the user's location is ready
         searchView.isEnabled = false
 
+        // Set up the RecyclerView to display search results
         val recyclerView = binding.searchResultsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // Set up a TextView to display a message when there are no search results
         val textViewNotFound = binding.textViewNotFound
         showMessageToUser("Welcome to SonicRoutes, the app for finding the quietest route to navigate your city! Search for your destination in the top bar and enjoy the journey!", "Welcome!")
 
+        // Set a listener on the SearchView to filter
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -143,6 +155,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         })
     }
 
+    // Function that checks if the GPS is enabled and prompts the user to enable it if it is not
     private fun checkAndPromptToEnableGPS() {
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -177,6 +190,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that fetches all crossings from the server
     private fun fetchAllCrossings() {
         val clientManager = ClientManager(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
@@ -195,6 +209,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that checks if the user has granted the necessary permissions and sets up the map
     private fun checkPermissionsAndSetupMap() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             print("Permission not granted")
@@ -205,6 +220,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Request location permission
     private val requestLocationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
             setupMap()
@@ -213,6 +229,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Request audio permission
     private val requestAudioPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
             startNoiseRecording()
@@ -231,6 +248,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that starts updating the user's location
     private fun startLocationUpdates() {
         val locationRequest = LocationRequest.Builder(3000) //every 3 seconds start updating position
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
@@ -253,6 +271,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that updates the map with the user's location
     private fun updateMap(location: Location) {
         if(location.latitude !=0.0){    //first time
             userLocation = LatLng(location.latitude, location.longitude)
@@ -276,6 +295,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             checkPermissionsAndSetupRecording()
     }
 
+    // Function that checks if the user has granted the necessary permissions and starts the noise recording
     private fun checkPermissionsAndSetupRecording() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
@@ -326,7 +346,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private fun findNearestMarker(userLocation: LatLng, markerList: ArrayList<Crossing>): LatLng? {
         var nearestMarker: Crossing? = null
         var minDistance = Double.MAX_VALUE
-        //look for the nearest marker
+        // look for the nearest marker
         for (marker in markerList) {
             val distance = calculateDistance(userLocation, marker.getCoordinates())
             if (distance < minDistance) {   //test if I'm near enough to the marker
@@ -336,7 +356,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
 
         var contains = false
-        // controllo se lastCheckpoint contiene almeno una street in comune con nearestmarker
+        // check if lastCheckpoint has at least one street name in common with the nearestMarker
+        // if not that edge doesn't exist
         if (lastCheckpoint!=null && nearestMarker != null && lastCheckpoint!!.getId() != nearestMarker.getId()) {
             for (name in lastCheckpoint!!.getStreetName()) {
                 if (nearestMarker.getStreetName().contains(name)) {
@@ -345,17 +366,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 }
             }
         }
-        if (minDistance < 40 && (lastCheckpoint == null || contains)) { // se entro qui sono in nuovo checkpoint
-            if(lastCheckpoint!=null) { // se non sono al primo checkpoint, allora creo un edge tra il nuovo checkpoint ed il precedente
+        if (minDistance < 40 && (lastCheckpoint == null || contains)) { // if I'm near enough to the marker
+            if(lastCheckpoint!=null) { // if lastCheckpoint is not null (first checkpoint), I'm in a new checkpoint
+                // create an edge between the lastCheckpoint and the nearestMarker
                 val edge = Edge(lastCheckpoint!!.getId(), nearestMarker!!.getId(), cumulativeNoise, numberOfMeasurements)
                 route.add(edge)
 
-                // reset delle variabili per il prossimo checkpoint
+                // reset the noise level and the number of measurements
                 cumulativeNoise = 0.0
                 numberOfMeasurements = 0
-                // invio l'edge al server
+                // upload the edge to the server
                 ClientManager(requireContext()).uploadEdge(edge)
-                // scrivo sul log locale
+                // write the edge to the temporary file
                 val file = File(context?.filesDir, "TMP")
                 try {
                     FileOutputStream(file, true).use { fos ->
@@ -402,7 +424,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
             findNearestMarker(userLocation, markers)?.let { nearestMarker ->
 
-                // Aggiungi il marker più vicino alla mappa con un colore diverso
+                // Add a marker to the map to indicate the nearest crossing
                 map.addMarker(
                     MarkerOptions()
                         .position(nearestMarker)
@@ -417,9 +439,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private fun stopRecording() {
         if (!isRecording) {
             try {
-                audioRecord?.stop() // Ferma la registrazione
-                audioRecord?.release() // Rilascia le risorse dell'oggetto AudioRecord
-                isRecording = false // Imposta lo stato di registrazione su falso
+                audioRecord?.stop() // stop recording
+                audioRecord?.release() // release the resources
+                isRecording = false // change the recording state
                 routeReceived = false
                 changeButtonVisibility(startRecordingButton)
 
@@ -429,6 +451,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that shows a message to the user, if the messagge is about location permission or
+    // audio permission, it will ask the user to grant the permission
     private fun showMessageToUser(message: String, title: String) {
         AlertDialog.Builder(requireContext())
 
@@ -469,7 +493,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             startRecordingButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_purple))
             map.clear()
             lastCheckpoint = null
-            // if emptyFile, cancello il file
+            // if emptyFile, file is deleted
             if(emptyFile) {
                 val file = File(context?.filesDir, "TMP")
                 file.delete()
@@ -527,6 +551,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         file.renameTo(File(context?.filesDir, newFilename))
     }
 
+    // the color is changed based on the recording state
     private fun changeButtonColor(startRecordingButton: Button) {
         if(!isRecording) {
             startRecordingButton.setBackgroundColor(
@@ -547,6 +572,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // the button is visible only if the route is received
     private fun changeButtonVisibility(startRecordingButton: Button) {
         if(isRecording || routeReceived) {
             startRecordingButton.visibility = View.VISIBLE
@@ -556,7 +582,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     // function that takes a route and shows it on the map
-
     override fun onSearchResultClicked(route: Route) {
         map.clear()
         navigationManager = NavigationManager(map)
