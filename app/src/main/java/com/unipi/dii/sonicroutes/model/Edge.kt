@@ -9,7 +9,7 @@ class Edge(private val startCrossingId: Int, private val endCrossingId: Int, pri
     }
 
     fun toCsvEntry(): String {
-        return "$startCrossingId, $endCrossingId, $amplitude, $measurements, 'Pisa'"
+        return "$startCrossingId, $endCrossingId, $amplitude, $measurements, 'Pisa'"    //we use "Pisa" by default because until now there're only data about this city
     }
 
     fun getStartCrossingId(): Int {

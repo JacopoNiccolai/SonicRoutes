@@ -1,0 +1,27 @@
+2024-03-26: (Android Application) Creation of the Github repository for the project, setup of the application in Android Studio and first commits.
+2024-04-23: (Android Application) Map added to the HomeFragment, added map class, OnMapReadyCallback, discussion with colleagues about application design, decision of project name (SonicRoutes).
+2024-04-24: (Android Application) Xml files added (icons xml files, strings.xml, colors.xml, ...).
+2024-04-25: (Android Application) Logcat errors fixed.
+2024-05-02: (Android Application) Resolved graphical problem; now the map is full-screen, while before it cut halfway trough.
+2024-05-06: (Android Application) Added GeocodingUtil class (later on this was removed). Dashboard is now scrollable and shows data.json (which is a log of the full path). Added 'share data' and 'delete data' buttons in DashboardFragment. Now the 'data.json' is in the application data space, before it was external (and this requires extra permissions). Bug resolved - position was accessed before its initialization and caused sometimes crashes.
+2024-05-07: Meeting with Cima to talk about current and future implementation 
+2024-05-08: (Server) First implementation of a simple HTTP server on the virtual machines provided for the Large Scale course, utilizing Flask (this is not shown on Git because the repository was initialized later on by myself).
+            (Android Application) Start and stop recording button added to HomeFragment. Now position is sent correctly each time to the flask server. 
+2024-05-10: (Android Application) Changed DashboardFragment logic; before it showed a single file, now the application saves a differrent file for each route the user traversed. Each file in the dashboard is clickable; still need to implement the new page that is opened. Correction : each file was not opened in append mode. Added logic to show "no routes to show" when no antecedent routes data files are present. Added dashboard logic to show routes files to the user, with 'data_timestamp.json' names. Added some logic to control when these files should be created. Added CSV containing intersections' coordinates and an ID to them. Added Markers on the map utilizing the CSV. Added basic logic for street segment control.
+2024-05-12: (Android Application) Small issue resolved - searchView must be enabled only on map ready since it utilizes user position,  now the route search is done by looking up for a street
+2024-05-13: (Android Application) General graphical changes to the application. Bug solved - now crossings are only fetched from server once & file created only if at least a segment is measured. Added route fragment first implementation, it shows the user his/hers older routes. Removed CSV from the applications space and "Crossings" are explicitly requested to the server; added 2 new APIs for this. Bugs resolution.
+2024-05-14: (Android Application) Solved an issue with route's files creations. Added a loading circle animation when switching from DashboardFragment to a RouteFragment
+2024-05-15: (Android Application) Created application icon with powerpoint and some SVGs found online. Added application icon in many formats (round, rectangular, ...).
+2024-05-16: (Server) There were some problems with how the routes were showed inside the application with the new logic. So i developed a new endpoint ("oldGetRoute") in the server to show both the old and the new routes and compare them.
+            (Android Application) Added testing functionalities
+2024-05-17: (Android Application) Changed polyline width in RouteFragment.kt, reduced measurements interval due to server updates
+2024-05-18: (Server) Managing the server by four people at the same time was becoming complex, so I uploaded everything from the server on a new github repository. Git setup on the virtual machine provided by the University.
+2024-05-19: (Server) Python script to update graph data with random values with F.Frati. Removed data.json and the logic regarding it; added logic to manage in Python "graphml" files. Now all data is in "grafo_completo.graphml".
+2024-05-21: Meeting with professor Cima in the morning and the colleagues.
+            (Android Application) Added "retry"  dialogue for when the server is down.
+2024-05-22: Meeting with professor Cima and professor Vecchio in the morning.
+            (Server) Updated admin interface with 'count' metrics, as requested by Cima.
+2024-05-23: (Server) Bug resolution. Changed the logic for sending route back to the user with colleagues
+2024-05-23: (Android Application) Small bug resolved. Removed the red route, initially created using google apis ("snap to road"); it followed one-way streets even on foot and sometimes was bugged when the street segment is small. Added arrows along the route for simplifying the road to follow for the user. Changed ip address of server's VM (the machine with IP 22 is not working anymore).
+2024-05-24: (Android Application) Small bug solved.
+            Documentation writing with the colleagues. Battery consumption analysis with colleagues. Meeting with the colleagues to assure that the students' logs are coherent.

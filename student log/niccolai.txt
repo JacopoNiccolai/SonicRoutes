@@ -1,0 +1,66 @@
+Student: Niccolai Jacopo 585021
+
+Mobile and Social Sensing Systems A.Y. 2023/24
+
+23/04: 	Meeting with my colleagues in order to define the workflow and the application architecture.
+
+03/05:	Studing some important aspects for the project explained during classes.
+
+07/05: 	Meeting with my colleagues and Prof. Cima. 
+	Scraping a subset of data relating to the city of Pisa from OpenStreetMap.
+	Implementation of Python scripts to filter out only relevant informations about streets and crossing.
+
+08/05:	Implementation of Python scripts for clustering nearby street intersections, trying both a sort of k-means and k-medians approaches.
+
+09/05:	Meeting with my colleagues.
+	Implementation of Python scripts for obtaining a csv file with all the relevant crossings, each one characterized by location (lat, lon), names of related streets.
+	Writing Kotlin code for the app in order to show on the map all the crossings (reading the crossing csv saved locally on the client).
+
+10/05:	Working on crossing csv format, in order to simplify the code that reads it.
+	Review of the server code written by my colleagues.
+	Updates on the application code: changes on map details, added some missing string resources, fixed a bug respect to the association of street names with an intersections.
+
+11/05:	Cleaning the application code, remove some unused functions and classes.
+	Review of the server node, implemented by my colleagues, related to maps that show nodes and traffic behaviour.
+	Reading some documentation about Google Map and how to manage its orientation.
+
+12/05:	Wrote the client code that sends to the server starting and ending points of a route, receiving back all the intermediate coordinates of waypoints.
+	Implemented a mechanism to show the complete route on the map fragment using segments among all the crossing.
+	Review of the server code that sends the route coordinates and check on the graph file in order to verify crossing connections.
+
+13/05:	Created the Kotlin classes that represent Route and Segment, then modified the management of the information received from the server.
+	Moved the csv contaning all the crossing to the server-side. Implemented a mechanism to retrieve it with a client-side request.
+	Testing some solutions to orientate the map considering the gps location and the path to travel.
+
+14/05:	Working on the server side on code that updates values on the graph starting from data received from the client.
+	Solving some issues about the graph format.
+	Testing again solutions to orientate the map using the map bearing.
+
+15/05:	Implemented functions that compute the angle respect to the North within two crossing, this corresponds to the segment orientation.
+	Fixing a bug on the angle computation related to a gps localization error.
+	
+16/05:	Working on the server side fixing the graph update of amplitude and count properties of an edge.
+	
+18/05:	Added a client-side check to consider a noise level measurement valid.
+	Changed the area of Pisa on which the applications works including an higher number of street intersections.
+	Small changes on Python code that clusterizes nearby intersection, trying to find the best threshold to fit the map.
+	
+21/05:	Meeting with my colleagues to recap the work done. 
+	Review of the server code to compute metrics on the graph.
+	Testing the application ahead to the meeting with the professor.
+
+22/05:	Meeting with Prof. Cima and Prof. Vecchio.
+	Adding metrics computed on the traffic data.
+
+23/05: 	Cleaning the code: removed unused function and classes, improved some mechanisms.
+	Reorganization of the application structure giving a better shape to packages and classes.
+	Review of the first part of the documentation written by my colleagues.
+
+24/05:	Final implementation of map orientation during the noise recording on a path.
+	Changes of the My Sonic Routes fragment, in particular changed the sorting criteria of travelled routes.
+	Fixed problems about the night theme visualization.
+	Replaced the findViewById approach in favor of the introduction of layout inflation with data binding.
+	Review of the documentation.
+
+25/05:	Review of my personal student log.
+	
