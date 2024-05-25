@@ -123,28 +123,6 @@ class ClientManager (private val context: Context){
 
     }
 
-    suspend fun getCrossingCoordinates(context: Context, crossingId: Int): LatLng {
-        //ask for the coordinates of the crossing with a given id
-        return retryOnFailure(context) {
-            withContext(Dispatchers.IO) {
-                val response = serverApi.getCrossingCoordinates(crossingId).execute()
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        val crossingJson = responseBody.asJsonObject
-                        val latitude = crossingJson["latitude"].asDouble
-                        val longitude = crossingJson["longitude"].asDouble
-                        LatLng(latitude, longitude)
-                    } else {
-                        throw IOException("Empty response body")
-                    }
-                } else {
-                    throw IOException("HTTP error: ${response.code()}")
-                }
-            }
-        }
-    }
-
     suspend fun getCrossings(context: Context, cityName: String): List<Crossing> {
         return retryOnFailure(context) {
             val response = serverApi.getCrossings(cityName)
