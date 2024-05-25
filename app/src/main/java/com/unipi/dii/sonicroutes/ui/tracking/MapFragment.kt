@@ -531,7 +531,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         try {
             FileOutputStream(file).use { fos ->
                 OutputStreamWriter(fos).use { writer ->
-                    writer.write("startCrossingId,endCrossingId,amplitude,measurements,city\n")
+                    writer.write("startCrossingId,startLatLng,endCrossingId,endLatLng,amplitude,measurements,city\n")
                 }
             }
         } catch (e: Exception) {
