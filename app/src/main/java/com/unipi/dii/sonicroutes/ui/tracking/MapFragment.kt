@@ -85,8 +85,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        if (markers.isEmpty())
+        if (markers.isEmpty()) {
             fetchAllCrossings() // fetch all crossings from the server
+            showMessageToUser("Welcome to SonicRoutes, the app for finding the quietest route to navigate your city! Search for your destination in the top bar and enjoy the journey!", "Welcome!")
+        }
         return binding.root
     }
 
@@ -123,7 +125,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
         // Set up a TextView to display a message when there are no search results
         val textViewNotFound = binding.textViewNotFound
-        showMessageToUser("Welcome to SonicRoutes, the app for finding the quietest route to navigate your city! Search for your destination in the top bar and enjoy the journey!", "Welcome!")
 
         // Set a listener on the SearchView to filter
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

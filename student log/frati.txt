@@ -18,4 +18,5 @@ SERVER IS ADDED TO GIT. UNTIL NOW IT WAS NOT
 21/05/24: Meeting with all my colleagues to test the app before the meeting with the professors
 22/05/24: Meeting with prof. Cima and prof. Vecchio
 23/05/24: Start working on documentation with G.Bello. Abstract, introduction and a bit of architecture part. 
-24/05/24: Tests on battery consuption with G.Capecchi and G.Bello. Data analisys and creation of this section in the documentation. 
+24/05/24: Tests on battery consumption with G.Capecchi and G.Bello. Data analisys and creation of this section in the documentation. 
+25/05/24: Some changes in documentation, specifically on energy consumption part. Some small changes on Kotlin code, changed max amplitude and some UI improvements
