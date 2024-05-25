@@ -14,7 +14,7 @@ import com.unipi.dii.sonicroutes.network.ClientManager
 import com.unipi.dii.sonicroutes.model.Crossing
 
 
-// TODO: Jacopo dove van messi gli adapter?
+
 class SearchResultAdapter(
     private val crossings: List<Crossing>, private val query: String, private val userLocation: LatLng,
     private val searchView: SearchView,
