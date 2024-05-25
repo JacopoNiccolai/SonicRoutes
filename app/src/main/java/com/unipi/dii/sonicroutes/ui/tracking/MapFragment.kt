@@ -75,7 +75,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var isRecording = false
     private var routeReceived = false
     private lateinit var userLocation: LatLng
-    private val markers = ArrayList<Crossing>()
+    private val markers = ArrayList<Crossing>() //conterrà i crossing presi dal server, inizialmente vuoto
     private val route = ArrayList<Edge>() // contiene gli edge tra i checkpoint, serve per ricostruire il percorso ed avere misura del rumore
     private var cumulativeNoise = 0.0 // tiene conto del rumore cumulativo in un edge (percorso tra due checkpoint)
     private var numberOfMeasurements = 0 // tiene conto del numero di misurazioni effettuate in un edge
@@ -99,8 +99,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        changeButtonColor(startRecordingButton)
-        changeButtonVisibility(startRecordingButton)
+        changeButtonColor(startRecordingButton) //setta il colore del bottone a viola
+        changeButtonVisibility(startRecordingButton)    //bottone inizialmente non visibile
         startRecordingButton.setOnClickListener { toggleRecording(startRecordingButton) }
 
         // Check and request GPS enablement if not enabled
@@ -161,7 +161,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        checkPermissionsAndSetupMap()
+        checkPermissionsAndSetupMap()   //check if permissions are okay
         // Add a listener for when the user moves the map
         map.setOnCameraMoveStartedListener { reason ->
             if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
@@ -197,7 +197,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private fun checkPermissionsAndSetupMap() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             print("Permission not granted")
-            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)  //ask for localization permission
         } else {
             setupMap()
             searchView.isEnabled = true
@@ -224,14 +224,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         try {
             map.isMyLocationEnabled = true
             map.uiSettings.isMyLocationButtonEnabled = true
-            startLocationUpdates()
+            startLocationUpdates()  //start sampling position
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception: ${e.message}")
         }
     }
 
     private fun startLocationUpdates() {
-        val locationRequest = LocationRequest.Builder(3000)
+        val locationRequest = LocationRequest.Builder(3000) //every 3 seconds start updating position
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build()
 
@@ -253,7 +253,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     private fun updateMap(location: Location) {
-        if(location.latitude !=0.0){
+        if(location.latitude !=0.0){    //first time
             userLocation = LatLng(location.latitude, location.longitude)
         }
 
@@ -283,7 +283,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
-    private fun startNoiseRecording() {
+    private fun startNoiseRecording() { //start noise sampling
         val sampleRate = 44100
         val channelConfig = AudioFormat.CHANNEL_IN_MONO
         val audioFormat = AudioFormat.ENCODING_PCM_16BIT
@@ -316,7 +316,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         handler.postDelayed(this, 3000)
                     }
                 }
-            }, 3000)
+            }, 3000)    //sample every 3 seconds
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception during audio recording setup: ${e.message}")
         }
@@ -325,10 +325,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private fun findNearestMarker(userLocation: LatLng, markerList: ArrayList<Crossing>): LatLng? {
         var nearestMarker: Crossing? = null
         var minDistance = Double.MAX_VALUE
-
+        //look for the nearest marker
         for (marker in markerList) {
             val distance = calculateDistance(userLocation, marker.getCoordinates())
-            if (distance < minDistance) {
+            if (distance < minDistance) {   //test if I'm near enough to the marker
                 minDistance = distance
                 nearestMarker = marker
             }
@@ -446,6 +446,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     private fun toggleRecording(startRecordingButton: Button) {
+        //change recording state
         isRecording = !isRecording
         if (isRecording) {
             startRecordingButton.text = getString(R.string.stop_recording)
