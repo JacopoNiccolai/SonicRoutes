@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.unipi.dii.sonicroutes.MainActivity
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.databinding.FragmentHomeBinding
 import com.unipi.dii.sonicroutes.model.Crossing
@@ -161,16 +162,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // GPS is not enabled, show dialog to enable it
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("GPS is disabled. \nPlease enable GPS to use this app.")
-            builder.setPositiveButton("AppSettings") { _, _ ->
-                // Open GPS settings screen
-                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            }
-            builder.setNegativeButton("Dismiss") { dialog, _ ->
-                dialog.dismiss()
-            }
-            builder.create().show()
+            showMessageToUser("GPS is disabled.\nPlease enable GPS to use the app.", "WARNING!")
         }
     }
 
@@ -468,7 +460,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                     else if(message.contains("audio")) {
                         requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                     }
+                    else if(message.contains("GPS")) {
+                        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                    }
                 }
+            }
+            .setNegativeButton("Close the app") { _, _ ->
+                MainActivity.instance?.finishAffinity()
             }
             .create()
             .show()
