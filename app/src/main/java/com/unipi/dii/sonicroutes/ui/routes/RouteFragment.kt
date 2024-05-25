@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -21,10 +20,9 @@ import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.PatternItem
 import com.google.android.gms.maps.model.PolylineOptions
 import com.unipi.dii.sonicroutes.R
-import com.unipi.dii.sonicroutes.databinding.FragmentHomeBinding
 import com.unipi.dii.sonicroutes.databinding.FragmentRouteBinding
-import com.unipi.dii.sonicroutes.network.ClientManager
 import com.unipi.dii.sonicroutes.model.Edge
+import com.unipi.dii.sonicroutes.network.ClientManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +42,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     private lateinit var loadingLayout: FrameLayout
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_route, container, false)
         return binding.root
     }

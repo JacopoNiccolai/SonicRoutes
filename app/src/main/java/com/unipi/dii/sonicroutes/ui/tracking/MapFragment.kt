@@ -231,6 +231,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that sets up the map using the user's location
     private fun setupMap() {
         try {
             map.isMyLocationEnabled = true
@@ -297,6 +298,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that starts recording the noise
     private fun startNoiseRecording() { //start noise sampling
         val sampleRate = 44100
         val channelConfig = AudioFormat.CHANNEL_IN_MONO
@@ -336,6 +338,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
+    // Function that finds the nearest marker to the user's location
     private fun findNearestMarker(userLocation: LatLng, markerList: ArrayList<Crossing>): LatLng? {
         var nearestMarker: Crossing? = null
         var minDistance = Double.MAX_VALUE
@@ -392,6 +395,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         return null
     }
 
+    // Function that calculates the distance between two locations
     private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
         val radius = 6371.0 // Earth radius in km
         val latDistance = Math.toRadians(location2.latitude - location1.latitude)
@@ -403,13 +407,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         return radius * c * 1000 // convert to meters
     }
 
+    // Function that processes the noise data recorded
     private fun processRecordingData(audioData: ShortArray) {
         if (isRecording &&::userLocation.isInitialized && audioData.isNotEmpty()) {
-
+            // calculate the amplitude of the noise
             if (lastCheckpoint!=null) { // sound not recorded until at least one checkpoint is reached
                 val amplitude = audioData.maxOrNull()?.toInt() ?: 0
                 // if amplitude < 0 or > 30000
-                if (amplitude in 0..30000) {
+                if (amplitude in 0..30000) { // if the amplitude is in the correct range
                     cumulativeNoise += amplitude
                     numberOfMeasurements++
                 }
@@ -472,6 +477,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
             .show()
     }
 
+    // Function that toggles the recording state
     private fun toggleRecording(startRecordingButton: Button) {
         //change recording state
         isRecording = !isRecording
@@ -484,7 +490,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                 map.addMarker(MarkerOptions().position(marker.getCoordinates()))
             }
 
-            createTMPFile()
+            createTMPFile() // create a temporary file to store the data
 
         } else {
             stopRecording()
