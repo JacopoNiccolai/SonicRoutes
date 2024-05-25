@@ -365,7 +365,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         if (minDistance < 40 && (lastCheckpoint == null || contains)) { // if I'm near enough to the marker
             if(lastCheckpoint!=null) { // if lastCheckpoint is not null (first checkpoint), I'm in a new checkpoint
                 // create an edge between the lastCheckpoint and the nearestMarker
-                val edge = Edge(lastCheckpoint!!.getId(), nearestMarker!!.getId(), cumulativeNoise, numberOfMeasurements)
+                val edge = Edge(lastCheckpoint!!.getId(),lastCheckpoint!!.getCoordinates(), nearestMarker!!.getId(),nearestMarker.getCoordinates(), cumulativeNoise, numberOfMeasurements)
                 route.add(edge)
 
                 // reset the noise level and the number of measurements

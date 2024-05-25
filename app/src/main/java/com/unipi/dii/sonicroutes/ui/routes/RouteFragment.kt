@@ -17,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Dash
 import com.google.android.gms.maps.model.Gap
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PatternItem
 import com.google.android.gms.maps.model.PolylineOptions
 import com.unipi.dii.sonicroutes.R
@@ -86,14 +87,9 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                 while (reader.readLine().also { line = it } != null) {
                     // Process the file content line by line
                     val data = line!!.split(",")
-                    if (data.size == 5) {
+                    if (data.size == 7) {
                         try {
-                            val edge = Edge(
-                                data[0].trim().toInt(),
-                                data[1].trim().toInt(),
-                                data[2].trim().toDouble(),
-                                data[3].trim().toInt()
-                            )
+                            val edge =parseEdge(line!!)
                             addPointToPolyline(edge)
                         } catch (e: NumberFormatException) {
                             Log.e(TAG, "Error parsing data: ${e.message}")
@@ -130,40 +126,53 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
      */
     private fun addPointToPolyline(edge: Edge) {
 
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val startingCrossing = withContext(Dispatchers.IO) {
-                    context?.let { ClientManager(requireContext()).getCrossingCoordinates(it,edge.getStartCrossingId()) }
-                }
-                val endingCrossing = withContext(Dispatchers.IO) {
-                    context?.let { ClientManager(requireContext()).getCrossingCoordinates(it,edge.getEndCrossingId()) }
-                }
+        val startingCrossing = edge.getStartCoordinate()
+        val endingCrossing = edge.getEndCoordinate()
+        val pattern: List<PatternItem> = listOf(Dash(30f), Gap(5f))
 
-                // Define a pattern for the polyline
-                val pattern: List<PatternItem> = listOf(Dash(30f), Gap(5f))
+        // Map the amplitude to a color
+        val amplitude = edge.getAmplitude() / edge.getMeasurements()
+        val color = mapAmplitudeToColor(amplitude)
 
-                // Map the amplitude to a color
-                val amplitude = edge.getAmplitude() / edge.getMeasurements()
-                val color = mapAmplitudeToColor(amplitude)
+        // Add a line segment to the map
+        val polylineOptions = PolylineOptions()
+            .add(startingCrossing)
+            .add(endingCrossing)
+            .pattern(pattern) // Apply the pattern
+            .color(color) // Set the color
+            .width(20f)
+        map?.addPolyline(polylineOptions)
 
-                // Add a line segment to the map
-                val polylineOptions = PolylineOptions()
-                    .add(startingCrossing)
-                    .add(endingCrossing)
-                    .pattern(pattern) // Apply the pattern
-                    .color(color) // Set the color
-                    .width(20f)
-                map?.addPolyline(polylineOptions)
+        // Center the map on the last point with animation
+        endingCrossing?.let { CameraUpdateFactory.newLatLngZoom(it, 16f) }
+            ?.let { map?.moveCamera(it) }
+    }
 
-                // Center the map on the last point with animation
-                endingCrossing?.let { CameraUpdateFactory.newLatLngZoom(it, 16f) }
-                    ?.let { map?.moveCamera(it) }
-            } catch (e: IOException) {
-                // Handle the I/O error here
-                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                e.printStackTrace()
-            }
-        }
+    private fun parseEdge(data: String): Edge {
+        // Split the data by commas and trim spaces
+        val parts = data.split(",").map { it.trim() }
+
+        val startCrossingId = parts[0].toInt()
+
+        // Extract and parse the first lat/lng pair
+        val startLatLngString = parts[1].substringAfter("(").substringBefore(")")
+        val startLatLngParts = startLatLngString.split(";").map { it.trim().toDouble() }
+        val startLatLng = LatLng(startLatLngParts[0], startLatLngParts[1])
+
+        val endCrossingId = parts[2].toInt()
+
+        // Extract and parse the second lat/lng pair
+        val endLatLngString = parts[3].substringAfter("(").substringBefore(")")
+        val endLatLngParts = endLatLngString.split(";").map { it.trim().toDouble() }
+        val endLatLng = LatLng(endLatLngParts[0], endLatLngParts[1])
+
+        val amplitude = parts[4].toDouble()
+        val measurements = parts[5].toInt()
+
+        // Remove single quotes from the city name
+        val city = parts[6].trim('\'')
+
+        return Edge(startCrossingId, startLatLng, endCrossingId, endLatLng, amplitude, measurements)
     }
 
     private fun mapAmplitudeToColor(amplitude: Double): Int {
