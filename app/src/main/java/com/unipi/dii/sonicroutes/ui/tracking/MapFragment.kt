@@ -71,7 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var audioRecord: AudioRecord? = null
     private var isRecording = false
     private var routeReceived = false
-    private lateinit var userLocation: LatLng
+    private lateinit var userLocation: LatLng // user's location
     private val markers = ArrayList<Crossing>() // list of nodes, initialized as empty
     private val route = ArrayList<Edge>() // list of edges, used to build the route and store the noise level
     private var cumulativeNoise = 0.0 // noise level in an edge
@@ -79,7 +79,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     private var lastCheckpoint: Crossing? = null // last visited node(checkpoint), used to check if we are in a new checkpoint
     private lateinit var searchView: SearchView
     private var isMapMovedByUser = false
-    private var emptyFile = true
+    private var emptyFile = true // flag to check if the file is empty, in that case the temporary file is discarded
     private lateinit var startRecordingButton : Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -162,12 +162,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // GPS is not enabled, show dialog to enable it
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("Il GPS è disabilitato. \nSi prega di abilitare il GPS per utilizzare l'applicazione.")
-            builder.setPositiveButton("Abilita") { _, _ ->
+            builder.setMessage("GPS is disabled. \nPlease enable GPS to use this app.")
+            builder.setPositiveButton("AppSettings") { _, _ ->
                 // Open GPS settings screen
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
             }
-            builder.setNegativeButton("Annulla") { dialog, _ ->
+            builder.setNegativeButton("Dismiss") { dialog, _ ->
                 dialog.dismiss()
             }
             builder.create().show()
@@ -401,14 +401,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
-        val radius = 6371.0 // Raggio della Terra in chilometri
+        val radius = 6371.0 // Earth radius in km
         val latDistance = Math.toRadians(location2.latitude - location1.latitude)
         val lonDistance = Math.toRadians(location2.longitude - location1.longitude)
         val a = sin(latDistance / 2) * sin(latDistance / 2) +
                 cos(Math.toRadians(location1.latitude)) * cos(Math.toRadians(location2.latitude)) *
                 sin(lonDistance / 2) * sin(lonDistance / 2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        return radius * c * 1000 // Converti in metri
+        return radius * c * 1000 // convert to meters
     }
 
     private fun processRecordingData(audioData: ShortArray) {
@@ -452,7 +452,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         }
     }
 
-    // Function that shows a message to the user, if the messagge is about location permission or
+    // Function that shows a message to the user, if the message is about location permission or
     // audio permission, it will ask the user to grant the permission
     private fun showMessageToUser(message: String, title: String) {
         AlertDialog.Builder(requireContext())
@@ -547,7 +547,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
         val file = File(context?.filesDir, "TMP")
         val filenamePrefix = "data_"
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        // Costruisci il nome del nuovo file utilizzando il timestamp attuale
+        // create a new file named "data_yyyyMMdd_HHmmss.csv"
         val newFilename = "$filenamePrefix$timestamp.csv"
         file.renameTo(File(context?.filesDir, newFilename))
     }
