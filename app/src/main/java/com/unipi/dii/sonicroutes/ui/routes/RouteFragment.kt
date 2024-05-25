@@ -40,7 +40,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     private var map: GoogleMap? = null
     private var fileName: String? = null // received as argument
     private val minAmplitude = 0.0 // this and the following are used to map the amplitude to a color
-    private val maxAmplitude = 500.0 //TODO: parliamone; per come è fatto ora, se amplitude >= 500, il colore è sempre rosso
+    private val maxAmplitude = 5000.0 //TODO: parliamone; per come è fatto ora, se amplitude >= 500, il colore è sempre rosso
     private lateinit var loadingLayout: FrameLayout
 
 

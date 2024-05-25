@@ -45,12 +45,14 @@ class ClientManager (private val context: Context){
         onError: (String) -> Unit
     ) {
         val points = Points(point1, point2)
+        //ask to the server for the quieter path from point1 to point2
         val call = serverApi.sendPoints(points)
 
         call.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     val jsonResponse = response.body()
+                    //retrieve the path
                     val path = jsonResponse?.getAsJsonArray("path")
 
                     if (path != null) {
@@ -100,6 +102,7 @@ class ClientManager (private val context: Context){
 
 
     fun uploadEdge(edge: Edge) {
+        //function that sends to the server new data about a segment
         val jsonEntry = Gson().toJson(edge)
         val jsonElement = JsonParser.parseString(jsonEntry)
         val jsonObject = jsonElement.asJsonObject
@@ -121,6 +124,7 @@ class ClientManager (private val context: Context){
     }
 
     suspend fun getCrossingCoordinates(context: Context, crossingId: Int): LatLng {
+        //ask for the coordinates of the crossing with a given id
         return retryOnFailure(context) {
             withContext(Dispatchers.IO) {
                 val response = serverApi.getCrossingCoordinates(crossingId).execute()
