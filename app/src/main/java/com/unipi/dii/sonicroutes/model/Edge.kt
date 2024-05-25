@@ -3,30 +3,26 @@ package com.unipi.dii.sonicroutes.model
 import com.google.android.gms.maps.model.LatLng
 
 
-// the  edge connects two crossings with noise as a weight and the number of measurements
-class Edge(
+// the edge connects two crossings with noise as a weight and the number of measurements
+class Edge
+    (
     private val startCrossingId: Int,
-    private val startCoordinate: LatLng?,
+    startCoordinate: LatLng?,
     private val endCrossingId: Int,
-    private val endCoordinate: LatLng?,
+    endCoordinate: LatLng?,
     private val amplitude: Double,
     private val measurements: Int
+) : Segment(
+    startCoordinate ?: LatLng(0.0, 0.0), // Provide a default LatLng if null
+    endCoordinate ?: LatLng(0.0, 0.0)
 ) {
 
-    // Secondary constructor omitting startCoordinate and endCoordinate
-    constructor(
-        startCrossingId: Int,
-        endCrossingId: Int,
-        amplitude: Double,
-        measurements: Int
-    ) : this(startCrossingId, null, endCrossingId, null, amplitude, measurements)
-
     override fun toString(): String {
-        return "Edge(start=$startCrossingId, end=$endCrossingId, noise=$amplitude, measurements=$measurements)"
+        return "Edge(start=$startCrossingId, startCoordinate=${getStartCoordinates().toFormattedString()}, end=$endCrossingId, endCoordinate=${getEndCoordinates().toFormattedString()}, noise=$amplitude, measurements=$measurements)"
     }
 
     fun toCsvEntry(): String {
-        return "$startCrossingId, ${startCoordinate.toString()}, $endCrossingId, ${endCoordinate.toString()}, $amplitude, $measurements, 'Pisa'"    //we use "Pisa" by default because until now there're only data about this city
+        return "$startCrossingId, ${getStartCoordinates().toFormattedString()}, $endCrossingId, ${getEndCoordinates().toFormattedString()}, $amplitude, $measurements, 'Pisa'"    //we use "Pisa" by default because until now there're only data about this city
     }
 
     fun getStartCrossingId(): Int {
@@ -45,21 +41,13 @@ class Edge(
         return measurements
     }
 
-    fun getStartCoordinate(): LatLng? {
-        return startCoordinate
+    // Extension function for LatLng? to format the string representation for a CSV
+    private fun LatLng?.toFormattedString(): String {
+        return if (this != null) {
+            "(${latitude}; ${longitude})"
+        } else {
+            "null"
+        }
     }
 
-    fun getEndCoordinate(): LatLng? {
-        return endCoordinate
-    }
-
-}
-
-// ovverride LatLng to string
-fun LatLng?.toString(): String {
-    return if (this != null) {
-        "(${latitude}; ${longitude})"
-    } else {
-        "null"
-    }
 }

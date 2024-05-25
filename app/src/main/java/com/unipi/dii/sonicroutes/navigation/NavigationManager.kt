@@ -1,17 +1,18 @@
 package com.unipi.dii.sonicroutes.navigation
 
 import android.graphics.Color
-import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PolylineOptions
-import kotlin.math.*
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.model.Route
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class NavigationManager(private val map: GoogleMap) {
@@ -25,9 +26,8 @@ class NavigationManager(private val map: GoogleMap) {
 
         val segments = route.getSegments()
         for (segment in segments) {
-
-            val start = segment.getStart()
-            val end = segment.getEnd()
+            val start = segment.getStartCoordinates()
+            val end = segment.getEndCoordinates()
             map.addPolyline(
                 PolylineOptions()
                     .add(start, end)
@@ -35,8 +35,8 @@ class NavigationManager(private val map: GoogleMap) {
                     .color(Color.BLUE)
             )
 
-            val currentLatLng = segment.getStart()
-            val destinationLatLng = segment.getEnd()
+            val currentLatLng = segment.getStartCoordinates()
+            val destinationLatLng = segment.getEndCoordinates()
             val degrees = angleFromNorth(currentLatLng, destinationLatLng)
 
             if (segments.indexOf(segment) == 0) { // don't add an arrow for the first segment
@@ -63,8 +63,8 @@ class NavigationManager(private val map: GoogleMap) {
 
         if (segments.size > 1) {
             //get the map current location
-            val sourceLatLng = segments[0].getEnd()
-            val destinationLatLng = segments[1].getEnd()
+            val sourceLatLng = segments[0].getEndCoordinates()
+            val destinationLatLng = segments[1].getEndCoordinates()
 
             // get the degrees between the two points
             val degrees = angleFromNorth(sourceLatLng, destinationLatLng)
@@ -107,9 +107,9 @@ class NavigationManager(private val map: GoogleMap) {
 
         if (currentRoute != null && currentRouteIndex < currentRoute!!.getSegments().size) {
             val segments = currentRoute!!.getSegments()
-            val currentLatLng = segments[currentRouteIndex].getEnd()
+            val currentLatLng = segments[currentRouteIndex].getEndCoordinates()
             currentRouteIndex++
-            val destinationLatLng = segments[currentRouteIndex].getEnd()
+            val destinationLatLng = segments[currentRouteIndex].getEndCoordinates()
 
             val degrees = angleFromNorth(currentLatLng, destinationLatLng)
 

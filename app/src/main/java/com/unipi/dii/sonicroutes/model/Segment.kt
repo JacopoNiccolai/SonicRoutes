@@ -2,9 +2,16 @@ package com.unipi.dii.sonicroutes.model
 
 import com.google.android.gms.maps.model.LatLng
 
-class Segment (private val start: LatLng, private val end: LatLng) {
+open class Segment(private val startCoordinate: LatLng, private val endCoordinate: LatLng) {
+    fun getStartCoordinates(): LatLng {
+        return startCoordinate
+    }
 
-    fun getStart(): LatLng = start
-    fun getEnd(): LatLng = end
+    fun getEndCoordinates(): LatLng {
+        return endCoordinate
+    }
 
 }
+
+
+

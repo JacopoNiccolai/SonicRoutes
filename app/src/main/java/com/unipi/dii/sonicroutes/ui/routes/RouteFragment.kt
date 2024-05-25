@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,15 +22,9 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.unipi.dii.sonicroutes.R
 import com.unipi.dii.sonicroutes.databinding.FragmentRouteBinding
 import com.unipi.dii.sonicroutes.model.Edge
-import com.unipi.dii.sonicroutes.network.ClientManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
-import java.io.IOException
 
 class RouteFragment : Fragment(), OnMapReadyCallback {
 
@@ -89,7 +82,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
                     val data = line!!.split(",")
                     if (data.size == 7) {
                         try {
-                            val edge =parseEdge(line!!)
+                            val edge = parseEdge(line!!)
                             addPointToPolyline(edge)
                         } catch (e: NumberFormatException) {
                             Log.e(TAG, "Error parsing data: ${e.message}")
@@ -114,20 +107,10 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    /**
-     * Adds a point to the polyline on the map.
-     *
-     * This function takes an Edge object as input, which contains the IDs of the starting and ending crossings.
-     * It makes asynchronous network calls to fetch the coordinates of these crossings from the server.
-     * Once the coordinates are fetched, it adds a line segment to the polyline on the map.
-     * The line segment is drawn between the starting and ending points of the edge.
-     *
-     * @param edge The Edge object containing the IDs of the starting and ending crossings.
-     */
     private fun addPointToPolyline(edge: Edge) {
 
-        val startingCrossing = edge.getStartCoordinate()
-        val endingCrossing = edge.getEndCoordinate()
+        val startingCrossing = edge.getStartCoordinates()
+        val endingCrossing = edge.getEndCoordinates()
         val pattern: List<PatternItem> = listOf(Dash(30f), Gap(5f))
 
         // Map the amplitude to a color
@@ -144,8 +127,8 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         map?.addPolyline(polylineOptions)
 
         // Center the map on the last point with animation
-        endingCrossing?.let { CameraUpdateFactory.newLatLngZoom(it, 16f) }
-            ?.let { map?.moveCamera(it) }
+        endingCrossing.let { CameraUpdateFactory.newLatLngZoom(it, 16f) }
+            .let { map?.moveCamera(it) }
     }
 
     private fun parseEdge(data: String): Edge {
@@ -179,9 +162,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         if (amplitude > maxAmplitude)
             return Color.RED
         // Simple linear mapping
-        Log.e(TAG, "Amplitude: $amplitude")
         val normalizedAmplitude = (amplitude - minAmplitude) / (maxAmplitude - minAmplitude)
-        Log.e(TAG, "Normalized amplitude: $normalizedAmplitude")
         return Color.rgb(
             (normalizedAmplitude * 255).toInt(),
             ((1 - normalizedAmplitude) * 255).toInt(),
