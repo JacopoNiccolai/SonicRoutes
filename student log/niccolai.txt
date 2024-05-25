@@ -63,4 +63,9 @@ Mobile and Social Sensing Systems A.Y. 2023/24
 	Review of the documentation.
 
 25/05:	Review of my personal student log.
+	Review of the energy consumption analysis carried out by my colleagues.
+	Moved to the server-side the code used for the checkpoints scraping.
+	Introduced in Kotlin code a relationship among Edge and Segment data classes.
+	Writing documentation sections about Kotlin classes and data models, then about data scraping and Python scripts to obtain checkpoints.
+	Short review on application code and documentation.
 	
