@@ -25,3 +25,4 @@
 2024-05-23: (Android Application) Small bug resolved. Removed the red route, initially created using google apis ("snap to road"); it followed one-way streets even on foot and sometimes was bugged when the street segment is small. Added arrows along the route for simplifying the road to follow for the user. Changed ip address of server's VM (the machine with IP 22 is not working anymore).
 2024-05-24: (Android Application) Small bug solved.
             Documentation writing with the colleagues. Battery consumption analysis with colleagues. Meeting with the colleagues to assure that the students' logs are coherent.
+2024-05-25: Finishing the project documentation. Last code refinements with colleagues before the delivering of the project for examination.

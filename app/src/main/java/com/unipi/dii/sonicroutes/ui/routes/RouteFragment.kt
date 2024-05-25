@@ -40,7 +40,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     private var map: GoogleMap? = null
     private var fileName: String? = null // received as argument
     private val minAmplitude = 0.0 // this and the following are used to map the amplitude to a color
-    private val maxAmplitude = 5000.0 //TODO: parliamone; per come è fatto ora, se amplitude >= 500, il colore è sempre rosso
+    private val maxAmplitude = 5000.0
     private lateinit var loadingLayout: FrameLayout
 
 
@@ -169,18 +169,18 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun mapAmplitudeToColor(amplitude: Double): Int {
-        // This is a simple linear mapping. You might want to replace this with a more sophisticated color mapping.
+        if (amplitude > maxAmplitude)
+            return Color.RED
+        // Simple linear mapping
+        Log.e(TAG, "Amplitude: $amplitude")
         val normalizedAmplitude = (amplitude - minAmplitude) / (maxAmplitude - minAmplitude)
+        Log.e(TAG, "Normalized amplitude: $normalizedAmplitude")
         return Color.rgb(
             (normalizedAmplitude * 255).toInt(),
             ((1 - normalizedAmplitude) * 255).toInt(),
             0
         )
     }
-
-
-
-
 
 }
 
