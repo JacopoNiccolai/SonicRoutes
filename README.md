@@ -11,15 +11,21 @@ SonicRoutes is a Mobile and Social Sensing Systems project for A.A 2023/2024. It
 
 ## Installation
 
-To install SonicRoutes, you need to have Android Studio Jellyfish | 2023.3.1 installed on your machine. Clone the repository and open it in Android Studio. The project uses Gradle for dependency management and build automation.
+To install SonicRoutes, you need to have Android Studio installed on your machine. Clone the repository and open it in Android Studio. The project uses Gradle for dependency management and build automation.
 
 ## Usage
 
-SonicRoutes is a mobile application developed for Android. It is written in Kotlin for the Android platform, and Python is used for data analysis and backend services. To use the application, install it on your Android device.
+SonicRoutes is a mobile application developed for Android. It is written in Kotlin for the Android platform, and Python is used for data analysis and backend services. To use the application, install it on your Android device. Check also the <a href="https://github.com/giuliocapecchi/SonicRoutes_server" target="_new">server repository for the project</a>.
 
-## Contributing
 
-Contributions are welcome. If you would like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome. Please make sure to update tests as appropriate.
+<h2>Contributors</h2>
+<ul>
+<li><a href="https://github.com/baffobello14" target="_new">Giulio Bello</a></li>
+<li><a href="https://github.com/giuliocapecchi" target="_new">Giulio Capecchi</a></li>
+<li><a href="https://github.com/fratifederico" target="_new">Federico Frati</a></li>
+<li><a href="https://github.com/jacoponiccolai" target="_new">Jacopo Niccolai</a></li>
+
+</ul>
 
 ## License
 
