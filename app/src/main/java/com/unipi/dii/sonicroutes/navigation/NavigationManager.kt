@@ -31,7 +31,7 @@ class NavigationManager(private val map: GoogleMap) {
             map.addPolyline(
                 PolylineOptions()
                     .add(start, end)
-                    .width(5f)
+                    .width(8f)
                     .color(Color.BLUE)
             )
 
