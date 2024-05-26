@@ -68,4 +68,9 @@ Mobile and Social Sensing Systems A.Y. 2023/24
 	Introduced in Kotlin code a relationship among Edge and Segment data classes.
 	Writing documentation sections about Kotlin classes and data models, then about data scraping and Python scripts to obtain checkpoints.
 	Short review on application code and documentation.
+
+26/05:	Documentation review.
+	Working on the slides to present the project.
+	Meeting with my colleagues to recap the work done.
+	
 	
