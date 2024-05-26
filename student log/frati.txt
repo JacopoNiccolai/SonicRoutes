@@ -13,10 +13,11 @@ I don't have a right measure of code lines and commits. I worked on server's par
 15/05/24: Working with J.Niccolai on map orientation
 16/05/24: Still working with J.Niccolai
 18/05/24: Fixing server. Count updating was not correct, added a check on amplitude (Not negative and under a threshold to avoid outliers)
-SERVER IS ADDED TO GIT. UNTIL NOW IT WAS NOT
+Server added to git, until now we worked without GitHub writing code directly with ssh connection to remote host
 19/05/24: Review on graph's methrics computed by G.Capecchi's script. Bug fixing and tests. Added a script to generate fake data with G.Capecchi, useful to test if A* avoid noisest streets.
 21/05/24: Meeting with all my colleagues to test the app before the meeting with the professors
 22/05/24: Meeting with prof. Cima and prof. Vecchio
 23/05/24: Start working on documentation with G.Bello. Abstract, introduction and a bit of architecture part. 
 24/05/24: Tests on battery consumption with G.Capecchi and G.Bello. Data analisys and creation of this section in the documentation. 
 25/05/24: Some changes in documentation, specifically on energy consumption part. Some small changes on Kotlin code, changed max amplitude and some UI improvements. Deleted setCrossingCoordinates API with G.Capecchi
+26/05/24: Last checks on code, meeting with my collegues, some work on documentation and presentation. General review
