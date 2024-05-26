@@ -1,8 +1,12 @@
 23/04:  Preliminary discussion on how to implement the project
+        Added the google maps API to the project
 25/04:  Permission management for audio and GPS
-        Saving the detected noise into a JSON file in the application folder
+        Saving the detected noise into a JSON file in the external application folder, so the file was directly accessible from the computer
 02/05:  Reading data from the JSON file and displaying them on the dashboard
 07/05:  Meeting with Cima
+08/05:  First Implementation of the flask server
+        Added the logic to request a route from the server
+10/05:  Now there is a different file for each recording
 11/05:  Add graph module for loading nodes and edges from CSV files
         Enable selection on the map to start navigation
 12:05:  All together, test API to interact with the flask server from the application
@@ -18,3 +22,4 @@
 23/05:  Battery Consumption with Giulio
         Documentation with Federico
 24/05:  Screen rotation lock to prevent routes from disappearing
+25-26/05:  Documentation and Presentation

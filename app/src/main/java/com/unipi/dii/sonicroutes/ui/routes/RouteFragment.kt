@@ -106,7 +106,6 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-
     private fun addPointToPolyline(edge: Edge) {
 
         val startingCrossing = edge.getStartCoordinates()
@@ -153,7 +152,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
         val measurements = parts[5].toInt()
 
         // Remove single quotes from the city name
-        val city = parts[6].trim('\'')
+        // val city = parts[6].trim('\'')
 
         return Edge(startCrossingId, startLatLng, endCrossingId, endLatLng, amplitude, measurements)
     }

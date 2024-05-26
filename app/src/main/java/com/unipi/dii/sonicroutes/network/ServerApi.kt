@@ -1,7 +1,6 @@
 package com.unipi.dii.sonicroutes.network
 
 import com.google.android.gms.maps.model.LatLng
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.unipi.dii.sonicroutes.model.Crossing
 import retrofit2.Call

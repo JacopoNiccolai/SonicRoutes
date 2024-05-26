@@ -2,7 +2,6 @@ package com.unipi.dii.sonicroutes.network
 
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
@@ -98,8 +97,6 @@ class ClientManager (private val context: Context){
 
         return route
     }
-
-
 
     fun uploadEdge(edge: Edge) {
         //function that sends to the server new data about a segment

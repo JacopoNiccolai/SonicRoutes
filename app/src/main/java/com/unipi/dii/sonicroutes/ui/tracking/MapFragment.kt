@@ -299,13 +299,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
     }
 
     // Function that starts recording the noise
-    private fun startNoiseRecording() { //start noise sampling
+    private fun startNoiseRecording() {
         val sampleRate = 44100
         val channelConfig = AudioFormat.CHANNEL_IN_MONO
         val audioFormat = AudioFormat.ENCODING_PCM_16BIT
         val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
 
-        try {
+        try { //start noise sampling
             audioRecord = AudioRecord.Builder()
                 .setAudioSource(MediaRecorder.AudioSource.MIC)
                 .setAudioFormat(AudioFormat.Builder()
@@ -332,7 +332,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SearchResultClickListener{
                         handler.postDelayed(this, 3000)
                     }
                 }
-            }, 3000)    //sample every 3 seconds
+            }, 3000) // sample every 3 seconds
         } catch (e: SecurityException) {
             Log.e("HomeFragment", "Security Exception during audio recording setup: ${e.message}")
         }
