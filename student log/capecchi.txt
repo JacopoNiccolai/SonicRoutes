@@ -26,3 +26,4 @@
 2024-05-24: (Android Application) Small bug solved.
             Documentation writing with the colleagues. Battery consumption analysis with colleagues. Meeting with the colleagues to assure that the students' logs are coherent.
 2024-05-25: Finishing the project documentation. Last code refinements with colleagues before the delivering of the project for examination. Removal of getCrossingCoordinates from client side with F.Frati.
+2024-05-26: Last reading of the documentation and code. Powerpoint presentation. Submitting the project.
